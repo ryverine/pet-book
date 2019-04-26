@@ -1,0 +1,98 @@
+
+*{
+	font-size: 16px;
+	color: #343a40;
+}
+
+/*** ELEMENT ***/
+
+body{
+	/*background: url(../images/background.png);*/
+}
+
+/*** CLASS ***/
+
+.signInBtn{
+	text-align: center;
+	width: 100%;
+	padding: 50px;
+	font-size: 25px;
+	font-weight: bolder;
+	color: #6c757d;
+	border: 5px solid #343a40;
+	margin: 20px;
+	white-space: normal;
+}
+
+.signInBtn:hover{
+	background-color: #343a40;
+	color: white;
+	border-color: #6c757d;
+}
+
+.btn-submit{
+	margin: 10px 0px 10px 0px;
+	color: #6c757d;
+	font-weight: bold;
+	border: 2px solid #6c757d;
+}
+
+.btn-submit:hover{
+	color: white;
+	background-color: #6c757d;
+	border: 2px solid #343a40;
+}
+
+.userProfileArea_spacer{
+	display: inline-block;
+}
+
+
+
+/*** ID ***/
+
+#mainContentArea{
+	display:none;
+}
+
+#userInfoArea{
+	display: none;
+}
+
+#header{
+	margin: 20px 0px 20px 0px;
+	background-color: #6c757d;
+	border: 2px solid #343a40;
+	text-align: center;
+}
+
+#title{
+	color: white;
+	font-weight: bolder;
+	font-size: 32px;
+}
+
+#signInArea{
+	margin: 25vh auto auto auto;
+	width: 50%;
+}
+
+#profileImageArea{
+	padding: 2px;
+	display: inline-block;
+}
+
+#profileImage{
+	float: right;
+	height: 150px;
+	width: 150px;
+}
+
+#userDataArea{
+	margin: 0px;
+	display: inline-block;
+	float: left;
+	text-align: left;
+}
+
+

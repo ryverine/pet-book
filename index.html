@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Train Project</title>
+		<!-- RESET CSS -->
+    	<link rel="stylesheet" href="assets/css/reset.css">
+		<!-- Bootstrap-->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<!-- FontAwesome-->
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+		<!-- my css -->
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+		<!-- jQuery -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		 <!-- Moment.js -->
+  		<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+  		<!-- Firebase -->
+  		<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+
+	</head>
+
+	<body>
+
+		<div class="container">
+
+			<div id="signInArea" class="col-12">
+				<button id="btn-googleSignIn" class="btn btn-dark signInBtn">Sign In With Google</button>
+				<button id="btn-noSignIn" class="btn btn-dark signInBtn">Proceed Without Google</button>
+			</div> <!-- /signInArea -->
+	
+			<div id="mainContentArea">
+
+				<div class="row" >
+
+					<div id="header" class="col-12 jumbotron">
+
+						<p id="title">Train Scheduler</p>
+						<p id="subTitle">View current train schedules and edit train data.</p>
+
+						<div class="row" id="userProfileArea">
+
+							<div class="col-3" class="userProfileArea_spacer"></div>
+							<div id="profileImageArea" class="col-3">
+								<img src="#" id="profileImage">
+							</div>
+							<div id="userDataArea" class="col-3">
+								<span id="googleDisplayName"></span><br>
+								<span id="googleEmail"></span><br>
+								<button id="btn-googleSignOut" class="btn btn-dark btn-submit">Sign Out</button>
+							</div>
+							<div class="col-3" class="userProfileArea_spacer"></div>
+
+						</div><!-- /userProfileArea -->
+
+					</div> <!-- /jumbotron -->
+
+				</div> <!-- /row -->
+
+			</div><!-- /mainContentArea -->
+
+		</div> <!-- /container -->
+
+		<!-- my script -->
+  		<script type="text/javascript" src="assets/js/app.js"></script>
+	</body>
+</html>

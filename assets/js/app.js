@@ -1151,7 +1151,7 @@ $(document).ready(function ()
 	function renderScript(adNumber){
 		var associate=
 		$('.amazon-stuff').show();
-		$('body').append('<script id="amazon-code" src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + adNumber + '"></script>');
+		$('body').append('<script id="amazon-code" async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + adNumber + '"></script>');
 		$('.amazon-stuff').attr('id', "amzn-assoc-ad-" + adNumber);
 	}
 

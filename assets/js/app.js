@@ -53,7 +53,7 @@ $(document).ready(function()
 			console.log("result user display name: " + googleUser.displayName);
 
 			signInArea.hide();
-			trainSchedulerArea.show();
+			mainContentArea.show();
 			$("#userProfileArea").show();
 			updateUserInfo(result.user);
 		

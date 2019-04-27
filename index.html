@@ -20,8 +20,27 @@
 		 <!-- Moment.js -->
   		<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
   		<!-- Firebase -->
-  		<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
-
+		  <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+		  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+		  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		  <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+	  <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
+	  <script src="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js"></script>
+	  <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css"/>
+	  
+	  
+	  
+		  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+		  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+			  integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+			  crossorigin="" />
+	  
+		  <style>
+			  #mapid {
+				  width: 300px;
+				  height: 300px;
+			  }
+		  </style>
 	</head>
 
 	<body>
@@ -54,8 +73,11 @@
 								<button id="btn-googleSignOut" class="btn btn-dark btn-submit">Sign Out</button>
 							</div>
 							<div class="col-3" class="userProfileArea_spacer"></div>
+
 						</div><!-- /userProfileArea -->
-						
+
+						<!-- <a href="map.html">Location</a> -->
+
 
 					</div> <!-- /jumbotron -->
 
@@ -67,8 +89,14 @@
 
 		<!-- my script -->
 		  <script type="text/javascript" src="assets/js/app.js"></script>
-		  <span class="amazon-stuff">
-		  	<div id="amzn-assoc-ad-cb16da6f-a242-41e1-b8b6-27ccbbf85082"></div>
+	 <div id="mapid"></div> 
+
+	  <span class="amazon-stuff">
+			  <div id="amzn-assoc-ad-cb16da6f-a242-41e1-b8b6-27ccbbf85082"></div>
+
 		  </span>
+
+		  		
+
 	</body>
 </html>

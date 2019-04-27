@@ -15,6 +15,10 @@ body{
 	display: none;
 }
 
+.amzn-native-container{
+	margin: auto;
+}
+
 .signInBtn{
 	text-align: center;
 	width: 100%;

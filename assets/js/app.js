@@ -54,6 +54,8 @@ $(document).ready(function()
 
 			signInArea.hide();
 			mainContentArea.show();
+			$('.amazon-stuff').show();
+			$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
 			$("#userProfileArea").show();
 			updateUserInfo(result.user);
 		
@@ -69,6 +71,8 @@ $(document).ready(function()
 		firebase.auth().signOut();
 		updateUserInfo(defaultGoogleUser);
 		signInArea.show();
+		$('.amazon-stuff').hide();
+		$('body').find('script').attr('src', '//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082').remove();
 		mainContentArea.hide();
 	}
 
@@ -94,6 +98,8 @@ $(document).ready(function()
 		console.log("NO GOOGLE CLICKED");
 		signInArea.hide();
 		mainContentArea.show();
+		$('.amazon-stuff').show();
+		$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
 		$("#userProfileArea").show();
 		updateUserInfo(defaultGoogleUser);
 	});

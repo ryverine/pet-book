@@ -11,6 +11,13 @@ body{
 }
 
 /*** CLASS ***/
+.amazon-stuff{
+	display: none;
+}
+
+.amzn-native-container{
+	margin: auto;
+}
 
 .signInBtn{
 	text-align: center;

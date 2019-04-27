@@ -58,6 +58,8 @@ $(document).ready(function()
 			$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
 			$("#userProfileArea").show();
 			updateUserInfo(result.user);
+			$("#mapid").show();
+
 		
 		}).catch(function(error)
 		{

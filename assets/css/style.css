@@ -11,6 +11,9 @@ body{
 }
 
 /*** CLASS ***/
+.amazon-stuff{
+	display: none;
+}
 
 .signInBtn{
 	text-align: center;

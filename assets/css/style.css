@@ -4,15 +4,19 @@
 	color: #343a40;
 }
 
-/*** ELEMENT ***/
+
+/*** ELEMENT STYLES ***/
 
 body{
 	/*background: url(../images/background.png);*/
 }
 
-/*** CLASS ***/
+
+/*** CLASS STYLES ***/
+
 .amazon-stuff{
 	display: none;
+	border: 2px solid #343a40;
 }
 
 .amzn-native-container{
@@ -50,20 +54,37 @@ body{
 	border: 2px solid #343a40;
 }
 
-.userProfileArea_spacer{
-	display: inline-block;
+.textboxInput{
+	border: 2px solid #343a40;
+	margin: 2px;
 }
 
+.cardContainer{
+	margin: auto;
+}
 
+.inputLabel{
+	font-weight: bold;
+	vertical-align: bottom;
+}
 
-/*** ID ***/
+.pet{
+	padding: 2px;
+}
+
+.petData{
+	margin: 2px;
+	padding: 2px;
+	background-color: #6c757d;
+	border: 2px solid #343a40;
+	color: white;
+	font-weight: bold;
+}
+
+/*** ID STYLES ***/
 
 #mainContentArea{
 	display:none;
-}
-
-#userInfoArea{
-	display: none;
 }
 
 #header{
@@ -76,12 +97,22 @@ body{
 #title{
 	color: white;
 	font-weight: bolder;
-	font-size: 32px;
+	font-size: 40px;
+}
+
+#subtitle{
+	color: #343a40;
+	font-weight: bold;
+	font-size: 24px;
 }
 
 #signInArea{
 	margin: 25vh auto auto auto;
 	width: 50%;
+}
+
+#userProfileArea{
+	border: 2px solid #343a40;
 }
 
 #profileImageArea{
@@ -90,16 +121,36 @@ body{
 }
 
 #profileImage{
-	float: right;
 	height: 150px;
 	width: 150px;
+	display: inline-block;
 }
 
 #userDataArea{
-	margin: 0px;
+	margin: 5px 15px 0px 15px;
 	display: inline-block;
-	float: left;
-	text-align: left;
 }
 
+#userInfoArea{
+	display: none;
+}
+
+#petDataInputArea{
+	border: 2px solid #343a40;
+}
+
+#mapid{
+	width: 300px;
+	height: 300px;
+}
+
+#mapArea{
+	border: 2px solid #343a40;
+	padding: 10px;
+}
+
+#petDataDisplayArea{
+	border: 2px solid #343a40;
+	padding: 10px;
+}
 

@@ -4,23 +4,40 @@
 	<head>
 
 		<meta charset="UTF-8">
+
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title>Train Project</title>
+
+		<title>Pet Book</title>
+
 		<!-- RESET CSS -->
     	<link rel="stylesheet" href="assets/css/reset.css">
 		<!-- Bootstrap-->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 		<!-- FontAwesome-->
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-		<!-- my css -->
+		<!-- place search css -->
+		<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css"/>
+		<!-- Leaflet css -->
+		<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+			  integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+			  crossorigin="" />
+		<link rel="stylesheet" href="assets/css/leaflet.css">
+		<!-- our css -->
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
 		<!-- jQuery -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		 <!-- Moment.js -->
   		<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
   		<!-- Firebase -->
-  		<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+		<!-- map quest js-->
+		<script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+		<script src="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js"></script>
+		<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
 	</head>
 
@@ -28,7 +45,23 @@
 
 		<div class="container">
 
+
+
 			<div id="signInArea" class="col-12">
+
+			<div>
+				<span>Test User: </span>
+				<select id="testUserSelect" class="textboxInput">
+					<option data-email="unknown@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Unknown</option>
+					<option data-email="abhi.test@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Abhi Test</option>
+					<option data-email="eduardo.test@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Eduardo Test</option>
+					<option data-email="katie.test@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Katie Test</option>
+					<option data-email="ryan.test@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Ryan Test</option>
+					<option data-email="user.test1@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Test User 1</option>
+					<option data-email="user.test2@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Test User 2</option>
+					<option data-email="user.test3@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Test User 3</option>
+				</select> <span>*** FOR TESTING PURPOSES ONLY ***</span>
+			</div>
 				<button id="btn-googleSignIn" class="btn btn-dark signInBtn">Sign In With Google</button>
 				<button id="btn-noSignIn" class="btn btn-dark signInBtn">Proceed Without Google</button>
 			</div> <!-- /signInArea -->
@@ -39,36 +72,110 @@
 
 					<div id="header" class="col-12 jumbotron">
 
-						<p id="title">Train Scheduler</p>
-						<p id="subTitle">View current train schedules and edit train data.</p>
+						<p id="title">Pet Book</p>
+						<p id="subtitle">Exploring the wonderful world of pet-ownership!</p>
 
-						<div class="row" id="userProfileArea">
-
-							<div class="col-3" class="userProfileArea_spacer"></div>
-							<div id="profileImageArea" class="col-3">
-								<img src="#" id="profileImage">
-							</div>
-							<div id="userDataArea" class="col-3">
-								<span id="googleDisplayName"></span><br>
-								<span id="googleEmail"></span><br>
-								<button id="btn-googleSignOut" class="btn btn-dark btn-submit">Sign Out</button>
-							</div>
-							<div class="col-3" class="userProfileArea_spacer"></div>
-						</div><!-- /userProfileArea -->
-						
+						<!-- <a href="map.html">Location</a> -->
 
 					</div> <!-- /jumbotron -->
 
 				</div> <!-- /row -->
+
+				<div class="row">
+
+					<div class="col-5" id="userProfileArea">
+						<div class="row">
+							<div id="profileImageArea">
+								<img src="#" id="profileImage">
+							</div>
+							<div id="userDataArea">
+								<span id="googleDisplayName"></span><br>
+								<span id="googleEmail"></span><br>
+								<button id="btn-googleSignOut" class="btn btn-dark btn-submit">Sign Out</button>
+							</div>
+						</div>
+					</div><!-- /userProfileArea -->
+
+					<div class="col-1"></div>
+
+					<div class="col-6" id="petDataInputArea">
+						<form>
+							<span class="inputLabel">Dog Name: </span>
+							<input id="petNameInput" class="textboxInput" type="text"><br>
+
+							<span class="inputLabel">Breed: </span>
+							<input id="petBreedInput" class="textboxInput" type="text"><br>
+
+							<span class="inputLabel">Sex: </span>
+							<select id="petSexInput" class="textboxInput">
+								<option>Unknown</option>
+								<option>Male</option>
+								<option>Female</option>
+							</select><br>
+
+							<span class="inputLabel">Age: </span>
+							<input id="petAgeInput" class="textboxInput" type="number" min="0" max="50"><br>
+						
+							<span class="inputLabel">Weight: </span>
+							<input id="petWeightInput" class="textboxInput" type="number" min="0" max="999"><br>
+
+							<p>
+								<span class="inputLabel">Size: </span>
+								<button id="btn-size_xs">XS</button>
+								<button id="btn-size_sm">SM</button>
+								<button id="btn-size_md">MD</button>
+								<button id="btn-size_lg">LG</button>
+								<button id="btn-size_xl">XL</button>
+								<button id="btn-size_unk">Unknown</button>
+							</p>
+
+							<input id="btn-add" class="btn btn-dark btn-submit" type="submit" value="Add"> 
+							<button id="btn-update" class="btn btn-dark btn-submit">Update</button>
+							<button id="btn-remove" class="btn btn-dark btn-submit">Remove</button>
+							<br>
+							<span id="submitErrorMessage"></span>
+						</form>
+					</div><!-- /petDataInputArea -->
+
+				</div><!-- /row -->
+
+				<div class="row" id="petDataDisplayArea">
+					<div class="col-10 cardContainer">
+						<div class="card">
+							<div class="card-header">Current Pets</div>
+							<div class="card-body">
+								<div class="pedDataArea">
+
+									<div class="petData">
+										<span class="pet petName">Static Name:</span>
+										<span class="pet petBreed">Static Breed</span>
+										<span class="pet petSex">Static Sex</span>
+										<span class="pet petAge">Static Age</span>
+										<span class="pet petWeight">Static Weight</span>
+										<span class="pet petSize">Static Size</span>
+									</div>
+
+								</div><!-- /pedDataArea -->
+							</div> <!-- /card-body -->
+						</div> <!-- /card -->
+					</div>
+				</div><!-- /petDataDisplayArea -->
+
+				<div class="row" id="mapArea">
+					<div id="mapid"></div> 
+				</div><!-- /mapArea -->
+
+				<div class="row">
+		  			<span class="amazon-stuff">
+				  		<div id="amzn-assoc-ad-cb16da6f-a242-41e1-b8b6-27ccbbf85082"></div>
+				  	</span>
+				</div><!-- /row -->
 
 			</div><!-- /mainContentArea -->
 
 		</div> <!-- /container -->
 
 		<!-- my script -->
-		  <script type="text/javascript" src="assets/js/app.js"></script>
-		  <span class="amazon-stuff">
-		  	<div id="amzn-assoc-ad-cb16da6f-a242-41e1-b8b6-27ccbbf85082"></div>
-		  </span>
+		<script type="text/javascript" src="assets/js/app.js"></script>
 	</body>
 </html>

@@ -258,13 +258,12 @@ $(document).ready(function()
 			mainContentArea.show();
 
 			$('.amazon-stuff').show();
-			
 			$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
-			
 			$("#userProfileArea").show();
-
+			updateUserInfo(result.user);
 			$("#mapid").show();
 
+		
 		}).catch(function(error)
 		{
 			console.log("Google sign-in error: " + "\n" +  error);
@@ -361,7 +360,6 @@ $(document).ready(function()
 		signInArea.hide();
 		mainContentArea.show();
 
-
 		var selectedUser = $("#testUserSelect").children("option:selected");
 
 		defaultGoogleUser.displayName = selectedUser.val().trim();
@@ -372,20 +370,6 @@ $(document).ready(function()
 		/*defaultGoogleUser = {	displayName: "Unknown", 
 								email: "unknown@unknown.unknown", 
 								photoURL: "assets/images/tmpProfileImg.png"};*/
-
-		updateUserInfo(defaultGoogleUser);
-
-		$("#userProfileArea").show();
-
-		// MAP SECTION
-		$("#mapid").show();
-		locator();
-
-		// AMAZON SECTION
-		$('.amazon-stuff').show();
-
-		$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
-		
 	});
 
 
@@ -414,7 +398,6 @@ $(document).ready(function()
 	}, function(errorObject) {
 	console.log("Errors handled: " + errorObject.code);
 	});
-
 
 });
 

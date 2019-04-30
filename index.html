@@ -25,22 +25,23 @@
 		  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		  <script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
 	  <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
-	  <script src="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.js"></script>
 	  <link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css"/>
 	  
 	  
-	  
-		  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-		  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-			  integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-			  crossorigin="" />
-	  
-		  <style>
-			  #mapid {
-				  width: 300px;
-				  height: 300px;
-			  }
-		  </style>
+	  <!-- Leaflet-->
+
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	  <script src="https://d3js.org/d3.v3.min.js"></script>
+	  <script src="https://d3js.org/topojson.v0.min.js"></script>
+	  <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
+	  <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
+	
+	  <script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>
+	  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+		integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+	
+	  <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+	
 	</head>
 
 	<body>
@@ -82,14 +83,22 @@
 					</div> <!-- /jumbotron -->
 
 				</div> <!-- /row -->
-
+				<div id="buttonDiv">
+					<button id="vetButton">Vet</button>
+					<button id="parkButton">Parks</button>
+					<button id="shopButton">PetSmart</button>
+				
+				  </div>
+				
+			 <div id="mapid"></div> 
+		
+		
 			</div><!-- /mainContentArea -->
 
 		</div> <!-- /container -->
 
 		<!-- my script -->
 		  <script type="text/javascript" src="assets/js/app.js"></script>
-	 <div id="mapid"></div> 
 
 	  <span class="amazon-stuff">
 			  <div id="amzn-assoc-ad-cb16da6f-a242-41e1-b8b6-27ccbbf85082"></div>

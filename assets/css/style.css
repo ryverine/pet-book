@@ -101,3 +101,8 @@ body{
 	float: left;
 	text-align: left;
 }
+
+#mapid {
+	width: 500px;
+	height: 500px;
+  }

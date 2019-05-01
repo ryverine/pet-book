@@ -1,77 +1,82 @@
-
-*{
+* {
 	font-size: 16px;
 	color: #343a40;
 }
 
-
 /*** ELEMENT STYLES ***/
 
-body{
-	/*background: url(../images/background.png);*/
-}
+/* body { */
+	/* background: url(../images/dog.jpg);
+	height: 100%; 
+
+	/* Center and scale the image nicely */
+	/* background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	opacity:50%; */ 
+  /* } */
 
 /*** CLASS STYLES ***/
 
-.amazon-stuff{
+.amazon-stuff {
 	display: none;
 	border: 2px solid #343a40;
 }
 
-.amzn-native-container{
+.amzn-native-container {
 	margin: auto;
 }
 
-.signInBtn{
+.signInBtn {
 	text-align: center;
 	width: 100%;
 	padding: 50px;
 	font-size: 25px;
 	font-weight: bolder;
-	color: #6c757d;
+	/* color: #6c757d; */
 	border: 5px solid #343a40;
 	margin: 20px;
 	white-space: normal;
 }
 
-.signInBtn:hover{
+.signInBtn:hover {
 	background-color: #343a40;
 	color: white;
 	border-color: #6c757d;
 }
 
-.btn-submit{
+.btn-submit {
 	margin: 10px 0px 10px 0px;
 	color: #6c757d;
 	font-weight: bold;
 	border: 2px solid #6c757d;
 }
 
-.btn-submit:hover{
+.btn-submit:hover {
 	color: white;
 	background-color: #6c757d;
 	border: 2px solid #343a40;
 }
 
-.textboxInput{
+.textboxInput {
 	border: 2px solid #343a40;
 	margin: 2px;
 }
 
-.cardContainer{
+.cardContainer {
 	margin: auto;
 }
 
-.inputLabel{
+.inputLabel {
 	font-weight: bold;
 	vertical-align: bottom;
 }
 
-.pet{
+.pet {
 	padding: 2px;
 }
 
-.petData{
+.petData {
 	margin: 2px;
 	padding: 2px;
 	background-color: #6c757d;
@@ -82,75 +87,78 @@ body{
 
 /*** ID STYLES ***/
 
-#mainContentArea{
-	display:none;
+#mainContentArea {
+	display: none;
 }
 
-#header{
+#header {
 	margin: 20px 0px 20px 0px;
 	background-color: #6c757d;
 	border: 2px solid #343a40;
 	text-align: center;
 }
 
-#title{
+#title {
 	color: white;
 	font-weight: bolder;
 	font-size: 40px;
 }
 
-#subtitle{
+#subtitle {
 	color: #343a40;
 	font-weight: bold;
 	font-size: 24px;
 }
 
-#signInArea{
+#signInArea {
 	margin: 25vh auto auto auto;
 	width: 50%;
 }
 
-#userProfileArea{
+#userProfileArea {
 	border: 2px solid #343a40;
 }
 
-#profileImageArea{
+#profileImageArea {
 	padding: 2px;
 	display: inline-block;
 }
 
-#profileImage{
+#profileImage {
 	height: 150px;
 	width: 150px;
 	display: inline-block;
 }
 
-#userDataArea{
+#userDataArea {
 	margin: 5px 15px 0px 15px;
 	display: inline-block;
 }
 
-#userInfoArea{
+#userInfoArea {
 	display: none;
 }
 
-#petDataInputArea{
+#petDataInputArea {
 	border: 2px solid #343a40;
 }
 
-#mapid{
+#mapid {
 	width: 300px;
 	height: 300px;
 }
 
-#mapArea{
+#mapArea {
 	border: 2px solid #343a40;
 	padding: 10px;
 }
 
-#petDataDisplayArea{
+#petDataDisplayArea {
 	border: 2px solid #343a40;
 	padding: 10px;
 }
 
-
+#mapid {
+	width: 500px;
+	height: 500px;
+}

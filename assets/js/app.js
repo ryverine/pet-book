@@ -1,6 +1,6 @@
 
 
-$(document).ready(function() 
+$(document).ready(function () 
 {
 	/*** GLOBAL ***/
 
@@ -8,13 +8,25 @@ $(document).ready(function()
 	var signInArea = $("#signInArea");
 	var mainContentArea = $("#mainContentArea");
 
-	var defaultGoogleUser = {	displayName: "Unknown", 
-								email: "unknown@unknown.unknown", 
-								photoURL: "assets/images/tmpProfileImg.png"};
+	var defaultGoogleUser = {	
+		key: "",
+		displayName: "", 
+		email: "", 
+		photoURL: ""
+	};
 
-	var googleUser = defaultGoogleUser;
+	var currentUser = defaultGoogleUser;
+
+	var defaultPet = {
+		key: "",
+		name: ""
+	};
+
+	var selectedPet = defaultPet;
 
 	var userPetsArray = [];
+
+	var selectedPetSize = "";
 
 	var config = {
 		apiKey: "AIzaSyCW7EalByCr2vcv91omxvV58cuGC2OFWzc",
@@ -33,349 +45,682 @@ $(document).ready(function()
 	/*** FUNCTIONS ***/
 
 
-	function updateUserInfo (theUser)
+	function updateUserInfoArea(theUser)
 	{
-		googleUser = theUser;
-
-		$("#googleDisplayName").text(theUser.displayName);
-		$("#googleEmail").text(theUser.email);
-
-		var profileImg = $("#profileImage");
-		profileImg.attr("src", theUser.photoURL);
-
-		$("#profileImageArea").html(profileImg);
-
-		// ADD USER TO FIREBASE
-		addUserToFirebase(theUser);
+		if(theUser.email === "")
+		{
+			$("#profileImage").attr("src", "#");
+			$("#googleDisplayName").text("");
+			$("#googleEmail").text("");
+			$("#userProfileArea").hide();
+		}
+		else
+		{
+			$("#profileImage").attr("src", theUser.photoURL);
+			$("#googleDisplayName").text(theUser.displayName);
+			$("#googleEmail").text(theUser.email);
+			$("#userProfileArea").show();
+		}
 	}
 
-
-	function addUserToFirebase(theUser)
+	function logReturningUser(userKey)
 	{
-		console.log("addUserToFirebase("+theUser+")");
-		// https://firebase.google.com/docs/database/admin/structure-data
-		// https://firebase.google.com/docs/database/admin/save-data
-		// https://firebase.google.com/docs/database/admin/retrieve-data
+		console.log("logReturningUser("+userKey+")");
+
+		var loginDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
+
+		database.ref().child("users/"+ userKey).update(
+		{
+			login: loginDateTime
+		});
+
+		populatePetData(userKey); // populates userPetsArray
+	}
+
+	function setUserData(theUser)
+	{
+		// IF THIS IS AN EXISTING USER THEN WE WANT TO POPULATE THE PAGE WITH THEIR INFO
+		// OTHERWISE, ADD NEW USER TO DATABASE (but only if they have a pet)
 
 		var userName = theUser.displayName;
 		var userEmail = theUser.email;
+		var userPhotoURL = theUser.photoURL;
 		var userAddedDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
 		var userLoginDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
+		
+		updateUserInfoArea(theUser);
 
-
-		// IS THIS A NEW USER?
-		var userKey = findUserKey(userEmail);
-
-		if(userKey === "")
+		if(userEmail != "")// only add people with email
 		{
-			console.log("ADD NEW USER");
+			// IS THIS A NEW USER?
+			var userKey = findUserKey(userEmail);
 
-			var userKey = database.ref().child("users").push(
-			{
-				user_name: userName,
-				user_email: userEmail,
-				user_added: userAddedDateTime,
-				user_login: userLoginDateTime,
-				pets:{
-					pets_updated: userAddedDateTime
-				}
-			}).key;
-
-			var pet00 = {
-				pet_name: "Muffins",
-				pet_breed: "Rottweiler",
-				pet_sex: "Female",
-				pet_age: 5,
-				pet_weight: 120.5,
-				pet_size: "XL",
-				pet_updated: userAddedDateTime
-			}
-
-			var pet01 = {
-				pet_name: "Boss Daddy",
-				pet_breed: "Chihuahua",
-				pet_sex: "Male",
-				pet_age: 6,
-				pet_weight: 4,
-				pet_size: "SM",
-				pet_updated: userAddedDateTime
-			}
-
-			var pet02 = {
-				pet_name: "Mr. Bubs",
-				pet_breed: "Labrador Retriever",
-				pet_sex: "Male",
-				pet_age: 3,
-				pet_weight: 50,
-				pet_size: "MD",
-				pet_updated: userAddedDateTime
-			}
-
-			userPetsArray.push(pet00);
-			userPetsArray.push(pet01);
-			userPetsArray.push(pet02);
-
-			for (var i = 0; i < userPetsArray.length; i++)
-			{
-				var petname = userPetsArray[i].pet_name;
-				var petbreed = userPetsArray[i].pet_breed;
-				var petsex = userPetsArray[i].pet_sex;
-				var petage = userPetsArray[i].pet_age;
-				var petweight = userPetsArray[i].pet_weight;
-				var petsize = userPetsArray[i].pet_size;
-
-				database.ref().child("users/"+ userKey + "/pets").push(
+			if(userKey === "")
+			{ 
+				//NEW USER
+				if(userPetsArray.length > 0)
 				{
-					pet_name: petname,
-					pet_breed: petbreed,
-					pet_sex: petsex,
-					pet_age: petage,
-					pet_weight: petweight,
-					pet_size: petsize
-				});
+					var newUserKey = database.ref().child("users").push(
+					{
+						displayName: userName,
+						email: userEmail,
+						added: userAddedDateTime,
+						login: userLoginDateTime,
+						photoURL: userPhotoURL,
+						pets:{
+							pets_updated: userAddedDateTime
+						}
+					}).key;
+
+					currentUser = {
+						key: newUserKey,
+						displayName: userName,
+						email: userEmail,
+						photoURL: userPhotoURL
+					};
+
+					for (var i = 0; i < userPetsArray.length; i++)
+					{
+						var petname = userPetsArray[i].pet_name;
+						var petbreed = userPetsArray[i].pet_breed;
+						var petsex = userPetsArray[i].pet_sex;
+						var petage = userPetsArray[i].pet_age;
+						var petweight = userPetsArray[i].pet_weight;
+						var petsize = userPetsArray[i].pet_size;
+			
+						database.ref().child("users/"+ userKey + "/pets").push(
+						{
+							pet_name: petname,
+							pet_breed: petbreed,
+							pet_sex: petsex,
+							pet_age: petage,
+							pet_weight: petweight,
+							pet_size: petsize
+						});
+
+						$("#petUpdateTime").text("Last Updated: " + userAddedDateTime);
+					}
+				}
+			}
+			else
+			{
+				console.log("UPDATE EXISTING USER LOGIN TIME");
+
+				logReturningUser(userKey);
 			}
 		}
 		else
 		{
-			console.log("UPDATE EXISTING USER LOGIN TIME");
+			$("#profileImage").attr("src", "#");
+			$("#googleDisplayName").text("");
+			$("#googleEmail").text("");
 
-			database.ref().child("users/"+ userKey).update(
-			{
-				user_login: userLoginDateTime
-			});
+			currentUser = {
+				key: "",
+				displayName: "",
+				email: "",
+				photoURL: ""
+			};
+
+			$("#userProfileArea").hide();
 		}
 	}
+
+
+	function populatePetData(userKey)
+	{
+		console.log("getPetData("+userKey+")");
+
+		userPetsArray = [];
+		var petDataArea = $("#petDataArea");
+		petDataArea.empty();
+
+		//var petUpdateTime = "";
+
+		var ref = database.ref().child("users/"+userKey+"/pets");
+
+		ref.orderByKey().on("child_added", function(snapshot)
+		{
+  			// console.log("snapshot: " + snapshot);
+  			// console.log("snapshot.key: " + snapshot.key);
+
+			//userKey = snapshot.key;
+
+			if(snapshot.key === "pets_updated")
+			{
+				//petUpdateTime = snapshot.val();
+			}
+			else
+			{
+				var tmpPetObj = {
+					pet_age: snapshot.child("pet_age").val(),
+					pet_breed: snapshot.child("pet_breed").val(),
+					pet_name: snapshot.child("pet_name").val(),
+					pet_sex: snapshot.child("pet_sex").val(),
+					pet_size: snapshot.child("pet_size").val(),
+					pet_weight: snapshot.child("pet_weight").val()
+				};
+
+				userPetsArray.push(tmpPetObj);
+			}
+
+		});
+
+		//console.log("petUpdateTime = " + petUpdateTime);
+
+		for(var i = 0; i < userPetsArray.length; i++)
+		{
+			console.log("userPetsArray["+i+"].pet_name: " + userPetsArray[i].pet_name);
+
+			var petDataSummaryRow = $("<tr>");
+			petDataSummaryRow.attr("class", "petDataSummary");
+
+			var iconData = $("<td>");
+			iconData.attr("class", "tableDataIndent");
+
+			var iconButton = $("<button>");
+			iconButton.attr("class", "btn");
+			iconButton.addClass("fas");
+			iconButton.addClass("fa-plus");
+			iconButton.addClass("btn-openClose");
+
+			iconData.append(iconButton);
+
+			var nameData = $("<td>");
+			nameData.attr("class", "petName");
+			nameData.text(userPetsArray[i].pet_name);
+
+			petDataSummaryRow.append(iconData);
+			petDataSummaryRow.append(nameData);
+
+			var petDataDetailDiv = $("<div>");
+			petDataDetailDiv.attr("class", "petDataDetail");
+
+			var breedDiv = $("<div>");
+			breedDiv.text("Breed: " + userPetsArray[i].pet_breed);
+
+			var sexDiv = $("<div>");
+			sexDiv.text("Sex: " + userPetsArray[i].pet_sex);
+
+			var ageDiv = $("<div>");
+			ageDiv.text("Age: " + userPetsArray[i].pet_age);
+
+			var weightDiv = $("<div>");
+			weightDiv.text("Weight: " + userPetsArray[i].pet_weight);
+
+			var sizeDiv = $("<div>");
+			sizeDiv.text("Size: " + userPetsArray[i].pet_size);
+
+			petDataDetailDiv.append(breedDiv);
+			petDataDetailDiv.append(sexDiv);
+			petDataDetailDiv.append(ageDiv);
+			petDataDetailDiv.append(weightDiv);
+			petDataDetailDiv.append(sizeDiv);
+
+			nameData.append(petDataDetailDiv);
+
+			petDataArea.append(petDataSummaryRow);
+		}
+	}
+
 
 	function findUserKey(userEmail)
 	{
 		console.log("findUserKey("+userEmail+")");
-		// https://firebase.google.com/docs/reference/js/firebase.database.Reference.html#equalto
-		// https://firebase.google.com/docs/reference/js/firebase.database.Query.html
 
 		var userKey = "";
 		
 		var ref = database.ref().child("users");
 
-		//ref.orderByChild("user_email").equalTo(userEmail).once("child_added").then(function(snapshot)
-		ref.orderByChild("user_email").equalTo(userEmail).once("child_added", function(snapshot)
+		ref.orderByChild("email").equalTo(userEmail).once("child_added", function(snapshot)
 		{
-  			// console.log("snapshot: " + snapshot);
-  			// console.log("snapshot.key: " + snapshot.key);
+			console.log("TESTING DATABASE FOR EMAIL: " + snapshot.key);
 
-			if(snapshot.child("user_email").val().toUpperCase() === userEmail.toUpperCase())
+			if(snapshot.child("email").val().toUpperCase() === userEmail.toUpperCase())
 			{
-				//console.log("USER FOUND");
-				//console.log("user name: " + snapshot.child("user_name").val());
+				console.log("userEmail found: " + userEmail);
 				userKey = snapshot.key;
+
+				currentUser.key = snapshot.key;
+				currentUser.name = snapshot.child("name").val();
+				currentUser.displayName = snapshot.child("displayName").val();
+				currentUser.email = snapshot.child("email").val();
+				currentUser.photoURL = snapshot.child("photoURL").val();
+				currentUser.added = snapshot.child("added").val();
+				currentUser.login = snapshot.child("login").val();
 			}
-  			/*if(snapshot.child("user_email").val().toUpperCase() === userEmail.toUpperCase())
-  			{
-  				console.log("USER FOUND" + "\n" + "Key: " + snapshot.key);
-  				userKey = snapshot.key;
-
-  			
-				tmpTrain.key = snapshot.key;
-				tmpTrain.name = snapshot.child("name").val();
-				tmpTrain.frequency = snapshot.child("frequency").val();
-				tmpTrain.destination = snapshot.child("destination").val();
-				tmpTrain.start = snapshot.child("start").val();
-				tmpTrain.updateBy_name = snapshot.child("updateBy_name").val();
-				tmpTrain.updateBy_email = snapshot.child("updateBy_email").val();
-				tmpTrain.updated = snapshot.child("updated").val();
-  			}*/
 		});
-
-		//console.log("END findUserKey("+userEmail+")");
-		//console.log("Key: " + userKey);
 
 		return userKey;
 	}
 
-	function addPetToFirebase(theUser, thePet)
-	{/*
-		// WORK NEEDED HERE
-		// FIND SPECIFIED USER IN DB
-		// UPDATE THAT USER'S PET INFO
 
-		var userPetName = "dog 1";
-		var userPetAge = 3;
-		var userPetWeight = 10.5;
-
-		var updateDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
-
-		// find the user
-		database.ref().child("user/pets").set(
-		{
-			petsUpdated: updateDateTime
+	function GetIcon(color) 
+	{
+		var icon = new L.Icon({
+			iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-' + color + '.png',
+			shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+			iconSize: [25, 41],
+			iconAnchor: [12, 41],
+			popupAnchor: [1, -34],
+			shadowSize: [41, 41]
 		});
+		return icon;
+	}
+	
+
+	// Ajax call to locate vet, park, petsmart 
+	function mapCall(map, lattitiude, longitude, searchLocation, iconColor, getName, getAdd, getPhone) 
+	{
+		var queryURL = "https://api.tomtom.com/search/2/search/" + searchLocation + ".json?key=7UeVqnmHxlzBP6n8ZWtpdW82KS6nnBoM&lat=" + lattitiude + "&lon=" + longitude + "&radius=60000";
+		$.ajax({
+			url: queryURL,
+			method: "GET"
+		})
+
+			.then(function (response) {
+				for (i = 0; i < response.results.length; i++) {
+					var placeLat = response.results[i].position.lat;
+					var placelon = response.results[i].position.lon;
+					var latlng = new L.LatLng(placeLat, placelon);
+
+					var result = response.results[i];
+					var bound = `${getName ? result.poi.name : searchLocation} 
+				  ${getAdd ? result.address.freeformAddress : ""}
+				  ${getPhone ? result.poi.phone : ""}`
+
+					L.marker(latlng, { icon: GetIcon(iconColor) }).addTo(map).bindPopup(bound).openPopup();
+				}
+
+			});
+	}
 
 
-		database.ref().child("user/pets").push(
+	// locating user's current location
+	function locator() 
+	{
+		navigator.geolocation.getCurrentPosition(function (location) {
+			var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
+			var lat = location.coords.latitude;
+			var long = location.coords.longitude;
+			var mymap = L.map('mapid').setView(latlng, 13);
+			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ',
+				{
+					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
+					maxZoom: 18,
+					id: 'mapbox.streets',
+					accessToken: 'sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ'
+				}).addTo(mymap);
+			L.marker(latlng).addTo(mymap)
+				.bindPopup("Current location").openPopup();
+			// button click to populate nearby petsmarts
+			$("#shopButton").on("click", function () {
+				mapCall(mymap, lat, long, "Petsmart", "green", false, true, false);
+			});
+			// button click to populate nearby vets
+
+
+			$("#vetButton").on("click", function () {
+				mapCall(mymap, lat, long, "veterinarian", "orange", true, false, true)
+			});
+
+			// button click to populate nearby paks
+
+			$("#parkButton").on("click", function () {
+				mapCall(mymap, lat, long, "park", "red", true, false, false)
+
+			});
+		});
+	}
+
+
+	function validatePetData(name, breed, sex, age, weight, size)
+	{
+		if(name === "")
 		{
-			pet:{
-				pet_name: userPetName,
-				pet_age: userPetAge,
-				pet_weight: userPetWeight
+			return "Name is required!";
+		}
+		else if (breed === "")
+		{
+			return "Breed is required!";
+		}
+		else if (sex === "")
+		{
+			return "Sex is required!";
+		}
+		else if (age === "")
+		{
+			return "Age is required!";
+		}
+		else if (weight === "")
+		{
+			return "Weight is required!";
+		}
+		else if (size === "")
+		{
+			return "Size is required!";
+		}
+		else
+		{
+			return "";
+		}
+	}
+
+
+	function findPetKey(petName)
+	{
+		console.log("findPetKey(" + petName + ")" );
+
+		var petKey = "";
+
+		var userKey = currentUser.key;
+
+		var ref = database.ref().child("users/"+userKey+"/pets");
+
+		ref.orderByKey().on("child_added", function(snapshot)
+		{
+			if(snapshot.child("pet_name").val().toUpperCase() === petName.toUpperCase())
+			{
+				petKey = snapshot.key;
 			}
 		});
 
-
-		/*
-		var usersRef = ref.child("users");
-		usersRef.set({
-		  alanisawesome: {
-		    date_of_birth: "June 23, 1912",
-		    full_name: "Alan Turing"
-		  },
-		  gracehop: {
-		    date_of_birth: "December 9, 1906",
-		    full_name: "Grace Hopper"
-		  }
-		});
-		*/
-	}
-
-
-	function googleSignIn()
-	{
-		// https://firebase.google.com/docs/reference/js/firebase.auth.GoogleAuthProvider
-		var provider = new firebase.auth.GoogleAuthProvider();
-		firebase.auth().useDeviceLanguage();
-
-		provider.addScope("profile");
-		provider.addScope("email");
-
-		// https://firebase.google.com/docs/reference/js/firebase.auth.Auth.html#signinwithpopup
-		return firebase.auth().signInWithPopup(provider).then(function(result)
-		{
-			//var token = result.credential.accessToken;
-			
-			//console.log("result user display name: " + googleUser.displayName);
-
-			updateUserInfo(result.user);
-
-			signInArea.hide();
-			mainContentArea.show();
-
-			$('.amazon-stuff').show();
-			
-			$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
-			
-			$("#userProfileArea").show();
-
-			$("#mapid").show();
-
-		}).catch(function(error)
-		{
-			console.log("Google sign-in error: " + "\n" +  error);
-		});
-
-	}
-
-
-	function googleSignOut()
-	{
-		firebase.auth().signOut();
-		updateUserInfo(defaultGoogleUser);
-		signInArea.show();
-		$('.amazon-stuff').hide();
-		$("#mapid").hide();
-		$('body').find('script').attr('src', '//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082').remove();
-		mainContentArea.hide();
-	}
-
-
-	function locator()
-	{
-		navigator.geolocation.getCurrentPosition(function(location) 
-		{
-			var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
-			console.log(latlng);
-			var mymap = L.map('mapid').setView(latlng, 13);
-			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ', 
-			{
-			  attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
-			  maxZoom: 18,
-			  id: 'mapbox.streets',
-			  accessToken: 'sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ'
-			}).addTo(mymap);
-		  console.log(L.tileLayer);
-			L.marker(latlng).addTo(mymap)
-							.bindPopup("Current location").openPopup();
-		
-		});
+		return petKey;
 	}
 
 
 	/*** PAGE EVENTS ***/
 
 
-	$("#btn-size_xs").on("click", function(){
+	$("#btn-size_xs").on("click", function()
+	{
 		event.preventDefault();
+
+		$(this).attr("class", "btn btn-primary sizeButton_pressed");
+
+		selectedPetSize = $(this).text().toLowerCase();
+		console.log("SELECTED PET SIZE: " + selectedPetSize);
+
+		//$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
+
 	});
 
-	$("#btn-size_sm").on("click", function(){
+
+	$("#btn-size_sm").on("click", function()
+	{
 		event.preventDefault();
+
+		$(this).attr("class", "btn btn-primary sizeButton_pressed");
+
+		selectedPetSize = $(this).text().toLowerCase();
+		console.log("SELECTED PET SIZE: " + selectedPetSize);
+
+		$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
+		//$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
 	});
 
-	$("#btn-size_md").on("click", function(){
+
+	$("#btn-size_md").on("click", function()
+	{
 		event.preventDefault();
+
+		$(this).attr("class", "btn btn-primary sizeButton_pressed");
+
+		selectedPetSize = $(this).text().toLowerCase();
+		console.log("SELECTED PET SIZE: " + selectedPetSize);
+
+		$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
+		//$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
 	});
 
-	$("#btn-size_lg").on("click", function(){
+
+	$("#btn-size_lg").on("click", function()
+	{
 		event.preventDefault();
+
+		$(this).attr("class", "btn btn-primary sizeButton_pressed");
+
+		selectedPetSize = $(this).text().toLowerCase();
+		console.log("SELECTED PET SIZE: " + selectedPetSize);
+
+		$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
+		//$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
 	});
 
-	$("#btn-size_xl").on("click", function(){
+
+	$("#btn-size_xl").on("click", function()
+	{
 		event.preventDefault();
+
+		$(this).attr("class", "btn btn-primary sizeButton_pressed");
+
+		selectedPetSize = $(this).text().toLowerCase();
+		console.log("SELECTED PET SIZE: " + selectedPetSize);
+
+		$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
+		//$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
 	});
 
-	$("#btn-size_unk").on("click", function(){
+
+	$("#btn-size_unk").on("click", function()
+	{
 		event.preventDefault();
+
+		$(this).attr("class", "btn btn-primary sizeButton_pressed");
+
+		selectedPetSize = $(this).text().toLowerCase();
+
+		console.log("SELECTED PET SIZE: " + selectedPetSize);
+
+		$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
+		//$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
 	});
+
 
 	$("#btn-add").on("click", function()
 	{
 		event.preventDefault();
-		console.log("ADD BUTTON CLICKED");
-	});
+		//console.log("ADD BUTTON CLICKED");
 
-	$("#btn-update").on("click", function()
-	{	
-		event.preventDefault();
-		console.log("UPDATE BUTTON CLICKED");
-	});	
+		$("#initialPetDataInputArea_error").text("");
 
-	$("#btn-remove").on("click", function()
-	{
-		event.preventDefault();
-		console.log("REMOVE BUTTON CLICKED");
+		var name = $("#petNameInput").val();
+		var breed = $("#petBreedInput").val();
+		var sex = $("#petSexInput").val();
+		var age = $("#petAgeInput").val();
+		var weight = $("#petWeightInput").val();
+
+		var dataError = validatePetData(name, breed, sex, age, weight, selectedPetSize);
+
+		$("#initialPetDataInputArea_error").text(dataError);
+
+		if(dataError === "")
+		{
+			var isPetInArray = false;
+
+			for( var i = 0; i < userPetsArray.length; i++)
+			{
+				if(userPetsArray[i].pet_name.toUpperCase() === name.toUpperCase())
+				{
+					isPetInArray = true;
+					break;
+				}
+			}
+
+			if(isPetInArray)
+			{
+				$("#initialPetDataInputArea_error").text("Pet with that name already exists in your account!");
+			}
+			else
+			{
+				var pet = {
+					pet_age: age,
+					pet_breed: breed,
+					pet_name: name,
+					pet_sex: sex,
+					pet_weight: weight,
+					pet_size: selectedPetSize
+				};
+
+				userPetsArray.push(pet);
+
+				$("#petUpdateTime").text("Last Updated: " + moment().format("MM/DD/YYYY HH:mm:ss"));
+
+				if(currentUser.email != "")
+				{
+					if(currentUser.key != "")
+					{
+						var petKey = database.ref().child("users/"+currentUser.key+"/pets").push(
+						{
+							pet_age: age,
+							pet_breed: breed,
+							pet_name: name,
+							pet_sex: sex,
+							pet_weight: weight,
+							pet_size: selectedPetSize
+						});
+
+						populatePetData(currentUser.key);
+
+						var petsUpdated = moment().format("MM/DD/YYYY HH:mm:ss");
+
+						database.ref("users/"+currentUser.key+"/pets").update(
+						{
+							pets_updated: petsUpdated
+						});
+					}
+					else
+					{
+						// this is a new user
+						setUserData(currentUser);
+					}
+				}
+				else
+				{
+					//put div on page
+					var petDataArea = $("#petDataArea");
+
+					var petDataSummaryRow = $("<tr>");
+					petDataSummaryRow.attr("class", "petDataSummary");
+		
+					var iconData = $("<td>");
+					iconData.attr("class", "tableDataIndent");
+
+					var iconButton = $("<button>");
+					iconButton.attr("class", "btn");
+					iconButton.addClass("fas");
+					iconButton.addClass("fa-plus");
+					iconButton.addClass("btn-openClose");
+
+					iconData.append(iconButton);
+
+					var nameData = $("<td>");
+					nameData.attr("class", "petName");
+					nameData.text(name);
+		
+					petDataSummaryRow.append(iconData);
+					petDataSummaryRow.append(nameData);
+		
+					var petDataDetailDiv = $("<div>");
+					petDataDetailDiv.attr("class", "petDataDetail");
+		
+					var breedDiv = $("<div>");
+					breedDiv.text("Breed: " + breed);
+		
+					var sexDiv = $("<div>");
+					sexDiv.text("Sex: " + sex);
+		
+					var ageDiv = $("<div>");
+					ageDiv.text("Age: " + age);
+		
+					var weightDiv = $("<div>");
+					weightDiv.text("Weight: " + weight);
+		
+					var sizeDiv = $("<div>");
+					sizeDiv.text("Size: " + selectedPetSize);
+		
+					petDataDetailDiv.append(breedDiv);
+					petDataDetailDiv.append(sexDiv);
+					petDataDetailDiv.append(ageDiv);
+					petDataDetailDiv.append(weightDiv);
+					petDataDetailDiv.append(sizeDiv);
+		
+					nameData.append(petDataDetailDiv);
+		
+					petDataArea.append(petDataSummaryRow);
+				}
+
+				$("#petNameInput").val("");
+				$("#petBreedInput").val("");
+				$("#petSexInput").val("");
+				$("#petAgeInput").val("");
+				$("#petWeightInput").val("");
+
+				selectedPetSize = "";
+
+				$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
+				$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
+				$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
+				$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
+				$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
+				$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
+			}
+		}
+
 	});
 
 
 	$("#btn-noSignIn").on("click", function()
 	{	
-		console.log("NON GOOGLE SIGN-IN CLICKED");
-
-		// MAIN PAGE AREAS
 		signInArea.hide();
 		mainContentArea.show();
 
+		userPetsArray = [];
 
 		var selectedUser = $("#testUserSelect").children("option:selected");
 
-		defaultGoogleUser.displayName = selectedUser.val().trim();
-		defaultGoogleUser.email = selectedUser.attr("data-email").trim();
-		defaultGoogleUser.photoURL = selectedUser.attr("data-photo").trim();
+		/*console.log("READING USER SELECTOR:" + "\n" + 
+			"displayName: " + selectedUser.val().trim() + "\n" + 
+			"email: " + selectedUser.attr("data-email").trim() + "\n" + 
+			"photoURL: " + selectedUser.attr("data-photo").trim()
+		);*/
 
-		// SET USER DATA
-		/*defaultGoogleUser = {	displayName: "Unknown", 
-								email: "unknown@unknown.unknown", 
-								photoURL: "assets/images/tmpProfileImg.png"};*/
+		var selectedUserInfo = {
+			key: "",
+			displayName: selectedUser.val().trim(),
+			email: selectedUser.attr("data-email").trim(),
+			photoURL: selectedUser.attr("data-photo").trim()
+		};
 
-		updateUserInfo(defaultGoogleUser);
+		//updateUserInfoArea(selectedUserInfo);
+		//$("#userProfileArea").show();
 
-		$("#userProfileArea").show();
+		setUserData(selectedUserInfo);
 
 		// MAP SECTION
 		$("#mapid").show();
@@ -385,23 +730,112 @@ $(document).ready(function()
 		$('.amazon-stuff').show();
 
 		$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
-		
 	});
 
 
-	$("#btn-googleSignOut").on("click", function(){
-		googleSignOut();
+	$("#btn-googleSignOut").on("click", function()
+	{
+		firebase.auth().signOut();
+
+		updateUserInfoArea(defaultGoogleUser);
+
+		setUserData(defaultGoogleUser);
+
+		userPetsArray = [];
+		//empty selectedPet
+
+		signInArea.show();
+		$('.amazon-stuff').hide();
+		$('body').find('script').attr('src', '//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082').remove();
+		$("#mapid").hide();
+		mainContentArea.hide();
 	});
 
 
-	 // user signs-in with google account
 	$("#btn-googleSignIn").on("click", function()
 	{
-		console.log("GOOGLE SIGN IN CLICKED");
-		// https://firebase.google.com/docs/reference/js/firebase.User
-		var tmp = googleSignIn();
-		//console.log("tmp:" + "\n" + tmp);
+		var provider = new firebase.auth.GoogleAuthProvider();
+		firebase.auth().useDeviceLanguage();
+
+		provider.addScope("profile");
+		provider.addScope("email");
+
+		userPetsArray = [];
+
+		return firebase.auth().signInWithPopup(provider).then(function (result) 
+		{
+			// NEED TO PUT USER DATA INTO USER INFO AREA
+			setUserData(result.user);
+
+			locator();
+			signInArea.hide();
+			mainContentArea.show();
+
+		}).catch(function (error) {
+			console.log("Google sign-in error: " + "\n" +  error);
+		});
+
+		$('.amazon-stuff').show();
+
+		$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
+
+		$("#mapid").show();
 	});
+
+
+	$(document).on("click", "button.btn-openClose", function()
+	{
+		// this picks up all text in the TD beside the TD that the button is in.
+		// including the text of the inner-DIV
+		//console.log($(this).parent().siblings(".petName").text().toUpperCase() + " BUTTON CLICKED");
+		//console.log("INNER DIV CONTENT: " + "\n" + $(this).parent().siblings(".petName").find("div").text().toUpperCase());
+
+		var buttonClasses = $(this).attr("class");
+
+		if(buttonClasses.search("fa-plus") > -1)
+		{
+			// the button currently has the + icon
+			$(this).attr("class", "btn");
+			$(this).addClass("fas");
+			$(this).addClass("fa-minus");
+			$(this).addClass("btn-openClose");
+			// show the inner div
+			$(this).parent().siblings(".petName").find("div").show();
+
+		}
+		else if(buttonClasses.search("fa-minus") > -1)
+		{
+			// the button currently has the - icon
+			$(this).attr("class", "btn");
+			$(this).addClass("fas");
+			$(this).addClass("fa-plus");
+			$(this).addClass("btn-openClose");
+			// hide the inner div
+			$(this).parent().siblings(".petName").find("div").hide();
+		}
+		else
+		{
+			console.log("BUTTON CLASSES: " + $(this).attr("class"));
+		}
+
+	});
+
+
+	$("#btn-update").on("click", function()
+	{	
+		event.preventDefault();
+		console.log("UPDATE BUTTON CLICKED");
+	});	
+
+
+	$("#btn-remove").on("click", function()
+	{
+		event.preventDefault();
+		console.log("REMOVE BUTTON CLICKED");
+	});
+
+
+
 
 
 	/*** DATABASE LISTENERS ***/
@@ -409,12 +843,21 @@ $(document).ready(function()
 
 	database.ref().on("child_added", function(childSnapshot) 
 	{
-		// do stuff as the database changes
-	// Handle the errors
+		console.log("CHILD ADDED");
+
 	}, function(errorObject) {
-	console.log("Errors handled: " + errorObject.code);
+		console.log("Errors handled: " + errorObject.code);
 	});
 
+
+
+
+
+
+	
+	
+	
+		
 
 });
 

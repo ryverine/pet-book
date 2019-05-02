@@ -1,9 +1,8 @@
 
-*{
+* {
 	font-size: 16px;
 	color: #343a40;
 }
-
 
 /*** ELEMENT STYLES ***/
 
@@ -11,15 +10,19 @@ body{
 	/*background: url(../images/background.png);*/
 }
 
+table{
+	width: 100%;
+}
 
 /*** CLASS STYLES ***/
 
-.amazon-stuff{
+
+.amazon-stuff {
 	display: none;
 	border: 2px solid #343a40;
 }
 
-.amzn-native-container{
+.amzn-native-container {
 	margin: auto;
 }
 
@@ -35,122 +38,183 @@ body{
 	white-space: normal;
 }
 
-.signInBtn:hover{
+.signInBtn:hover {
 	background-color: #343a40;
 	color: white;
 	border-color: #6c757d;
 }
 
-.btn-submit{
+.btn-submit {
 	margin: 10px 0px 10px 0px;
 	color: #6c757d;
 	font-weight: bold;
 	border: 2px solid #6c757d;
 }
 
-.btn-submit:hover{
+.btn-submit:hover {
 	color: white;
 	background-color: #6c757d;
 	border: 2px solid #343a40;
 }
 
-.textboxInput{
+.textboxInput {
 	border: 2px solid #343a40;
 	margin: 2px;
 }
 
-.cardContainer{
+.cardContainer {
 	margin: auto;
 }
 
-.inputLabel{
+.inputLabel {
 	font-weight: bold;
 	vertical-align: bottom;
 }
 
-.pet{
+.sizeButton{
+	border: 2px solid #004a99; /* primary: #007bff; */
+}
+
+.sizeButton_pressed{
+	background-color: #6c757d;
+	border: 2px solid #6c757d;
+}
+
+.tableDataIndent{
+	width: 25px;
+	padding: 2px;
+	text-align: center;
+}
+
+.petName{
+	font-size: 20px;
+	text-align: left;
 	padding: 2px;
 }
 
-.petData{
-	margin: 2px;
-	padding: 2px;
+.petDataSummary{
+	margin: 5px;
+	padding: 5px;
 	background-color: #6c757d;
 	border: 2px solid #343a40;
-	color: white;
 	font-weight: bold;
 }
 
-/*** ID STYLES ***/
-
-#mainContentArea{
-	display:none;
+.petDataDetail{
+	display: none;
+	background-color: #EEEEEE;
+	text-align: left;
+	margin: 5px;
+	padding: 10px 5px 10px 15px;
+	font-size: 16px;
+	font-weight: normal;
 }
 
-#header{
+.btn-openClose{
+	border: 2px solid #343a40;
+	padding: 5px;
+	background-color: #ffc107;
+	color: #343a40;
+	font-size: 20px;
+}
+
+.btn-openClose:hover{
+	border-color: #ffc107;
+	background-color: #343a40;
+	color: #ffc107;
+}
+
+
+/*
+.petDataSummary:hover{
+	background-color: #343a40;
+	color: #ffc107;
+	border-color: #ffc107;
+}*/
+
+
+/*** ID STYLES ***/
+
+
+#mainContentArea {
+	display: none;
+}
+
+#header {
 	margin: 20px 0px 20px 0px;
 	background-color: #6c757d;
 	border: 2px solid #343a40;
 	text-align: center;
 }
 
-#title{
+#title {
 	color: white;
 	font-weight: bolder;
 	font-size: 40px;
 }
 
-#subtitle{
+#subtitle {
 	color: #343a40;
 	font-weight: bold;
 	font-size: 24px;
 }
 
-#signInArea{
+#signInArea {
 	margin: 25vh auto auto auto;
 	width: 50%;
 }
 
-#userProfileArea{
+#userProfileArea {
 	border: 2px solid #343a40;
 }
 
-#profileImageArea{
+#profileImageArea {
 	padding: 2px;
 	display: inline-block;
 }
 
-#profileImage{
+#profileImage {
 	height: 150px;
 	width: 150px;
 	display: inline-block;
 }
 
-#userDataArea{
+#userDataArea {
 	margin: 5px 15px 0px 15px;
 	display: inline-block;
 }
 
-#userInfoArea{
+#userInfoArea {
 	display: none;
 }
 
-#petDataInputArea{
+#initialPetDataInputArea{
 	border: 2px solid #343a40;
 }
 
-#mapid{
-	width: 300px;
-	height: 300px;
+#initialPetDataInputArea_error{
+	font-weight: bold;
+	color: red;
 }
 
-#mapArea{
+#petDataDisplayArea {
+	border: 2px solid #343a40;
+	padding: 10px;
+}
+
+#mapid {
+	width: 500px;
+	height: 500px;
+}
+
+
+#mapArea {
 	border: 2px solid #343a40;
 	padding: 10px;
 }
 
-#petDataDisplayArea{
-	border: 2px solid #343a40;
-	padding: 10px;
+#petUpdateTime{
+	float: right;
 }
+
 

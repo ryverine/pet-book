@@ -1,7 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 
-	<head>
+<head>
+
+	<meta charset="UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<title>Pet Book</title>
+
+	<!-- RESET CSS -->
+	<link rel="stylesheet" href="assets/css/reset.css">
+	<!-- Bootstrap-->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<!-- FontAwesome-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+		integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+	<!-- place search css -->
+	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css" />
+	<!-- Leaflet css -->
+	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+		integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+		crossorigin="" />
+	<link rel="stylesheet" href="assets/css/leaflet.css">
+	<!-- our css -->
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+	<!-- jQuery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- Moment.js -->
+	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+	<!-- Firebase -->
+
+	<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+	<!-- leaflet js-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+	<script src="https://d3js.org/topojson.v0.min.js"></script>
+	<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
+
+	<script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+		integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
 
 	<meta charset="UTF-8">
 
@@ -19,7 +65,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	<!-- Font Awesome 
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet"> -->
-	<!-- place search css -->
+	<!-- PLACE SEARCH CSS -->
 	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css" />
 	<!-- Leaflet css -->
 	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css" />
@@ -30,10 +76,9 @@
 	<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
 	<!-- icons css -->
 	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
-	<!-- MAP QUEST CSS -->
-	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>
+	<!-- MAP QUEST CSS 
+	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>-->
 	<!-- PLACE SEARCH CSS -->
- 	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css"/>
 	<!-- our css -->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<!-- jQuery -->
@@ -47,8 +92,8 @@
 	<script src="https://d3js.org/d3.v3.min.js"></script>
 	<script src="https://d3js.org/topojson.v0.min.js"></script>
 	<script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>
-	<!-- Map Quest JS -->
-	<script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script>
+	<!-- Map Quest JS 
+	<script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script> -->
 
 	</head>
 
@@ -57,6 +102,7 @@
 		<div class="container">
 
 			<div id="signInArea" class="col-12">
+				<!-- REMEMBER TO DELETE DIV BELOW FOR FINAL-->
 				<div>
 					<span>Test User: </span>
 					<select id="testUserSelect" class="textboxInput">
@@ -72,11 +118,11 @@
 						<option data-email="user.test6@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Test User 6</option>
 					</select> <span>*** FOR TESTING PURPOSES ONLY ***</span>
 				</div>
-
+				<!-- REMEMBER TO DELETE DIV ABOVE FOR FINAL-->
+				
 				<button id="btn-googleSignIn" class="btn btn-dark signInBtn">Sign In With Google</button>
 				<button id="btn-noSignIn" class="btn btn-dark signInBtn">Proceed Without Google</button>
 			</div> <!-- /signInArea -->
-
 
 			<div id="mainContentArea">
 
@@ -85,7 +131,7 @@
 					<div id="header" class="col-12 jumbotron">
 
 						<p id="title">Pet Book</p>
-						<p id="subtitle">Exploring the wonderful world of pet-ownership!</p>
+						<p id="subtitle">Exploring the wonderful world of pet ownership!</p>
 
 						<!-- <a href="map.html">Location</a> -->
 
@@ -111,9 +157,13 @@
 					<div class="col-1"></div>
 
 					<div class="col-6" id="initialPetDataInputArea">
+							<a name="dataInputArea"></a>
 						<form>
 							<span class="inputLabel">Dog Name: </span>
-							<input id="petNameInput" class="textboxInput" type="text"><br>
+							<input id="petNameInput" class="textboxInput" type="text">
+							<button id="btn-clear" class="btn">Clear</button>
+
+							<br>
 
 							<span class="inputLabel">Breed: </span>
 							<input id="petBreedInput" class="textboxInput" type="text"><br>
@@ -128,8 +178,10 @@
 
 							<span class="inputLabel">Age (years): </span>
 							<input id="petAgeInput" class="textboxInput" type="number" min="0" max="50"><br>
+
 						
 							<span class="inputLabel">Weight (lbs): </span>
+
 							<input id="petWeightInput" class="textboxInput" type="number" min="0" max="999"><br>
 
 							<p>
@@ -143,8 +195,9 @@
 							</p>
 
 							<input id="btn-add" class="btn btn-dark btn-submit" type="submit" value="Add"> 
-							<!-- <button id="btn-update" class="btn btn-dark btn-submit">Update</button>
-							<button id="btn-remove" class="btn btn-dark btn-submit">Remove</button> -->
+							<button id="btn-update" class="btn btn-dark btn-submit">Update</button>
+							<button id="btn-remove" class="btn btn-dark btn-submit">Remove</button>
+
 							<br>
 							<span id="initialPetDataInputArea_error"></span>
 						</form>
@@ -162,29 +215,7 @@
 								<table>
 									<tbody id="petDataArea"> 
 
-									<!--
-									<tr class="petDataSummary">
-										<tdc lass="openCloseIcon"><span class="fas fa-plus"></span></td>
-										<td class="petName">Static Name:</td>
-										<td class="petBreed">Static Breed</td>
-										<td class="petSex">Static Sex</td>
-										<td class="petAge">Static Age</td>
-										<td class="petWeight">Static Weight</td>
-										<td class="petSize">Static Size</td>
-									</tr>
-									<tr class="petDataDetail">
-									</tr>
-									-->
 
-
-									<!--<div class="petData">
-										<span class="pet petName">Static Name:</span>
-										<span class="pet petBreed">Static Breed</span>
-										<span class="pet petSex">Static Sex</span>
-										<span class="pet petAge">Static Age</span>
-										<span class="pet petWeight">Static Weight</span>
-										<span class="pet petSize">Static Size</span>
-									</div>-->
 									</tbody><!-- /pedDataArea -->
 								</table>
 							</div> <!-- /card-body -->
@@ -208,10 +239,13 @@
 					</div><!-- /meetupArea -->
 				</div> <!-- /row -->
 
+
 				<div class="row">
 					<span class="amazon-stuff">
 						<div id="amzn-assoc-ad-cb16da6f-a242-41e1-b8b6-27ccbbf85082"></div>
+
 					</span><!-- /amazon-stuff -->
+
 				</div><!-- /row -->
 
 			</div><!-- /mainContentArea -->

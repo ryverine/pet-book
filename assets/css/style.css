@@ -1,4 +1,6 @@
 
+
+
 * {
 	font-size: 16px;
 	color: #343a40;
@@ -6,9 +8,16 @@
 
 /*** ELEMENT STYLES ***/
 
-body{
-	/*background: url(../images/background.png);*/
-}
+/* body { */
+	/* background: url(../images/dog.jpg);
+	height: 100%; 
+
+	/* Center and scale the image nicely */
+	/* background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	opacity:50%; */ 
+  /* } */
 
 table{
 	width: 100%;
@@ -26,13 +35,13 @@ table{
 	margin: auto;
 }
 
-.signInBtn{
+.signInBtn {
 	text-align: center;
 	width: 100%;
 	padding: 50px;
 	font-size: 25px;
 	font-weight: bolder;
-	color: #6c757d;
+	/* color: #6c757d; */
 	border: 5px solid #343a40;
 	margin: 20px;
 	white-space: normal;
@@ -89,6 +98,7 @@ table{
 .petName{
 	font-size: 20px;
 	text-align: left;
+
 	padding: 2px;
 }
 
@@ -134,7 +144,6 @@ table{
 
 
 /*** ID STYLES ***/
-
 
 #mainContentArea {
 	display: none;
@@ -209,6 +218,7 @@ table{
 
 
 #mapArea {
+
 	border: 2px solid #343a40;
 	padding: 10px;
 }

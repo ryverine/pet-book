@@ -1,12 +1,15 @@
 
 
+
 $(document).ready(function () 
 {
+
 	/*** GLOBAL ***/
 
 
 	var signInArea = $("#signInArea");
 	var mainContentArea = $("#mainContentArea");
+
 
 	var defaultGoogleUser = {	
 		key: "",
@@ -19,6 +22,7 @@ $(document).ready(function ()
 	var defaultPet = {
 		key: "",
 		name: ""
+
 	};
 
 	var selectedPet = defaultPet;
@@ -44,6 +48,7 @@ $(document).ready(function ()
 	/*** FUNCTIONS ***/
 
 
+
 	function updateUserInfoArea(name, email, photo)
 	{
 		if(email === "")
@@ -63,6 +68,7 @@ $(document).ready(function ()
 	}
 
 
+
 	function logReturningUser(userKey)
 	{
 		if(userKey != "")
@@ -79,12 +85,14 @@ $(document).ready(function ()
 	}
 
 
+
 	function addNewUserToDatabase()
 	{
 		console.log("addNewUserToDatabase()");
 		console.log("currentUser.name: " + currentUser.name);
 		console.log("currentUser.email: " + currentUser.email);
 		console.log("currentUser.key: " + currentUser.key);
+
 
 		var userAddedDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
 		var userLoginDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
@@ -104,6 +112,7 @@ $(document).ready(function ()
 					added: userAddedDateTime,
 					login: userLoginDateTime,
 					pets:{
+
 						pets_updated: userAddedDateTime
 					}
 				}).key;
@@ -126,6 +135,7 @@ $(document).ready(function ()
 					var petsize = userPetsArray[i].pet_size;
 		
 					database.ref().child("users/"+ newUserKey + "/pets").push(
+
 					{
 						pet_name: petname,
 						pet_breed: petbreed,
@@ -148,8 +158,9 @@ $(document).ready(function ()
 	{
 		console.log("findUserKey("+userEmail+")");
 
+
 		var userKey = "";
-		
+
 		var ref = database.ref().child("users");
 
 		ref.orderByChild("email").equalTo(userEmail).once("child_added", function(snapshot)
@@ -157,6 +168,7 @@ $(document).ready(function ()
 			if(snapshot.child("email").val().toUpperCase() === userEmail.toUpperCase())
 			{
 				console.log(userEmail + " found in DB: " + snapshot.key);
+
 				userKey = snapshot.key;
 			}
 		});
@@ -279,7 +291,9 @@ $(document).ready(function ()
 			petDataArea.append(petDataSummaryRow);
 		}
 
+
 	}
+
 
 
 	function GetIcon(color) 
@@ -299,6 +313,7 @@ $(document).ready(function ()
 	// Ajax call to locate vet, park, petsmart 
 	function mapCall(map, lattitiude, longitude, searchLocation, iconColor, getName, getAdd, getPhone) 
 	{
+
 		var queryURL = "https://api.tomtom.com/search/2/search/" + searchLocation + ".json?key=7UeVqnmHxlzBP6n8ZWtpdW82KS6nnBoM&lat=" + lattitiude + "&lon=" + longitude + "&radius=60000";
 		$.ajax({
 			url: queryURL,
@@ -319,6 +334,7 @@ $(document).ready(function ()
 					L.marker(latlng, { icon: GetIcon(iconColor) }).addTo(map).bindPopup(bound).openPopup();
 				}
 
+
 			});
 	}
 
@@ -326,6 +342,7 @@ $(document).ready(function ()
 	// locating user's current location
 	function locator() 
 	{
+
 		navigator.geolocation.getCurrentPosition(function (location) {
 			var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
 			var lat = location.coords.latitude;
@@ -358,6 +375,7 @@ $(document).ready(function ()
 
 			});
 		});
+
 	}
 
 
@@ -416,11 +434,14 @@ $(document).ready(function ()
 	}*/
 
 
+
 	/*** PAGE EVENTS ***/
+
 
 
 	$("#btn-size_xs").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
@@ -440,6 +461,7 @@ $(document).ready(function ()
 
 	$("#btn-size_sm").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
@@ -458,6 +480,7 @@ $(document).ready(function ()
 
 	$("#btn-size_md").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
@@ -476,6 +499,7 @@ $(document).ready(function ()
 
 	$("#btn-size_lg").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
@@ -494,6 +518,7 @@ $(document).ready(function ()
 
 	$("#btn-size_xl").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
@@ -512,6 +537,7 @@ $(document).ready(function ()
 
 	$("#btn-size_unk").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
@@ -695,9 +721,11 @@ $(document).ready(function ()
 
 		updateUserInfoArea(selectedUser.val().trim(), selectedUser.attr("data-email").trim(), selectedUser.attr("data-photo").trim());
 
+
 		signInArea.hide();
 		
 		mainContentArea.show();
+		locator();
 
 		var userName = selectedUser.val().trim();
 		var userEmail = selectedUser.attr("data-email").trim();
@@ -908,9 +936,8 @@ $(document).ready(function ()
 	{
 		event.preventDefault();
 		console.log("REMOVE BUTTON CLICKED");
+
 	});
-
-
 
 
 
@@ -922,7 +949,82 @@ $(document).ready(function ()
 
 	}, function(errorObject) {
 		console.log("Errors handled: " + errorObject.code);
+
 	});
+	function GetIcon(color) {
+		var icon = new L.Icon({
+		  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-' + color + '.png',
+		  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+		  iconSize: [25, 41],
+		  iconAnchor: [12, 41],
+		  popupAnchor: [1, -34],
+		  shadowSize: [41, 41]
+		});
+		return icon;
+	  }
+	
+	
+	  function mapCall(map, lattitiude, longitude, searchLocation, iconColor, getName, getAdd, getPhone) {
+		var queryURL = "https://api.tomtom.com/search/2/search/" + searchLocation + ".json?key=7UeVqnmHxlzBP6n8ZWtpdW82KS6nnBoM&lat=" + lattitiude + "&lon=" + longitude + "&radius=60000";
+		$.ajax({
+		  url: queryURL,
+		  method: "GET"
+		})
+	
+		  .then(function (response) {
+			console.log(response);
+			for (i = 0; i < response.results.length; i++) {
+			  var placeLat = response.results[i].position.lat;
+			  var placelon = response.results[i].position.lon;
+			  console.log(placeLat, placelon);
+			  var latlng = new L.LatLng(placeLat, placelon);
+	
+			  var result = response.results[i];
+			  var bound = `${getName ? result.poi.name : searchLocation} 
+				  ${getAdd ? result.address.freeformAddress : ""}
+				  ${getPhone ? result.poi.phone : ""}`
+	
+			  L.marker(latlng, { icon: GetIcon(iconColor) }).addTo(map).bindPopup(bound).openPopup();
+			}
+	
+		  });
+	  }
+	
+	
+	  navigator.geolocation.getCurrentPosition(function (location) {
+		var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
+		console.log(latlng);
+		var lat = location.coords.latitude;
+		var long = location.coords.longitude;
+		var mymap = L.map('mapid').setView(latlng, 13);
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ',
+		  {
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
+			maxZoom: 18,
+			id: 'mapbox.streets',
+			accessToken: 'sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ'
+		  }).addTo(mymap);
+		L.marker(latlng).addTo(mymap)
+		  .bindPopup("Current location").openPopup();
+	
+		$("#shopButton").on("click", function () {
+		  mapCall(mymap, lat, long, "Petsmart", "green", false, true, false);
+		});
+	
+	
+		$("#vetButton").on("click", function () {
+		  mapCall(mymap, lat, long, "veterinarian", "orange", true, false, true)
+		});
+		$("#parkButton").on("click", function () {
+		  mapCall(mymap, lat, long, "park", "red", true, false, false)
+		});
+	  });
+	
+	
+	
+	
+	
+		
 
 	*/
 

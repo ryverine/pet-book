@@ -1,6 +1,4 @@
 
-
-
 * {
 	font-size: 16px;
 	color: #343a40;
@@ -8,16 +6,9 @@
 
 /*** ELEMENT STYLES ***/
 
-/* body { */
-	/* background: url(../images/dog.jpg);
-	height: 100%; 
-
-	/* Center and scale the image nicely */
-	/* background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	opacity:50%; */ 
-  /* } */
+body{
+	/*background: url(../images/background.png);*/
+}
 
 table{
 	width: 100%;
@@ -35,13 +26,13 @@ table{
 	margin: auto;
 }
 
-.signInBtn {
+.signInBtn{
 	text-align: center;
 	width: 100%;
 	padding: 50px;
 	font-size: 25px;
 	font-weight: bolder;
-	/* color: #6c757d; */
+	color: #6c757d;
 	border: 5px solid #343a40;
 	margin: 20px;
 	white-space: normal;
@@ -98,15 +89,8 @@ table{
 .petName{
 	font-size: 20px;
 	text-align: left;
-
 	padding: 2px;
 }
-
-.petBreed{}
-.petAge{}
-.petWeight{}
-.petSex{}
-.petSize{}
 
 .petDataSummary{
 	margin: 5px;
@@ -118,11 +102,10 @@ table{
 
 .petDataDetail{
 	display: none;
-	width: 75%;
 	background-color: #EEEEEE;
 	text-align: left;
-	margin: 15px;
-	padding: 10px 5px 10px 5px;
+	margin: 5px;
+	padding: 10px 5px 10px 15px;
 	font-size: 16px;
 	font-weight: normal;
 }
@@ -142,23 +125,6 @@ table{
 }
 
 
-.btn-editPetData{
-	display: none;
-	float: right;
-	background-color: #66ff99;
-	border: 2px solid #343a40;
-	color: #343a40;
-	font-weight: bold;
-}
-
-.btn-editPetData:hover{
-	background-color: #339966;
-	border-color: #66ff99;
-	color: #66ff99;
-}
-
-
-
 /*
 .petDataSummary:hover{
 	background-color: #343a40;
@@ -168,6 +134,7 @@ table{
 
 
 /*** ID STYLES ***/
+
 
 #mainContentArea {
 	display: none;
@@ -240,8 +207,8 @@ table{
 	height: 500px;
 }
 
-#mapArea {
 
+#mapArea {
 	border: 2px solid #343a40;
 	padding: 10px;
 }
@@ -250,17 +217,4 @@ table{
 	float: right;
 }
 
-#btn-clear{
-	float: right;
-	margin: 5px;
-	background-color: #66ff99;
-	border: 2px solid #343a40;
-	color: #343a40;
-	font-weight: bold;
-}
 
-#btn-clear:hover{
-	background-color: #339966;
-	border-color: #66ff99;
-	color: #66ff99;
-}

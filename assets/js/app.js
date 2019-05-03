@@ -10,9 +10,8 @@ $(document).ready(function ()
 
 	var defaultGoogleUser = {	
 		key: "",
-		displayName: "", 
+		name: "", 
 		email: "", 
-		photoURL: ""
 	};
 
 	var currentUser = defaultGoogleUser;
@@ -45,9 +44,9 @@ $(document).ready(function ()
 	/*** FUNCTIONS ***/
 
 
-	function updateUserInfoArea(theUser)
+	function updateUserInfoArea(name, email, photo)
 	{
-		if(theUser.email === "")
+		if(email === "")
 		{
 			$("#profileImage").attr("src", "#");
 			$("#googleDisplayName").text("");
@@ -56,139 +55,133 @@ $(document).ready(function ()
 		}
 		else
 		{
-			$("#profileImage").attr("src", theUser.photoURL);
-			$("#googleDisplayName").text(theUser.displayName);
-			$("#googleEmail").text(theUser.email);
+			$("#profileImage").attr("src", photo);
+			$("#googleDisplayName").text(name);
+			$("#googleEmail").text(email);
 			$("#userProfileArea").show();
 		}
 	}
 
+
 	function logReturningUser(userKey)
 	{
-		console.log("logReturningUser("+userKey+")");
-
-		var loginDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
-
-		database.ref().child("users/"+ userKey).update(
+		if(userKey != "")
 		{
-			login: loginDateTime
-		});
+			var loginDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
 
-		populatePetData(userKey); // populates userPetsArray
+			console.log("logReturningUser("+userKey+") @ " + loginDateTime);
+
+			database.ref().child("users/"+ userKey).update(
+			{
+				login: loginDateTime
+			});
+		}
 	}
 
-	function setUserData(theUser)
-	{
-		// IF THIS IS AN EXISTING USER THEN WE WANT TO POPULATE THE PAGE WITH THEIR INFO
-		// OTHERWISE, ADD NEW USER TO DATABASE (but only if they have a pet)
 
-		var userName = theUser.displayName;
-		var userEmail = theUser.email;
-		var userPhotoURL = theUser.photoURL;
+	function addNewUserToDatabase()
+	{
+		console.log("addNewUserToDatabase()");
+		console.log("currentUser.name: " + currentUser.name);
+		console.log("currentUser.email: " + currentUser.email);
+		console.log("currentUser.key: " + currentUser.key);
+
 		var userAddedDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
 		var userLoginDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
-		
-		updateUserInfoArea(theUser);
 
-		if(userEmail != "")// only add people with email
+		var ref = database.ref().child("users");
+
+		if(currentUser.email != "")// only add people with email
 		{
-			// IS THIS A NEW USER?
-			var userKey = findUserKey(userEmail);
-
-			if(userKey === "")
-			{ 
-				//NEW USER
-				if(userPetsArray.length > 0)
+			//NEW USER, do they have a pet?
+			console.log("addNewUserToDatabase(): userPetsArray.length = " + userPetsArray.length);
+			if(userPetsArray.length > 0)
+			{
+				var newUserKey = database.ref().child("users").push(
 				{
-					var newUserKey = database.ref().child("users").push(
-					{
-						displayName: userName,
-						email: userEmail,
-						added: userAddedDateTime,
-						login: userLoginDateTime,
-						photoURL: userPhotoURL,
-						pets:{
-							pets_updated: userAddedDateTime
-						}
-					}).key;
-
-					currentUser = {
-						key: newUserKey,
-						displayName: userName,
-						email: userEmail,
-						photoURL: userPhotoURL
-					};
-
-					for (var i = 0; i < userPetsArray.length; i++)
-					{
-						var petname = userPetsArray[i].pet_name;
-						var petbreed = userPetsArray[i].pet_breed;
-						var petsex = userPetsArray[i].pet_sex;
-						var petage = userPetsArray[i].pet_age;
-						var petweight = userPetsArray[i].pet_weight;
-						var petsize = userPetsArray[i].pet_size;
-			
-						database.ref().child("users/"+ userKey + "/pets").push(
-						{
-							pet_name: petname,
-							pet_breed: petbreed,
-							pet_sex: petsex,
-							pet_age: petage,
-							pet_weight: petweight,
-							pet_size: petsize
-						});
-
-						$("#petUpdateTime").text("Last Updated: " + userAddedDateTime);
+					name: currentUser.name,
+					email: currentUser.email,
+					added: userAddedDateTime,
+					login: userLoginDateTime,
+					pets:{
+						pets_updated: userAddedDateTime
 					}
+				}).key;
+
+				console.log("NEW USER KEY:" + newUserKey);
+
+				currentUser = {
+					key: newUserKey,
+					name: currentUser.name,
+					email: currentUser.email
+				};
+
+				for (var i = 0; i < userPetsArray.length; i++)
+				{
+					var petname = userPetsArray[i].pet_name;
+					var petbreed = userPetsArray[i].pet_breed;
+					var petsex = userPetsArray[i].pet_sex;
+					var petage = userPetsArray[i].pet_age;
+					var petweight = userPetsArray[i].pet_weight;
+					var petsize = userPetsArray[i].pet_size;
+		
+					database.ref().child("users/"+ newUserKey + "/pets").push(
+					{
+						pet_name: petname,
+						pet_breed: petbreed,
+						pet_sex: petsex,
+						pet_age: petage,
+						pet_weight: petweight,
+						pet_size: petsize
+					});
+
+					$("#petUpdateTime").text("Last Updated: " + userAddedDateTime);
 				}
 			}
-			else
-			{
-				console.log("UPDATE EXISTING USER LOGIN TIME");
-
-				logReturningUser(userKey);
-			}
-		}
-		else
-		{
-			$("#profileImage").attr("src", "#");
-			$("#googleDisplayName").text("");
-			$("#googleEmail").text("");
-
-			currentUser = {
-				key: "",
-				displayName: "",
-				email: "",
-				photoURL: ""
-			};
-
-			$("#userProfileArea").hide();
 		}
 	}
 
 
-	function populatePetData(userKey)
+
+/*
+	function findUserKey(userEmail)
+	{
+		console.log("findUserKey("+userEmail+")");
+
+		var userKey = "";
+		
+		var ref = database.ref().child("users");
+
+		ref.orderByChild("email").equalTo(userEmail).once("child_added", function(snapshot)
+		{
+			if(snapshot.child("email").val().toUpperCase() === userEmail.toUpperCase())
+			{
+				console.log(userEmail + " found in DB: " + snapshot.key);
+				userKey = snapshot.key;
+			}
+		});
+
+		return userKey;
+	}
+*/
+
+
+	/*function getPetData(userKey)
 	{
 		console.log("getPetData("+userKey+")");
 
 		userPetsArray = [];
-		var petDataArea = $("#petDataArea");
-		petDataArea.empty();
 
-		//var petUpdateTime = "";
+		//ADD PET DATA TO userPetsArray
 
 		var ref = database.ref().child("users/"+userKey+"/pets");
 
+
 		ref.orderByKey().on("child_added", function(snapshot)
 		{
-  			// console.log("snapshot: " + snapshot);
-  			// console.log("snapshot.key: " + snapshot.key);
-
-			//userKey = snapshot.key;
-
 			if(snapshot.key === "pets_updated")
 			{
-				//petUpdateTime = snapshot.val();
+				console.log("getPetData: INSIDE ON - snapshot.key = pets_updated");
 			}
 			else
 			{
@@ -204,9 +197,33 @@ $(document).ready(function ()
 				userPetsArray.push(tmpPetObj);
 			}
 
+			console.log("getPetData: INSIDE ON: " + snapshot.key);
+
+		}).then(function()
+		{
+			console.log("getPetData: INSIDE THEN: " + snapshot.key);
+
+			for(var i = 0; i < userPetsArray.length; i++)
+			{
+				console.log("THEN FOR-LOOP: " + userPetsArray[i].pet_name );
+			}
+
+
+			// want to now load data of pets array onto page!!!!!!!!!!!!!!!!!!!!
+
 		});
 
-		//console.log("petUpdateTime = " + petUpdateTime);
+		console.log("getPetData("+userKey+"): END OF FUNCTION");
+
+	}*/
+
+
+	function populatePetData()
+	{
+		var petDataArea = $("#petDataArea");
+		petDataArea.empty();
+
+		console.log("populatePetData: BEFORE FOR-LOOP");
 
 		for(var i = 0; i < userPetsArray.length; i++)
 		{
@@ -261,37 +278,7 @@ $(document).ready(function ()
 
 			petDataArea.append(petDataSummaryRow);
 		}
-	}
 
-
-	function findUserKey(userEmail)
-	{
-		console.log("findUserKey("+userEmail+")");
-
-		var userKey = "";
-		
-		var ref = database.ref().child("users");
-
-		ref.orderByChild("email").equalTo(userEmail).once("child_added", function(snapshot)
-		{
-			console.log("TESTING DATABASE FOR EMAIL: " + snapshot.key);
-
-			if(snapshot.child("email").val().toUpperCase() === userEmail.toUpperCase())
-			{
-				console.log("userEmail found: " + userEmail);
-				userKey = snapshot.key;
-
-				currentUser.key = snapshot.key;
-				currentUser.name = snapshot.child("name").val();
-				currentUser.displayName = snapshot.child("displayName").val();
-				currentUser.email = snapshot.child("email").val();
-				currentUser.photoURL = snapshot.child("photoURL").val();
-				currentUser.added = snapshot.child("added").val();
-				currentUser.login = snapshot.child("login").val();
-			}
-		});
-
-		return userKey;
 	}
 
 
@@ -407,7 +394,7 @@ $(document).ready(function ()
 	}
 
 
-	function findPetKey(petName)
+	/*function findPetKey(petName)
 	{
 		console.log("findPetKey(" + petName + ")" );
 
@@ -426,7 +413,7 @@ $(document).ready(function ()
 		});
 
 		return petKey;
-	}
+	}*/
 
 
 	/*** PAGE EVENTS ***/
@@ -545,7 +532,10 @@ $(document).ready(function ()
 	$("#btn-add").on("click", function()
 	{
 		event.preventDefault();
-		//console.log("ADD BUTTON CLICKED");
+		console.log("ADD BUTTON CLICKED");
+		console.log("USER NAME: " + currentUser.name);
+		console.log("USER EMAIL: " + currentUser.email);
+		console.log("USER KEY: " + currentUser.key);
 
 		$("#initialPetDataInputArea_error").text("");
 
@@ -589,7 +579,9 @@ $(document).ready(function ()
 
 				userPetsArray.push(pet);
 
-				$("#petUpdateTime").text("Last Updated: " + moment().format("MM/DD/YYYY HH:mm:ss"));
+				var petUpdateTime = moment().format("MM/DD/YYYY HH:mm:ss");
+
+				$("#petUpdateTime").text("Last Updated: " + petUpdateTime);
 
 				if(currentUser.email != "")
 				{
@@ -605,19 +597,17 @@ $(document).ready(function ()
 							pet_size: selectedPetSize
 						});
 
-						populatePetData(currentUser.key);
-
-						var petsUpdated = moment().format("MM/DD/YYYY HH:mm:ss");
+						populatePetData();
 
 						database.ref("users/"+currentUser.key+"/pets").update(
 						{
-							pets_updated: petsUpdated
+							pets_updated: petUpdateTime
 						});
 					}
 					else
 					{
-						// this is a new user
-						setUserData(currentUser);
+						// ADD NEW USER
+						addNewUserToDatabase();
 					}
 				}
 				else
@@ -697,31 +687,24 @@ $(document).ready(function ()
 
 	$("#btn-noSignIn").on("click", function()
 	{	
-		signInArea.hide();
-		mainContentArea.show();
+		console.log("NON-GOOGLE SIGN IN");
 
 		userPetsArray = [];
 
 		var selectedUser = $("#testUserSelect").children("option:selected");
 
-		/*console.log("READING USER SELECTOR:" + "\n" + 
-			"displayName: " + selectedUser.val().trim() + "\n" + 
-			"email: " + selectedUser.attr("data-email").trim() + "\n" + 
-			"photoURL: " + selectedUser.attr("data-photo").trim()
-		);*/
+		updateUserInfoArea(selectedUser.val().trim(), selectedUser.attr("data-email").trim(), selectedUser.attr("data-photo").trim());
 
-		var selectedUserInfo = {
-			key: "",
-			displayName: selectedUser.val().trim(),
-			email: selectedUser.attr("data-email").trim(),
-			photoURL: selectedUser.attr("data-photo").trim()
-		};
+		signInArea.hide();
+		
+		mainContentArea.show();
 
-		//updateUserInfoArea(selectedUserInfo);
-		//$("#userProfileArea").show();
+		var userName = selectedUser.val().trim();
+		var userEmail = selectedUser.attr("data-email").trim();
+		var userKey = "";
 
-		setUserData(selectedUserInfo);
-
+		loadUserData(userName, userEmail, userKey);
+		
 		// MAP SECTION
 		$("#mapid").show();
 		locator();
@@ -733,22 +716,92 @@ $(document).ready(function ()
 	});
 
 
+	function loadUserData(userName, userEmail, userKey)
+	{
+		currentUser = {
+			key: "",
+			name: userName,
+			email: userEmail
+		};
+
+		var ref = database.ref().child("users");
+
+		ref.orderByChild("email").equalTo(userEmail).once("child_added").then(function(snapshot)
+		{
+			//if(snapshot.child("email").val().toUpperCase() === userEmail.toUpperCase())
+			//{
+				console.log(userEmail + " found in DB: " + snapshot.key);
+				userKey = snapshot.key;
+			//}
+
+			if(userKey === "")
+			{
+				console.log("NEW USER LOG-IN:");
+			}
+			else
+			{
+				console.log("RETURNING USER LOG-IN: " + userKey);
+
+				currentUser = {
+					key: userKey,
+					name: userName,
+					email: userEmail
+				};
+
+				var pets = snapshot.child("pets");
+				pets.forEach(function(petSnapshot) 
+				{
+					var petKey = petSnapshot.key;
+					var petData = petSnapshot.child("pet_name").val();
+
+					console.log("PETS: " + petKey + " = " + petData);
+
+					if(petKey != "pets_updated")
+					{
+						var tmpPetObj = {
+							pet_age: petSnapshot.child("pet_age").val(),
+							pet_breed: petSnapshot.child("pet_breed").val(),
+							pet_name: petSnapshot.child("pet_name").val(),
+							pet_sex: petSnapshot.child("pet_sex").val(),
+							pet_size: petSnapshot.child("pet_size").val(),
+							pet_weight: petSnapshot.child("pet_weight").val()
+						};
+		
+						userPetsArray.push(tmpPetObj);
+					}
+				});
+
+				populatePetData();
+			}
+
+			logReturningUser(userKey);
+
+		})
+		.catch(function(error)
+		{
+			console.log("USER DB Error: " + "\n" +  error);
+		});
+	}
+
+
 	$("#btn-googleSignOut").on("click", function()
 	{
 		firebase.auth().signOut();
 
-		updateUserInfoArea(defaultGoogleUser);
+		updateUserInfoArea("", "", "");
 
-		setUserData(defaultGoogleUser);
+		// THIS IS ONLY NEEDED FOR TESTING:
+		// setUserData(defaultGoogleUser);
 
 		userPetsArray = [];
-		//empty selectedPet
-
-		signInArea.show();
+		$("petDataArea").empty();
+		
 		$('.amazon-stuff').hide();
 		$('body').find('script').attr('src', '//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082').remove();
 		$("#mapid").hide();
+
 		mainContentArea.hide();
+		signInArea.show();
 	});
 
 
@@ -756,69 +809,92 @@ $(document).ready(function ()
 	{
 		var provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().useDeviceLanguage();
-
 		provider.addScope("profile");
 		provider.addScope("email");
 
 		userPetsArray = [];
 
-		return firebase.auth().signInWithPopup(provider).then(function (result) 
+		var theUser = function (provider)
 		{
-			// NEED TO PUT USER DATA INTO USER INFO AREA
-			setUserData(result.user);
+			return firebase.auth().signInWithPopup(provider).then(function (result) 
+			{
+				updateUserInfoArea(result.user.displayName, result.user.email, result.user.photoURL);
 
-			locator();
-			signInArea.hide();
-			mainContentArea.show();
+				loadUserData(result.user.displayName, result.user.email, "");
 
-		}).catch(function (error) {
+				setUserData(result.user)
+
+				locator();
+
+				signInArea.hide();
+
+				mainContentArea.show();
+
+				$('.amazon-stuff').show();
+
+				$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
+
+				$("#mapid").show();
+
+			}).catch(function (error) {
 			console.log("Google sign-in error: " + "\n" +  error);
-		});
-
-		$('.amazon-stuff').show();
-
-		$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
-
-		$("#mapid").show();
+			});
+		}
 	});
 
 
 	$(document).on("click", "button.btn-openClose", function()
 	{
-		// this picks up all text in the TD beside the TD that the button is in.
-		// including the text of the inner-DIV
-		//console.log($(this).parent().siblings(".petName").text().toUpperCase() + " BUTTON CLICKED");
-		//console.log("INNER DIV CONTENT: " + "\n" + $(this).parent().siblings(".petName").find("div").text().toUpperCase());
-
 		var buttonClasses = $(this).attr("class");
 
 		if(buttonClasses.search("fa-plus") > -1)
 		{
-			// the button currently has the + icon
 			$(this).attr("class", "btn");
 			$(this).addClass("fas");
 			$(this).addClass("fa-minus");
 			$(this).addClass("btn-openClose");
-			// show the inner div
+
 			$(this).parent().siblings(".petName").find("div").show();
 
+			var petDetailDiv = $(this).parent().siblings(".petName").children().text();
+			
+			var petDetailDivText = petDetailDiv.split("Size: ");
+
+			var size = petDetailDivText[1];
+
+			amazonSearchCall(size);
 		}
 		else if(buttonClasses.search("fa-minus") > -1)
 		{
-			// the button currently has the - icon
 			$(this).attr("class", "btn");
 			$(this).addClass("fas");
 			$(this).addClass("fa-plus");
 			$(this).addClass("btn-openClose");
-			// hide the inner div
+
 			$(this).parent().siblings(".petName").find("div").hide();
+
+			amazonSearchCall("");
 		}
 		else
 		{
-			console.log("BUTTON CLASSES: " + $(this).attr("class"));
+			// THIS SHOULD NEVER OCCUR
 		}
 
 	});
+
+	function amazonSearchCall(petSize)
+	{
+		console.log("amazonSearchCall("+petSize+")");
+
+		if(petSize === "")
+		{
+			// clear and/or hide amazon area
+		}
+		else
+		{
+			// do the amazon seach with pet size value
+		}
+	}
 
 
 	$("#btn-update").on("click", function()
@@ -838,8 +914,7 @@ $(document).ready(function ()
 
 
 
-	/*** DATABASE LISTENERS ***/
-
+	/*** DATABASE LISTENERS **
 
 	database.ref().on("child_added", function(childSnapshot) 
 	{
@@ -849,7 +924,7 @@ $(document).ready(function ()
 		console.log("Errors handled: " + errorObject.code);
 	});
 
-
+	*/
 
 
 

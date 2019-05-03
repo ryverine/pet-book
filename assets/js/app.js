@@ -1,12 +1,21 @@
+<<<<<<< HEAD
+=======
 
 
+
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 $(document).ready(function () 
 {
+
 	/*** GLOBAL ***/
 
 
 	var signInArea = $("#signInArea");
+
 	var mainContentArea = $("#mainContentArea");
+	mainContentArea.hide();
+
+
 
 	var defaultGoogleUser = {	
 		key: "",
@@ -16,12 +25,21 @@ $(document).ready(function ()
 
 	var currentUser = defaultGoogleUser;
 
+<<<<<<< HEAD
+	var selectedPet = {
+		pet_name: "",
+		pet_breed: "",
+		pet_age: "",
+		pet_weight: "",
+		pet_sex: "",
+		pet_size: ""
+=======
 	var defaultPet = {
 		key: "",
 		name: ""
-	};
 
-	var selectedPet = defaultPet;
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
+	};
 
 	var userPetsArray = [];
 
@@ -44,23 +62,28 @@ $(document).ready(function ()
 	/*** FUNCTIONS ***/
 
 
+
 	function updateUserInfoArea(name, email, photo)
 	{
 		if(email === "")
 		{
 			$("#profileImage").attr("src", "#");
+			$("#profileImage").hide();
 			$("#googleDisplayName").text("");
 			$("#googleEmail").text("");
-			$("#userProfileArea").hide();
+	
+			$("#btn-googleSignOut").hide();
 		}
 		else
 		{
 			$("#profileImage").attr("src", photo);
+			$("#profileImage").show();
 			$("#googleDisplayName").text(name);
 			$("#googleEmail").text(email);
-			$("#userProfileArea").show();
+			$("#btn-googleSignOut").show();
 		}
 	}
+
 
 
 	function logReturningUser(userKey)
@@ -68,8 +91,6 @@ $(document).ready(function ()
 		if(userKey != "")
 		{
 			var loginDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
-
-			console.log("logReturningUser("+userKey+") @ " + loginDateTime);
 
 			database.ref().child("users/"+ userKey).update(
 			{
@@ -79,22 +100,25 @@ $(document).ready(function ()
 	}
 
 
+
 	function addNewUserToDatabase()
 	{
+<<<<<<< HEAD
+=======
 		console.log("addNewUserToDatabase()");
 		console.log("currentUser.name: " + currentUser.name);
 		console.log("currentUser.email: " + currentUser.email);
 		console.log("currentUser.key: " + currentUser.key);
 
+
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 		var userAddedDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
 		var userLoginDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
 
 		var ref = database.ref().child("users");
 
-		if(currentUser.email != "")// only add people with email
+		if(currentUser.email != "")
 		{
-			//NEW USER, do they have a pet?
-			console.log("addNewUserToDatabase(): userPetsArray.length = " + userPetsArray.length);
 			if(userPetsArray.length > 0)
 			{
 				var newUserKey = database.ref().child("users").push(
@@ -104,11 +128,10 @@ $(document).ready(function ()
 					added: userAddedDateTime,
 					login: userLoginDateTime,
 					pets:{
+
 						pets_updated: userAddedDateTime
 					}
 				}).key;
-
-				console.log("NEW USER KEY:" + newUserKey);
 
 				currentUser = {
 					key: newUserKey,
@@ -126,6 +149,7 @@ $(document).ready(function ()
 					var petsize = userPetsArray[i].pet_size;
 		
 					database.ref().child("users/"+ newUserKey + "/pets").push(
+
 					{
 						pet_name: petname,
 						pet_breed: petbreed,
@@ -142,14 +166,17 @@ $(document).ready(function ()
 	}
 
 
+<<<<<<< HEAD
+=======
 
 /*
 	function findUserKey(userEmail)
 	{
 		console.log("findUserKey("+userEmail+")");
 
+
 		var userKey = "";
-		
+
 		var ref = database.ref().child("users");
 
 		ref.orderByChild("email").equalTo(userEmail).once("child_added", function(snapshot)
@@ -157,6 +184,7 @@ $(document).ready(function ()
 			if(snapshot.child("email").val().toUpperCase() === userEmail.toUpperCase())
 			{
 				console.log(userEmail + " found in DB: " + snapshot.key);
+
 				userKey = snapshot.key;
 			}
 		});
@@ -218,17 +246,14 @@ $(document).ready(function ()
 	}*/
 
 
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 	function populatePetData()
 	{
 		var petDataArea = $("#petDataArea");
 		petDataArea.empty();
 
-		console.log("populatePetData: BEFORE FOR-LOOP");
-
 		for(var i = 0; i < userPetsArray.length; i++)
 		{
-			console.log("userPetsArray["+i+"].pet_name: " + userPetsArray[i].pet_name);
-
 			var petDataSummaryRow = $("<tr>");
 			petDataSummaryRow.attr("class", "petDataSummary");
 
@@ -247,25 +272,36 @@ $(document).ready(function ()
 			nameData.attr("class", "petName");
 			nameData.text(userPetsArray[i].pet_name);
 
+			var editButton = $("<button>");
+			editButton.attr("class", "btn");
+			editButton.addClass("btn-editPetData");
+			editButton.text("Edit");
+
 			petDataSummaryRow.append(iconData);
 			petDataSummaryRow.append(nameData);
+			nameData.append(editButton);
 
 			var petDataDetailDiv = $("<div>");
 			petDataDetailDiv.attr("class", "petDataDetail");
 
 			var breedDiv = $("<div>");
+			breedDiv.attr("class", "petBreed");
 			breedDiv.text("Breed: " + userPetsArray[i].pet_breed);
 
 			var sexDiv = $("<div>");
+			sexDiv.attr("class", "petSex");
 			sexDiv.text("Sex: " + userPetsArray[i].pet_sex);
 
 			var ageDiv = $("<div>");
+			ageDiv.attr("class", "petAge");
 			ageDiv.text("Age: " + userPetsArray[i].pet_age);
 
 			var weightDiv = $("<div>");
+			weightDiv.attr("class", "petWeight");
 			weightDiv.text("Weight: " + userPetsArray[i].pet_weight);
 
 			var sizeDiv = $("<div>");
+			sizeDiv.attr("class", "petSize");
 			sizeDiv.text("Size: " + userPetsArray[i].pet_size);
 
 			petDataDetailDiv.append(breedDiv);
@@ -279,7 +315,14 @@ $(document).ready(function ()
 			petDataArea.append(petDataSummaryRow);
 		}
 
+<<<<<<< HEAD
+=======
+
 	}
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
+
+	}
+			
 
 
 	function GetIcon(color) 
@@ -296,9 +339,9 @@ $(document).ready(function ()
 	}
 	
 
-	// Ajax call to locate vet, park, petsmart 
 	function mapCall(map, lattitiude, longitude, searchLocation, iconColor, getName, getAdd, getPhone) 
 	{
+
 		var queryURL = "https://api.tomtom.com/search/2/search/" + searchLocation + ".json?key=7UeVqnmHxlzBP6n8ZWtpdW82KS6nnBoM&lat=" + lattitiude + "&lon=" + longitude + "&radius=60000";
 		$.ajax({
 			url: queryURL,
@@ -319,13 +362,14 @@ $(document).ready(function ()
 					L.marker(latlng, { icon: GetIcon(iconColor) }).addTo(map).bindPopup(bound).openPopup();
 				}
 
+
 			});
 	}
 
 
-	// locating user's current location
 	function locator() 
 	{
+
 		navigator.geolocation.getCurrentPosition(function (location) {
 			var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
 			var lat = location.coords.latitude;
@@ -358,6 +402,7 @@ $(document).ready(function ()
 
 			});
 		});
+
 	}
 
 
@@ -394,6 +439,8 @@ $(document).ready(function ()
 	}
 
 
+<<<<<<< HEAD
+=======
 	/*function findPetKey(petName)
 	{
 		console.log("findPetKey(" + petName + ")" );
@@ -416,19 +463,21 @@ $(document).ready(function ()
 	}*/
 
 
+
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 	/*** PAGE EVENTS ***/
+
 
 
 	$("#btn-size_xs").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
 
 		selectedPetSize = $(this).text().toLowerCase();
-		console.log("SELECTED PET SIZE: " + selectedPetSize);
 
-		//$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
@@ -440,15 +489,14 @@ $(document).ready(function ()
 
 	$("#btn-size_sm").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
 
 		selectedPetSize = $(this).text().toLowerCase();
-		console.log("SELECTED PET SIZE: " + selectedPetSize);
 
 		$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
-		//$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
@@ -458,16 +506,15 @@ $(document).ready(function ()
 
 	$("#btn-size_md").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
 
 		selectedPetSize = $(this).text().toLowerCase();
-		console.log("SELECTED PET SIZE: " + selectedPetSize);
 
 		$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
-		//$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
@@ -476,17 +523,16 @@ $(document).ready(function ()
 
 	$("#btn-size_lg").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
 
 		selectedPetSize = $(this).text().toLowerCase();
-		console.log("SELECTED PET SIZE: " + selectedPetSize);
 
 		$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
-		//$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
 	});
@@ -494,48 +540,41 @@ $(document).ready(function ()
 
 	$("#btn-size_xl").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
 
 		selectedPetSize = $(this).text().toLowerCase();
-		console.log("SELECTED PET SIZE: " + selectedPetSize);
 
 		$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
-		//$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
 	});
 
 
 	$("#btn-size_unk").on("click", function()
 	{
+
 		event.preventDefault();
 
 		$(this).attr("class", "btn btn-primary sizeButton_pressed");
 
 		selectedPetSize = $(this).text().toLowerCase();
 
-		console.log("SELECTED PET SIZE: " + selectedPetSize);
-
 		$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
-		//$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
 	});
 
 
 	$("#btn-add").on("click", function()
 	{
 		event.preventDefault();
-		console.log("ADD BUTTON CLICKED");
-		console.log("USER NAME: " + currentUser.name);
-		console.log("USER EMAIL: " + currentUser.email);
-		console.log("USER KEY: " + currentUser.key);
 
 		$("#initialPetDataInputArea_error").text("");
 
@@ -606,13 +645,11 @@ $(document).ready(function ()
 					}
 					else
 					{
-						// ADD NEW USER
 						addNewUserToDatabase();
 					}
 				}
 				else
 				{
-					//put div on page
 					var petDataArea = $("#petDataArea");
 
 					var petDataSummaryRow = $("<tr>");
@@ -632,28 +669,38 @@ $(document).ready(function ()
 					var nameData = $("<td>");
 					nameData.attr("class", "petName");
 					nameData.text(name);
-		
+
+					var editButton = $("<button>");
+					editButton.attr("class", "btn");
+					editButton.addClass("btn-editPetData");
+
 					petDataSummaryRow.append(iconData);
 					petDataSummaryRow.append(nameData);
+					nameData.append(editButton);
 		
 					var petDataDetailDiv = $("<div>");
 					petDataDetailDiv.attr("class", "petDataDetail");
 		
 					var breedDiv = $("<div>");
+					breedDiv.attr("class", "petBreed");
 					breedDiv.text("Breed: " + breed);
 		
 					var sexDiv = $("<div>");
+					sexDiv.attr("class", "petSex");
 					sexDiv.text("Sex: " + sex);
 		
 					var ageDiv = $("<div>");
+					ageDiv.attr("class", "petAge");
 					ageDiv.text("Age: " + age);
 		
 					var weightDiv = $("<div>");
+					weightDiv.attr("class", "petWeight");
 					weightDiv.text("Weight: " + weight);
 		
 					var sizeDiv = $("<div>");
+					sizeDiv.attr("class", "petSize");
 					sizeDiv.text("Size: " + selectedPetSize);
-		
+
 					petDataDetailDiv.append(breedDiv);
 					petDataDetailDiv.append(sexDiv);
 					petDataDetailDiv.append(ageDiv);
@@ -679,6 +726,15 @@ $(document).ready(function ()
 				$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
 				$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
 				$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
+
+				selectedPet = {
+					pet_name: "",
+					pet_breed: "",
+					pet_age: "",
+					pet_weight: "",
+					pet_sex: "",
+					pet_size: ""
+				};
 			}
 		}
 
@@ -687,29 +743,52 @@ $(document).ready(function ()
 
 	$("#btn-noSignIn").on("click", function()
 	{	
-		console.log("NON-GOOGLE SIGN IN");
-
 		userPetsArray = [];
 
+		$("petDataArea").empty();
+
+		selectedPet = {
+			pet_name: ""
+		}
+
+		selectedPetSize = "";
+
+		/*** DELETE EVERYTHING BELOW FOR FINAL ***/
 		var selectedUser = $("#testUserSelect").children("option:selected");
 
 		updateUserInfoArea(selectedUser.val().trim(), selectedUser.attr("data-email").trim(), selectedUser.attr("data-photo").trim());
 
+
 		signInArea.hide();
 		
 		mainContentArea.show();
+		locator();
 
 		var userName = selectedUser.val().trim();
 		var userEmail = selectedUser.attr("data-email").trim();
 		var userKey = "";
 
 		loadUserData(userName, userEmail, userKey);
+		/*** DELETE EVERYTHING ABOVE FOR FINAL ***/
 		
-		// MAP SECTION
+
+		/*** USE EVERYTHING BELOW FOR FINAL ***/
+		/*
+			currentUser = {
+				key: ""
+				name: "";
+				email: "";
+			}
+
+			updateUserInfoArea("", "", "";
+		*/
+		/*** USE EVERYTHING ABOVE FOR FINAL ***/
+
+
+
 		$("#mapid").show();
 		locator();
 
-		// AMAZON SECTION
 		$('.amazon-stuff').show();
 
 		$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
@@ -728,20 +807,10 @@ $(document).ready(function ()
 
 		ref.orderByChild("email").equalTo(userEmail).once("child_added").then(function(snapshot)
 		{
-			//if(snapshot.child("email").val().toUpperCase() === userEmail.toUpperCase())
-			//{
-				console.log(userEmail + " found in DB: " + snapshot.key);
-				userKey = snapshot.key;
-			//}
+			userKey = snapshot.key;
 
-			if(userKey === "")
+			if(userKey != "")
 			{
-				console.log("NEW USER LOG-IN:");
-			}
-			else
-			{
-				console.log("RETURNING USER LOG-IN: " + userKey);
-
 				currentUser = {
 					key: userKey,
 					name: userName,
@@ -749,12 +818,11 @@ $(document).ready(function ()
 				};
 
 				var pets = snapshot.child("pets");
+
 				pets.forEach(function(petSnapshot) 
 				{
 					var petKey = petSnapshot.key;
 					var petData = petSnapshot.child("pet_name").val();
-
-					console.log("PETS: " + petKey + " = " + petData);
 
 					if(petKey != "pets_updated")
 					{
@@ -790,11 +858,18 @@ $(document).ready(function ()
 
 		updateUserInfoArea("", "", "");
 
-		// THIS IS ONLY NEEDED FOR TESTING:
-		// setUserData(defaultGoogleUser);
-
 		userPetsArray = [];
 		$("petDataArea").empty();
+
+		selectedPet = {
+			pet_name: ""
+		}
+
+		currentUser = {
+			email: ""
+		}
+
+		selectedPetSize = "";
 		
 		$('.amazon-stuff').hide();
 		$('body').find('script').attr('src', '//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082').remove();
@@ -814,32 +889,29 @@ $(document).ready(function ()
 
 		userPetsArray = [];
 
-		var theUser = function (provider)
+		firebase.auth().signInWithPopup(provider).then(function (result) 
 		{
-			return firebase.auth().signInWithPopup(provider).then(function (result) 
-			{
-				updateUserInfoArea(result.user.displayName, result.user.email, result.user.photoURL);
+			updateUserInfoArea(result.user.displayName, result.user.email, result.user.photoURL);
 
-				loadUserData(result.user.displayName, result.user.email, "");
+			loadUserData(result.user.displayName, result.user.email, "");
 
-				setUserData(result.user)
+			locator();
 
-				locator();
+			signInArea.hide();
 
-				signInArea.hide();
+			mainContentArea.show();
 
-				mainContentArea.show();
+			$('.amazon-stuff').show();
 
-				$('.amazon-stuff').show();
+			$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
 
-				$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
+			$("#mapid").show();
 
-				$("#mapid").show();
-
-			}).catch(function (error) {
+		}).catch(function (error) 
+		{
 			console.log("Google sign-in error: " + "\n" +  error);
-			});
-		}
+		});
+		
 	});
 
 
@@ -847,45 +919,139 @@ $(document).ready(function ()
 	{
 		var buttonClasses = $(this).attr("class");
 
+		var editButton = $(this).parent().siblings(".petName").find("button.btn-editPetData");
+
 		if(buttonClasses.search("fa-plus") > -1)
 		{
+			$(editButton).show();
+
+			var petDataArea_parent = $("#petDataArea");
+
+			var minusButtons = $(petDataArea_parent).find("button.fa-minus");
+
+			for (var btn = 0; btn<minusButtons.length; btn++)
+			{
+				var btnClasses = $(minusButtons[btn]).attr("class");
+				if(btnClasses.search("fa-minus") > -1)
+				{
+					$(minusButtons[btn]).parent().siblings(".petName").find("div.petDataDetail").hide();
+					$(minusButtons[btn]).parent().siblings(".petName").find("button.btn-editPetData").hide();
+					
+					$(minusButtons[btn]).attr("class", "btn");
+					$(minusButtons[btn]).addClass("fas");
+					$(minusButtons[btn]).addClass("fa-plus");
+					$(minusButtons[btn]).addClass("btn-openClose");
+				}
+			}
+
 			$(this).attr("class", "btn");
 			$(this).addClass("fas");
 			$(this).addClass("fa-minus");
 			$(this).addClass("btn-openClose");
 
-			$(this).parent().siblings(".petName").find("div").show();
+			var allPetDataDivText = $(this).parent().siblings(".petName").text();
+			var findPetName = allPetDataDivText.split("Breed");
+			var name = findPetName[0].replace("Edit","");
 
-			var petDetailDiv = $(this).parent().siblings(".petName").children().text();
-			
-			var petDetailDivText = petDetailDiv.split("Size: ");
+			var petDataDetail_div = $(this).parent().siblings(".petName").find("div.petDataDetail");
+			petDataDetail_div.show();
 
-			var size = petDetailDivText[1];
+			var petBreedDivText = $(petDataDetail_div).find("div.petBreed").text();
+			var petSexDivText = $(petDataDetail_div).find("div.petSex").text();
+			var petAgeDivText = $(petDataDetail_div).find("div.petAge").text();
+			var petWeightDivText = $(petDataDetail_div).find("div.petWeight").text();
+			var petSizeDivText = $(petDataDetail_div).find("div.petSize").text();
 
-			amazonSearchCall(size);
+			petBreedDivText = petBreedDivText.split("Breed: ");
+			petSexDivText = petSexDivText.split("Sex: ");
+			petAgeDivText = petAgeDivText.split("Age: ");
+			petWeightDivText = petWeightDivText.split("Weight: ");
+			petSizeDivText = petSizeDivText.split("Size: ");
+
+			var breed = petBreedDivText[1];
+			var sex = petSexDivText[1];
+			var age = petAgeDivText[1];
+		    var weight = petWeightDivText[1];
+			var size = petSizeDivText[1];
+
+			selectedPet = {
+				pet_name: name, 
+				pet_breed: breed,
+				pet_age: age,
+				pet_weight: weight,
+				pet_sex: sex,
+				pet_size: size
+			};
+
+			amazonSearchCaller(size);
 		}
 		else if(buttonClasses.search("fa-minus") > -1)
 		{
+			$(editButton).hide();
+
 			$(this).attr("class", "btn");
 			$(this).addClass("fas");
 			$(this).addClass("fa-plus");
 			$(this).addClass("btn-openClose");
 
-			$(this).parent().siblings(".petName").find("div").hide();
+			$(this).parent().siblings(".petName").find("div.petDataDetail").hide();
 
-			amazonSearchCall("");
+			selectedPet = {
+				pet_name: "",
+				pet_breed: "",
+				pet_age: "",
+				pet_weight: "",
+				pet_sex: "",
+				pet_size: ""
+			};
+
+			amazonSearchCaller("");
 		}
 		else
 		{
 			// THIS SHOULD NEVER OCCUR
 		}
-
 	});
 
-	function amazonSearchCall(petSize)
+	$(document).on("click", "button.btn-editPetData", function()
 	{
-		console.log("amazonSearchCall("+petSize+")");
+		if(selectedPet.pet_name != "")
+		{
+			$("#petNameInput").val(selectedPet.pet_name);
+			$("#petBreedInput").val(selectedPet.pet_breed);
+			$("#petSexInput").val(selectedPet.pet_sex);
+			$("#petAgeInput").val(selectedPet.pet_age);
+			$("#petWeightInput").val(selectedPet.pet_weight);
 
+			var sizeButtons = $("#initialPetDataInputArea").find("button.sizeButton");
+
+			for (var i = 0; i<sizeButtons.length; i++)
+			{	
+				var currentSizeButton = $(sizeButtons[i]).text();
+
+				if(selectedPet.pet_size.toUpperCase() === currentSizeButton.toUpperCase())
+				{
+					$(sizeButtons[i]).attr("class", "btn");
+					$(sizeButtons[i]).addClass("btn-primary");
+					$(sizeButtons[i]).addClass("sizeButton_pressed");
+
+					selectedPetSize = selectedPet.pet_size.toLowerCase();
+				}
+				else
+				{
+					$(sizeButtons[i]).attr("class", "btn");
+					$(sizeButtons[i]).addClass("btn-primary");
+					$(sizeButtons[i]).addClass("sizeButton");
+				}
+			}
+
+			location.href='#dataInputArea';
+		}
+	});
+
+
+	function amazonSearchCaller(petSize)
+	{
 		if(petSize === "")
 		{
 			// clear and/or hide amazon area
@@ -900,32 +1066,342 @@ $(document).ready(function ()
 	$("#btn-update").on("click", function()
 	{	
 		event.preventDefault();
-		console.log("UPDATE BUTTON CLICKED");
+
+		$("#initialPetDataInputArea_error").text(dataError);
+
+		if(currentUser.email != "")
+		{
+			$("#initialPetDataInputArea_error").text("");
+
+			var name_input = $("#petNameInput").val();
+			var breed_input = $("#petBreedInput").val();
+			var sex_input = $("#petSexInput").val();
+			var age_input = $("#petAgeInput").val();
+			var weight_input = $("#petWeightInput").val();
+
+			if(	selectedPet.pet_name.toUpperCase() === name_input.toUpperCase() && 
+				selectedPet.pet_breed.toUpperCase() === breed_input.toUpperCase() && 
+				selectedPet.pet_sex.toUpperCase() === sex_input.toUpperCase() && 
+				selectedPet.pet_age.toUpperCase() === age_input && 
+				selectedPet.pet_weight.toUpperCase() === weight_input && 
+				selectedPet.pet_size.toUpperCase() === selectedPetSize.toUpperCase())
+			{
+				$("#initialPetDataInputArea_error").text("No data has been changed!");
+			}
+			else
+			{
+				if(selectedPet.pet_name != "")
+				{
+					var dataError = validatePetData(name_input, breed_input, sex_input, age_input, weight_input, selectedPetSize);
+
+					if(dataError === "")
+					{
+						for(var i = 0; i < userPetsArray.length; i++)
+						{
+							if(selectedPet.pet_name.toUpperCase() === userPetsArray[i].pet_name.toUpperCase())
+							{
+								userPetsArray[i].pet_name = name_input;
+								userPetsArray[i].pet_breed = breed_input;
+								userPetsArray[i].pet_age = age_input;
+								userPetsArray[i].pet_weight = weight_input;
+								userPetsArray[i].pet_sex = sex_input;
+								userPetsArray[i].pet_size = selectedPetSize;
+							}
+						}
+
+						populatePetData();
+
+						var petUpdateTime =  moment().format("MM/DD/YYYY HH:mm:ss");
+						$("#petUpdateTime").text(petUpdateTime);
+
+						$("#petNameInput").val("");
+						$("#petBreedInput").val("");
+						$("#petSexInput").val("");
+						$("#petAgeInput").val("");
+						$("#petWeightInput").val("");
+
+						$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
+						$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
+						$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
+						$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
+						$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
+						$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
+
+						$("#initialPetDataInputArea_error").text("");
+
+						if(currentUser.key != "")
+						{
+							var petKey = "";
+
+							var userKey = currentUser.key;
+
+							var ref = database.ref().child("users/"+userKey+"/pets");
+
+							ref.orderByChild("pet_name").equalTo(selectedPet.pet_name).once("child_added").then(function(snapshot)
+							{
+								petKey = snapshot.key
+
+								database.ref("users/"+currentUser.key+"/pets/"+petKey).update(
+								{
+									pet_name: name_input,
+									pet_breed: breed_input,
+									pet_age: age_input,
+									pet_weight: weight_input,
+									pet_sex: sex_input,
+									pet_size: selectedPetSize
+								});
+
+								database.ref("users/"+currentUser.key+"/pets").update(
+								{
+									pets_updated: petUpdateTime
+								});
+
+								selectedPetSize = "";
+
+								selectedPet = {
+									pet_name: "",
+									pet_breed: "",
+									pet_age: "",
+									pet_weight: "",
+									pet_sex: "",
+									pet_size: ""
+								};
+							});
+						}
+					}
+				}
+			}
+		}
 	});	
 
 
 	$("#btn-remove").on("click", function()
 	{
 		event.preventDefault();
+<<<<<<< HEAD
+
+		if(currentUser.email != "")
+		{
+			var petToRemoveName = $("#petNameInput").val();
+
+			if(selectedPet.pet_name != "" && selectedPet.pet_name.toUpperCase() === petToRemoveName.toUpperCase())
+			{
+				var petToRemoveIndex = -1;
+=======
 		console.log("REMOVE BUTTON CLICKED");
+
 	});
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 
+				for(var i = 0; i < userPetsArray.length; i++)
+				{
+					if(selectedPet.pet_name.toUpperCase() === userPetsArray[i].pet_name.toUpperCase())
+					{
+						petToRemoveIndex = i;
+						break;
+					}
+				}
 
+				if(petToRemoveIndex > -1)
+				{
+					var splicedArray = userPetsArray.splice(petToRemoveIndex, 1);
 
+					populatePetData();
 
+					var petUpdateTime =  moment().format("MM/DD/YYYY HH:mm:ss");
+					$("#petUpdateTime").text(petUpdateTime);
 
-	/*** DATABASE LISTENERS **
+					selectedPet = {
+						pet_name: "",
+						pet_breed: "",
+						pet_age: "",
+						pet_weight: "",
+						pet_sex: "",
+						pet_size: ""
+					};
 
-	database.ref().on("child_added", function(childSnapshot) 
-	{
-		console.log("CHILD ADDED");
+					$("#petNameInput").val("");
+					$("#petBreedInput").val("");
+					$("#petSexInput").val("");
+					$("#petAgeInput").val("");
+					$("#petWeightInput").val("");
 
+					selectedPetSize = "";
+
+					$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
+					$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
+					$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
+					$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
+					$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
+					$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
+
+					$("#initialPetDataInputArea_error").text("");
+
+					if(currentUser.key != "")
+					{
+						var petKey = "";
+
+						var userKey = currentUser.key;
+
+						var ref = database.ref().child("users/"+userKey+"/pets");
+
+						ref.orderByChild("pet_name").equalTo(petToRemoveName).once("child_added").then(function(snapshot)
+						{
+							petKey = snapshot.key
+
+							database.ref().child("users/"+userKey+"/pets/"+petKey).remove();
+
+							database.ref("users/"+currentUser.key+"/pets").update(
+							{
+								pets_updated: petUpdateTime
+							});
+
+						});
+					}
+
+				}
+
+			}
+
+			$("#initialPetDataInputArea_error").text("");
+		}
+
+<<<<<<< HEAD
+=======
 	}, function(errorObject) {
 		console.log("Errors handled: " + errorObject.code);
+
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 	});
+	function GetIcon(color) {
+		var icon = new L.Icon({
+		  iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-' + color + '.png',
+		  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+		  iconSize: [25, 41],
+		  iconAnchor: [12, 41],
+		  popupAnchor: [1, -34],
+		  shadowSize: [41, 41]
+		});
+		return icon;
+	  }
+	
+	
+	  function mapCall(map, lattitiude, longitude, searchLocation, iconColor, getName, getAdd, getPhone) {
+		var queryURL = "https://api.tomtom.com/search/2/search/" + searchLocation + ".json?key=7UeVqnmHxlzBP6n8ZWtpdW82KS6nnBoM&lat=" + lattitiude + "&lon=" + longitude + "&radius=60000";
+		$.ajax({
+		  url: queryURL,
+		  method: "GET"
+		})
+	
+		  .then(function (response) {
+			console.log(response);
+			for (i = 0; i < response.results.length; i++) {
+			  var placeLat = response.results[i].position.lat;
+			  var placelon = response.results[i].position.lon;
+			  console.log(placeLat, placelon);
+			  var latlng = new L.LatLng(placeLat, placelon);
+	
+			  var result = response.results[i];
+			  var bound = `${getName ? result.poi.name : searchLocation} 
+				  ${getAdd ? result.address.freeformAddress : ""}
+				  ${getPhone ? result.poi.phone : ""}`
+	
+			  L.marker(latlng, { icon: GetIcon(iconColor) }).addTo(map).bindPopup(bound).openPopup();
+			}
+	
+		  });
+	  }
+	
+	
+	  navigator.geolocation.getCurrentPosition(function (location) {
+		var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
+		console.log(latlng);
+		var lat = location.coords.latitude;
+		var long = location.coords.longitude;
+		var mymap = L.map('mapid').setView(latlng, 13);
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ',
+		  {
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
+			maxZoom: 18,
+			id: 'mapbox.streets',
+			accessToken: 'sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ'
+		  }).addTo(mymap);
+		L.marker(latlng).addTo(mymap)
+		  .bindPopup("Current location").openPopup();
+	
+		$("#shopButton").on("click", function () {
+		  mapCall(mymap, lat, long, "Petsmart", "green", false, true, false);
+		});
+	
+	
+		$("#vetButton").on("click", function () {
+		  mapCall(mymap, lat, long, "veterinarian", "orange", true, false, true)
+		});
+		$("#parkButton").on("click", function () {
+		  mapCall(mymap, lat, long, "park", "red", true, false, false)
+		});
+	  });
+	
+	
+	
+	
+	
+		
 
-	*/
 
+	$("#btn-clear").on("click", function()
+	{
+		event.preventDefault();
+		
+		$("#petNameInput").val("");
+		$("#petBreedInput").val("");
+		$("#petSexInput").val("");
+		$("#petAgeInput").val("");
+		$("#petWeightInput").val("");
+
+		selectedPetSize = "";
+
+		$("#btn-size_xs").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_sm").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_md").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
+		$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
+
+		$("#initialPetDataInputArea_error").text("");
+
+		selectedPet = {
+			pet_name: "",
+			pet_breed: "",
+			pet_age: "",
+			pet_weight: "",
+			pet_sex: "",
+			pet_size: ""
+		};
+
+		var petDataArea_parent = $("#petDataArea");
+
+		var petNameTd = petDataArea_parent.find("td.petName");
+
+		var openCloseButtons = petDataArea_parent.find("button.btn-openClose");
+
+		var editButtons = petDataArea_parent.find("button.btn-editPetData");
+
+		var petDataDetailDivs = petDataArea_parent.find("div.petDataDetail");
+
+		for( var i = 0; i < petNameTd.length; i++)
+		{
+			$(openCloseButtons[i]).attr("class", "btn");
+			$(openCloseButtons[i]).addClass("fas");
+			$(openCloseButtons[i]).addClass("fa-plus");
+			$(openCloseButtons[i]).addClass("btn-openClose");
+
+			$(editButtons[i]).hide();
+			
+			$(petDataDetailDivs[i]).hide();
+		}
+
+	});
 
 });
 

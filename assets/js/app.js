@@ -3,6 +3,9 @@
 
 
 
+<<<<<<< HEAD
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
+=======
 >>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 $(document).ready(function () 
 {
@@ -14,6 +17,7 @@ $(document).ready(function ()
 
 	var mainContentArea = $("#mainContentArea");
 	mainContentArea.hide();
+
 
 
 
@@ -37,6 +41,11 @@ $(document).ready(function ()
 	var defaultPet = {
 		key: "",
 		name: ""
+<<<<<<< HEAD
+=======
+
+	};
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 
 >>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 	};
@@ -111,6 +120,9 @@ $(document).ready(function ()
 		console.log("currentUser.key: " + currentUser.key);
 
 
+<<<<<<< HEAD
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
+=======
 >>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 		var userAddedDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
 		var userLoginDateTime = moment().format("MM/DD/YYYY HH:mm:ss");
@@ -316,13 +328,17 @@ $(document).ready(function ()
 		}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 
 	}
 >>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 
 	}
 			
+
 
 
 	function GetIcon(color) 
@@ -464,6 +480,9 @@ $(document).ready(function ()
 
 
 
+<<<<<<< HEAD
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
+=======
 >>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 	/*** PAGE EVENTS ***/
 
@@ -1189,6 +1208,7 @@ $(document).ready(function ()
 				var petToRemoveIndex = -1;
 =======
 		console.log("REMOVE BUTTON CLICKED");
+<<<<<<< HEAD
 
 	});
 >>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
@@ -1205,6 +1225,10 @@ $(document).ready(function ()
 				if(petToRemoveIndex > -1)
 				{
 					var splicedArray = userPetsArray.splice(petToRemoveIndex, 1);
+=======
+
+	});
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 
 					populatePetData();
 
@@ -1271,6 +1295,9 @@ $(document).ready(function ()
 	}, function(errorObject) {
 		console.log("Errors handled: " + errorObject.code);
 
+<<<<<<< HEAD
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
+=======
 >>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 	});
 	function GetIcon(color) {
@@ -1347,6 +1374,7 @@ $(document).ready(function ()
 	
 	
 		
+<<<<<<< HEAD
 
 
 	$("#btn-clear").on("click", function()
@@ -1367,6 +1395,8 @@ $(document).ready(function ()
 		$("#btn-size_lg").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_xl").attr("class", "btn btn-primary sizeButton");
 		$("#btn-size_unk").attr("class", "btn btn-primary sizeButton");
+=======
+>>>>>>> 7e368c8117571430a4809e8143a64be31baaae70
 
 		$("#initialPetDataInputArea_error").text("");
 

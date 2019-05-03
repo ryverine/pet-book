@@ -98,9 +98,14 @@ table{
 .petName{
 	font-size: 20px;
 	text-align: left;
-
 	padding: 2px;
 }
+
+.petBreed{}
+.petAge{}
+.petWeight{}
+.petSex{}
+.petSize{}
 
 .petDataSummary{
 	margin: 5px;
@@ -112,10 +117,11 @@ table{
 
 .petDataDetail{
 	display: none;
+	width: 75%;
 	background-color: #EEEEEE;
 	text-align: left;
-	margin: 5px;
-	padding: 10px 5px 10px 15px;
+	margin: 15px;
+	padding: 10px 5px 10px 5px;
 	font-size: 16px;
 	font-weight: normal;
 }
@@ -133,6 +139,23 @@ table{
 	background-color: #343a40;
 	color: #ffc107;
 }
+
+
+.btn-editPetData{
+	display: none;
+	float: right;
+	background-color: #66ff99;
+	border: 2px solid #343a40;
+	color: #343a40;
+	font-weight: bold;
+}
+
+.btn-editPetData:hover{
+	background-color: #339966;
+	border-color: #66ff99;
+	color: #66ff99;
+}
+
 
 
 /*
@@ -216,7 +239,6 @@ table{
 	height: 500px;
 }
 
-
 #mapArea {
 
 	border: 2px solid #343a40;
@@ -227,4 +249,17 @@ table{
 	float: right;
 }
 
+#btn-clear{
+	float: right;
+	margin: 5px;
+	background-color: #66ff99;
+	border: 2px solid #343a40;
+	color: #343a40;
+	font-weight: bold;
+}
 
+#btn-clear:hover{
+	background-color: #339966;
+	border-color: #66ff99;
+	color: #66ff99;
+}

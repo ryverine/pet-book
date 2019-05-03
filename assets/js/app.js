@@ -927,13 +927,6 @@ $(document).ready(function ()
 	*/
 
 
-
-
-	
-	
-	
-		
-
 });
 
 

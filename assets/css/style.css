@@ -1,3 +1,6 @@
+
+
+
 * {
 	font-size: 16px;
 	color: #232425;
@@ -8,16 +11,14 @@
 
 body { 
 	 background: url(../images/yellowbluepaw.svg);
-	/* height: 100%;  */
-	/* background-repeat: no-repeat; */
-
-	/* Center and scale the image nicely */
-	 /* background-position: center; */
-	/* background-size: cover; */
-	/* opacity:50%; */
   }
 
+table{
+	width: 100%;
+}
+
 /*** CLASS STYLES ***/
+
 
 .amazon-stuff {
 	display: none;
@@ -88,18 +89,93 @@ form{
 	vertical-align: bottom;
 }
 
-.pet {
+.sizeButton{
+	border: 2px solid #004a99; /* primary: #007bff; */
+}
+
+.sizeButton_pressed{
+	background-color: #6c757d;
+	border: 2px solid #6c757d;
+}
+
+.tableDataIndent{
+	width: 25px;
+	padding: 2px;
+	text-align: center;
+}
+
+.petName{
+	font-size: 20px;
+	text-align: left;
 	padding: 2px;
 }
 
-.petData {
-	margin: 2px;
-	padding: 2px;
+.petBreed{}
+.petAge{}
+.petWeight{}
+.petSex{}
+.petSize{}
+
+.petDataSummary{
+	margin: 5px;
+	padding: 5px;
 	background-color: #6c757d;
+	border: 2px solid #343a40;
 	/* border: 2px solid #343a40; */
 	color: white;
 	font-weight: bold;
 }
+
+.petDataDetail{
+	display: none;
+	width: 75%;
+	background-color: #EEEEEE;
+	text-align: left;
+	margin: 15px;
+	padding: 10px 5px 10px 5px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+.btn-openClose{
+	border: 2px solid #343a40;
+	padding: 5px;
+	background-color: #ffc107;
+	color: #343a40;
+	font-size: 20px;
+}
+
+.btn-openClose:hover{
+	border-color: #ffc107;
+	background-color: #343a40;
+	color: #ffc107;
+}
+
+
+.btn-editPetData{
+	display: none;
+	float: right;
+	background-color: #66ff99;
+	border: 2px solid #343a40;
+	color: #343a40;
+	font-weight: bold;
+}
+
+.btn-editPetData:hover{
+	background-color: #339966;
+	border-color: #66ff99;
+	color: #66ff99;
+}
+
+
+
+/*
+.petDataSummary:hover{
+	background-color: #343a40;
+	color: #ffc107;
+	border-color: #ffc107;
+}*/
+
 
 /*** ID STYLES ***/
 
@@ -191,8 +267,18 @@ padding:0;
 	display: none;
 }
 
-#petDataInputArea {
-	/* border: 0.5px solid; */
+#initialPetDataInputArea{
+	border: 2px solid #343a40;
+}
+
+#initialPetDataInputArea_error{
+	font-weight: bold;
+	color: red;
+}
+
+#petDataDisplayArea {
+	border: 2px solid #343a40;
+	padding: 10px;
 }
 .mapBtn,.sizeBtn{
 	background-color:#28639e;
@@ -211,11 +297,33 @@ padding:0;
 }
 
 #mapid {
-	width: 300px;
-	height: 300px;
+	width: 500px;
+	height: 500px;
 }
 
 #mapArea {
+
+	border: 2px solid #343a40;
+	padding: 10px;
+}
+
+#petUpdateTime{
+	float: right;
+}
+
+#btn-clear{
+	float: right;
+	margin: 5px;
+	background-color: #66ff99;
+	border: 2px solid #343a40;
+	color: #343a40;
+	font-weight: bold;
+}
+
+#btn-clear:hover{
+	background-color: #339966;
+	border-color: #66ff99;
+	color: #66ff99;
 	/* border: 2px solid #343a40; */
 	padding: 10px;
 }
@@ -227,11 +335,11 @@ padding:0;
 }
 
 #mapid {
+	
 	width: 400px;
 	height: 400px;
 }
 #placeDiv{
-	width: 60%;
 	margin-left: 30px;
 	font-size: 0.9em;
 }

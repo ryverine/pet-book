@@ -66,6 +66,10 @@ table{
 	border: 2px solid #343a40;
 }
 
+select{
+	border: 2px solid #343a40;
+	margin: 2px;
+}
 .textboxInput {
 	border: 2px solid #343a40;
 	margin: 2px;

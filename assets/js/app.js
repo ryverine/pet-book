@@ -946,43 +946,6 @@ $(document).ready(function ()
 
 			location.href='#dataInputArea';
 		}
-	});
-
-
-	function amazonSearchCaller(petSize)
-	{
-		if(petSize === "")
-		{
-			$("#petNameInput").val(selectedPet.pet_name);
-			$("#petBreedInput").val(selectedPet.pet_breed);
-			$("#petSexInput").val(selectedPet.pet_sex);
-			$("#petAgeInput").val(selectedPet.pet_age);
-			$("#petWeightInput").val(selectedPet.pet_weight);
-
-			var sizeButtons = $("#initialPetDataInputArea").find("button.sizeButton");
-
-			for (var i = 0; i<sizeButtons.length; i++)
-			{	
-				var currentSizeButton = $(sizeButtons[i]).text();
-
-				if(selectedPet.pet_size.toUpperCase() === currentSizeButton.toUpperCase())
-				{
-					$(sizeButtons[i]).attr("class", "btn");
-					$(sizeButtons[i]).addClass("btn-primary");
-					$(sizeButtons[i]).addClass("sizeButton_pressed");
-
-					selectedPetSize = selectedPet.pet_size.toLowerCase();
-				}
-				else
-				{
-					$(sizeButtons[i]).attr("class", "btn");
-					$(sizeButtons[i]).addClass("btn-primary");
-					$(sizeButtons[i]).addClass("sizeButton");
-				}
-			}
-
-			location.href='#dataInputArea';
-		}
 	};
 
 	$("#btn-update").on("click", function()

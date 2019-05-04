@@ -2,6 +2,8 @@ $(document).ready(function ()
 {
 
 	/*** GLOBAL ***/
+	$('#size-buttons').hide();
+	var daBreed = '';
 
 
 	var signInArea = $("#signInArea");
@@ -55,7 +57,9 @@ $(document).ready(function ()
 			$("#profileImage").attr("src", "#");
 			$("#profileImage").hide();
 			$("#googleDisplayName").text("");
+			$("#googleDisplayName").hide();
 			$("#googleEmail").text("");
+			$("#googleEmail").hide();
 	
 			$("#btn-googleSignOut").hide();
 		}
@@ -64,7 +68,9 @@ $(document).ready(function ()
 			$("#profileImage").attr("src", photo);
 			$("#profileImage").show();
 			$("#googleDisplayName").text(name);
+			$("#googleDisplayName").show();
 			$("#googleEmail").text(email);
+			$("#googleEmail").show();
 			$("#btn-googleSignOut").show();
 		}
 	}
@@ -140,6 +146,34 @@ $(document).ready(function ()
 			}
 		}
 	}
+		//Dog Api Stuff
+$(window).on('load', function(){
+	var daApiKey = '8caa0b90-fa26-4fb2-aa58-a8839c55fb4a'; 
+	$.ajax({
+		url: 'https://api.TheDogAPI.com/v1/breeds?&api_key='+daApiKey,
+		method: "GET"
+	  }).then(function(breeds) {
+	   $('#breeds').append(`<option value="-1">Choose a breed:</option>`);
+	   $('#breeds').append(`<option value="0">Other/Unlisted</option>`);
+		breeds.map(function(breed){
+		  $('#breeds').append(`<option value="${breed.id}" data-weight="${breed.weight.imperial}">${breed.name}</option>`);
+		  });
+	  });
+  });
+
+  $('#breeds').on('change', function(event){
+    var daWeight = $('#breeds option:selected').attr('data-weight');
+	daBreed = $('#breeds option:selected').text();
+	if (daBreed != "Other/Unlisted"){
+    	let daWeightArray= getWeights(daWeight);
+		let daAverageWeight = averageWeight(daWeightArray);
+		let category = decideCategory(daAverageWeight);
+	}
+	else {
+		$('#size-buttons').show();
+	}
+	return daBreed;
+});
 
 
 	function populatePetData()
@@ -353,6 +387,41 @@ $(document).ready(function ()
 	});
 
 
+function getWeights(daWeight){
+    var range = daWeight.split("-");
+    range[0] = parseInt(range[0].trim());
+    range[1] = parseInt(range[1].trim());
+    return range;
+}
+
+function averageWeight(daWeightArray){
+    var averageWeight = (daWeightArray[1] + daWeightArray[0])/2;
+    return averageWeight;
+}
+
+function decideCategory(weights){
+    var category = '';
+    
+    if (weights <= 12){
+        category='toy';
+    }
+    else if (weights < 25){
+        category = 'small';
+    }
+    else if (weights < 50){
+        category = 'medium';
+    }
+    else if (weights < 100){
+        category = 'large';
+    }
+    else{
+        category = 'giant';
+    }
+    amazonCall(category);
+	selectedPetSize = category;
+	return selectedPetSize; 
+}
+
 	$("#btn-add").on("click", function()
 	{
 		event.preventDefault();
@@ -360,7 +429,7 @@ $(document).ready(function ()
 		$("#initialPetDataInputArea_error").text("");
 
 		var name = $("#petNameInput").val();
-		var breed = $("#petBreedInput").val();
+		var breed = daBreed;
 		var sex = $("#petSexInput").val();
 		var age = $("#petAgeInput").val();
 		var weight = $("#petWeightInput").val();
@@ -454,6 +523,7 @@ $(document).ready(function ()
 					var editButton = $("<button>");
 					editButton.attr("class", "btn");
 					editButton.addClass("btn-editPetData");
+					editButton.text("Edit");
 
 					petDataSummaryRow.append(iconData);
 					petDataSummaryRow.append(nameData);
@@ -524,6 +594,8 @@ $(document).ready(function ()
 
 	$("#btn-noSignIn").on("click", function()
 	{	
+		$("body").css("backgroundImage", "url(assets/images/yellowtexture.jpg)");
+
 		userPetsArray = [];
 
 		$("petDataArea").empty();
@@ -534,35 +606,35 @@ $(document).ready(function ()
 
 		selectedPetSize = "";
 
-		/*** DELETE EVERYTHING BELOW FOR FINAL ***/
+		/*** DELETE EVERYTHING BELOW FOR FINAL
 		var selectedUser = $("#testUserSelect").children("option:selected");
-
 		updateUserInfoArea(selectedUser.val().trim(), selectedUser.attr("data-email").trim(), selectedUser.attr("data-photo").trim());
-
 		signInArea.hide();
 		
 		mainContentArea.show();
 		locator();
-
 		var userName = selectedUser.val().trim();
 		var userEmail = selectedUser.attr("data-email").trim();
 		var userKey = "";
-
 		loadUserData(userName, userEmail, userKey);
 		/*** DELETE EVERYTHING ABOVE FOR FINAL ***/
 		
 
 		/*** USE EVERYTHING BELOW FOR FINAL ***/
-		/*
+		
 			currentUser = {
-				key: ""
-				name: "";
-				email: "";
-			}
-			updateUserInfoArea("", "", "";
-		*/
-		/*** USE EVERYTHING ABOVE FOR FINAL ***/
+				key: "",
+				name: "",
+				email: ""
+			};
 
+			updateUserInfoArea("", "", "");
+
+			signInArea.hide();
+
+			mainContentArea.show();
+
+			locator();
 
 
 		
@@ -653,7 +725,7 @@ $(document).ready(function ()
 		
 		$('.amazon-stuff').hide();
 		$('body').find('#amazon-code').remove();
-		$("#mapid").hide();
+		
 		mainContentArea.hide();
 		signInArea.show();
 	});
@@ -661,6 +733,8 @@ $(document).ready(function ()
 
 	$("#btn-googleSignIn").on("click", function()
 	{
+		$("body").css("backgroundImage", "url(assets/images/yellowtexture.jpg)");
+
 		var provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().useDeviceLanguage();
 		provider.addScope("profile");
@@ -681,7 +755,7 @@ $(document).ready(function ()
 			mainContentArea.show();
 			
 				amazonCall('default');
-				$("#mapid").show();
+				
 
 
 		}).catch(function (error) 
@@ -831,7 +905,6 @@ $(document).ready(function ()
 		}
 	});
 
-
 	function amazonSearchCaller(petSize)
 	{
 		if(petSize === "")
@@ -866,7 +939,8 @@ $(document).ready(function ()
 
 			location.href='#dataInputArea';
 		}
-	};
+	}
+
 
 	$("#btn-update").on("click", function()
 	{	
@@ -1122,8 +1196,118 @@ $(document).ready(function ()
 		}
 
 	});
+
+
+		// Map Marker icon
+
+		function GetIcon(color) {
+			var icon = new L.Icon({
+				iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-' + color + '.png',
+				shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+				iconSize: [25, 41],
+				iconAnchor: [12, 41],
+				popupAnchor: [1, -34],
+				shadowSize: [41, 41]
+			});
+			return icon;
+		}
 	
-	//Amazon Ad Creation
+		// Ajax call to locate vet, park, petsmart 
+	
+		function mapCall(map, lattitiude, longitude, searchLocation, iconColor, getName, getAdd, getPhone, getDist) {
+			var queryURL = "https://api.tomtom.com/search/2/search/" + searchLocation + ".json?key=7UeVqnmHxlzBP6n8ZWtpdW82KS6nnBoM&lat=" + lattitiude + "&lon=" + longitude + "&radius=1500000&limit=10";
+			$.ajax({
+				url: queryURL,
+				method: "GET"
+			})
+	
+				.then(function (response) {
+					for (i = 0; i < response.results.length; i++) {
+						var placeLat = response.results[i].position.lat;
+						var placelon = response.results[i].position.lon;
+						var latlng = new L.LatLng(placeLat, placelon);
+	
+						var result = response.results[i];
+						var bound = `<b>${getName ? result.poi ? result.poi.name : searchLocation : searchLocation} </b><br>
+				 <span> ${getAdd ? result.address ? result.address.freeformAddress : "" : ""}</span><br>
+					<div class="cell-number">${getPhone ? result.poi ? result.poi.phone : "" : ""}</div>
+					${getDist ? result.address ? ((result.dist) * 0.00062137).toFixed(2) +
+								"miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles"}`
+						var row = $("<tr>");
+						var nameTd = $("<td>");
+						var phoneTd = $("<td>");
+						var addTd = $("<td>");
+						var distTd = $("<td>");
+						var name = result.poi ? result.poi.name : searchLocation;
+						var phone = result.poi ? result.poi.phone ? result.poi.phone : "" : "";
+						var addDist = result.address ? ((result.dist) * 0.00062137).toFixed(2) +
+							"miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles";
+	
+						nameTd.append(name + " ").addClass("col-3");
+						phoneTd.append(phone + " ").addClass("col-3");
+						addTd.append(response.results[i].address.freeformAddress).addClass("col-3");
+						distTd.append(addDist).addClass("col-2");
+						row.append(nameTd, phoneTd, addTd, distTd).addClass("row");
+						$("#placeDiv").append(row);
+	
+						L.marker(latlng, { icon: GetIcon(iconColor) }).addTo(map).bindPopup(bound).openPopup().on('click', function (e) {
+	
+							$('#placeDiv tr td').each(function () {
+								var contentNodeVal = ($(e.target._popup._contentNode).find('div.cell-number').text() == '') ? $(e.target._popup._contentNode).find('b').text() : $(e.target._popup._contentNode).find('div.cell-number').text();
+								if ($.trim($(this).text()) === $.trim(contentNodeVal)) {
+	
+									$(this).closest('tr').fadeOut(500).fadeIn(1000).fadeOut(500).fadeIn(1000).fadeOut(500).fadeIn(1000);
+	
+								}
+							});
+						})
+					}
+	
+				});
+	
+	
+		}
+	
+		function locator() {
+	
+			navigator.geolocation.getCurrentPosition(function (location) {
+				var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
+				var lat = location.coords.latitude;
+				var long = location.coords.longitude;
+				var mymap = L.map('mapid').setView(latlng, 13);
+				L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ',
+					{
+						attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
+						maxZoom: 18,
+						id: 'mapbox.streets',
+						accessToken: 'sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ'
+					}).addTo(mymap);
+				L.marker(latlng).addTo(mymap)
+					.bindPopup("Current location").openPopup();
+	
+				$("#shopButton").on("click", function () {
+					mapCall(mymap, lat, long, "Petsmart", "green", false, true, true, true);
+					$("#placeDiv").empty();
+				});
+	
+	
+				$("#vetButton").on("click", function () {
+					mapCall(mymap, lat, long, "Veterinarian", "orange", true, true, true, true);
+					$("#placeDiv").empty();
+	
+				});
+				$("#parkButton").on("click", function () {
+					mapCall(mymap, lat, long, "Park", "red", true, true, false, true);
+					$("#placeDiv").empty();
+	
+				});
+			});
+	
+	
+		};
+});
+
+//Amazon Ad Creation
 	function amazonCall(value){
 	
 		if (value === 'default'){        
@@ -1145,123 +1329,11 @@ $(document).ready(function ()
 			adNumber = "3a0f512b-d192-4ca5-b706-54636b0265e7";
 		}
 	
-		renderScript(adNumber)
+		renderScript(adNumber);
 	}
 	
 	function renderScript(adNumber){
-		var associate=
 		$('.amazon-stuff').show();
 		$('body').append('<script id="amazon-code" async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + adNumber + '"></script>');
 		$('.amazon-stuff').attr('id', "amzn-assoc-ad-" + adNumber);
-	}
-
-	// Map Marker icon
-
-	function GetIcon(color) {
-		var icon = new L.Icon({
-			iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-' + color + '.png',
-			shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-			iconSize: [25, 41],
-			iconAnchor: [12, 41],
-			popupAnchor: [1, -34],
-			shadowSize: [41, 41]
-		});
-		return icon;
-	}
-
-	// Ajax call to locate vet, park, petsmart 
-
-	function mapCall(map, lattitiude, longitude, searchLocation, iconColor, getName, getAdd, getPhone, getDist) {
-		var queryURL = "https://api.tomtom.com/search/2/search/" + searchLocation + ".json?key=7UeVqnmHxlzBP6n8ZWtpdW82KS6nnBoM&lat=" + lattitiude + "&lon=" + longitude + "&radius=1500000&limit=10";
-		$.ajax({
-			url: queryURL,
-			method: "GET"
-		})
-
-			.then(function (response) {
-				for (i = 0; i < response.results.length; i++) {
-					var placeLat = response.results[i].position.lat;
-					var placelon = response.results[i].position.lon;
-					var latlng = new L.LatLng(placeLat, placelon);
-
-					var result = response.results[i];
-					var bound = `<b>${getName ? result.poi ? result.poi.name : searchLocation : searchLocation} </b><br>
-			 <span> ${getAdd ? result.address ? result.address.freeformAddress : "" : ""}</span><br>
-				<div class="cell-number">${getPhone ? result.poi ? result.poi.phone : "" : ""}</div>
-				${getDist ? result.address ? ((result.dist) * 0.00062137).toFixed(2) +
-							"miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles"}`
-					var row = $("<tr>");
-					var nameTd = $("<td>");
-					var phoneTd = $("<td>");
-					var addTd = $("<td>");
-					var distTd = $("<td>");
-					var name = result.poi ? result.poi.name : searchLocation;
-					var phone = result.poi ? result.poi.phone ? result.poi.phone : "" : "";
-					var addDist = result.address ? ((result.dist) * 0.00062137).toFixed(2) +
-						"miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles";
-
-					nameTd.append(name + " ").addClass("col-3");
-					phoneTd.append(phone + " ").addClass("col-3");
-					addTd.append(response.results[i].address.freeformAddress).addClass("col-3");
-					distTd.append(addDist).addClass("col-2");
-					row.append(nameTd, phoneTd, addTd, distTd).addClass("row");
-					$("#placeDiv").append(row);
-
-					L.marker(latlng, { icon: GetIcon(iconColor) }).addTo(map).bindPopup(bound).openPopup().on('click', function (e) {
-
-						$('#placeDiv tr td').each(function () {
-							var contentNodeVal = ($(e.target._popup._contentNode).find('div.cell-number').text() == '') ? $(e.target._popup._contentNode).find('b').text() : $(e.target._popup._contentNode).find('div.cell-number').text();
-							if ($.trim($(this).text()) === $.trim(contentNodeVal)) {
-
-								$(this).closest('tr').fadeOut(500).fadeIn(1000).fadeOut(500).fadeIn(1000).fadeOut(500).fadeIn(1000);
-
-							}
-						});
-					})
-				}
-
-			});
-
-
-	}
-
-	function locator() {
-
-		navigator.geolocation.getCurrentPosition(function (location) {
-			var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
-			var lat = location.coords.latitude;
-			var long = location.coords.longitude;
-			var mymap = L.map('mapid').setView(latlng, 13);
-			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ',
-				{
-					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
-					maxZoom: 18,
-					id: 'mapbox.streets',
-					accessToken: 'sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ'
-				}).addTo(mymap);
-			L.marker(latlng).addTo(mymap)
-				.bindPopup("Current location").openPopup();
-
-			$("#shopButton").on("click", function () {
-				mapCall(mymap, lat, long, "Petsmart", "green", false, true, true, true);
-				$("#placeDiv").empty();
-			});
-
-
-			$("#vetButton").on("click", function () {
-				mapCall(mymap, lat, long, "Veterinarian", "orange", true, true, true, true);
-				$("#placeDiv").empty();
-
-			});
-			$("#parkButton").on("click", function () {
-				mapCall(mymap, lat, long, "Park", "red", true, true, false, true);
-				$("#placeDiv").empty();
-
-			});
-		});
-
-
-	}
-
-
-});
+	};

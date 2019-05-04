@@ -154,8 +154,11 @@
 
 							<br>
 
+							<div id="breed-selector">
 							<span class="inputLabel">Breed: </span>
-							<input id="petBreedInput" class="textboxInput" type="text"><br>
+							<select id="breeds"><option id="hi"></option></select>
+							</div>
+    						
 
 							<span class="inputLabel">Sex: </span>
 							<select id="petSexInput" class="textboxInput">
@@ -173,7 +176,7 @@
 
 							<input id="petWeightInput" class="textboxInput" type="number" min="0" max="999"><br>
 
-							<p>
+							<div id="size-buttons">
 								<span class="inputLabel">Size: </span>
 								<button id="btn-size_xs" class="btn btn-primary sizeButton">Toy</button>
 								<button id="btn-size_sm" class="btn btn-primary sizeButton">Small</button>
@@ -181,7 +184,7 @@
 								<button id="btn-size_lg" class="btn btn-primary sizeButton">Large</button>
 								<button id="btn-size_xl" class="btn btn-primary sizeButton">Giant</button>
 								<button id="btn-size_unk" class="btn btn-primary sizeButton">Unknown</button>
-							</p>
+							</div>
 
 							<input id="btn-add" class="btn btn-dark btn-submit" type="submit" value="Add"> 
 							<button id="btn-update" class="btn btn-dark btn-submit">Update</button>

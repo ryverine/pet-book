@@ -458,6 +458,7 @@ $(document).ready(function ()
 					var editButton = $("<button>");
 					editButton.attr("class", "btn");
 					editButton.addClass("btn-editPetData");
+					editButton.text("Edit");
 
 					petDataSummaryRow.append(iconData);
 					petDataSummaryRow.append(nameData);
@@ -1136,39 +1137,6 @@ $(document).ready(function ()
 	});
 
 
-
-//Amazon Ad Creation
-	function amazonCall(value){
-	
-		if (value === 'default'){        
-			adNumber = "e424212e-9204-4bd4-a2fa-a8e7756224bb"
-		}
-		else if (value === 'toy'){
-			adNumber = "1240f999-982e-475d-a716-68fd573e20fd"
-		}
-		else if (value === 'small'){
-			adNumber = "9ad26b02-fb0a-4a65-ac0a-97f1c1ad622e";
-		}
-		else if (value === 'medium'){
-			adNumber = "f4fd1476-7679-4441-a186-3ac1f1cdd847";
-		}
-		else if (value === 'large'){
-			adNumber = "79d5d92b-25ec-491c-9256-bf33765ab7e1";
-		}
-		else{
-			adNumber = "3a0f512b-d192-4ca5-b706-54636b0265e7";
-		}
-	
-		renderScript(adNumber)
-	}
-	
-	function renderScript(adNumber){
-		var associate=
-		$('.amazon-stuff').show();
-		$('body').append('<script id="amazon-code" async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + adNumber + '"></script>');
-		$('.amazon-stuff').attr('id', "amzn-assoc-ad-" + adNumber);
-	}
-
 		// Map Marker icon
 
 		function GetIcon(color) {
@@ -1278,3 +1246,34 @@ $(document).ready(function ()
 		}
 
 });
+//Amazon Ad Creation
+	function amazonCall(value){
+	
+		if (value === 'default'){        
+			adNumber = "e424212e-9204-4bd4-a2fa-a8e7756224bb"
+		}
+		else if (value === 'toy'){
+			adNumber = "1240f999-982e-475d-a716-68fd573e20fd"
+		}
+		else if (value === 'small'){
+			adNumber = "9ad26b02-fb0a-4a65-ac0a-97f1c1ad622e";
+		}
+		else if (value === 'medium'){
+			adNumber = "f4fd1476-7679-4441-a186-3ac1f1cdd847";
+		}
+		else if (value === 'large'){
+			adNumber = "79d5d92b-25ec-491c-9256-bf33765ab7e1";
+		}
+		else{
+			adNumber = "3a0f512b-d192-4ca5-b706-54636b0265e7";
+		}
+	
+		renderScript(adNumber)
+	}
+	
+	function renderScript(adNumber){
+		var associate=
+		$('.amazon-stuff').show();
+		$('body').append('<script id="amazon-code" async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + adNumber + '"></script>');
+		$('.amazon-stuff').attr('id', "amzn-assoc-ad-" + adNumber);
+	}

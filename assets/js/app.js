@@ -212,7 +212,7 @@ $(document).ready(function ()
 
 
 	}
-
+			
 
 	function validatePetData(name, breed, sex, age, weight, size)
 	{
@@ -524,7 +524,6 @@ $(document).ready(function ()
 
 	$("#btn-noSignIn").on("click", function()
 	{	
-		$('body').css("background-image", "url(assets/images/yellowtexture.jpg)", "background-repeat:repeat-y", "opacity:0.75");
 		userPetsArray = [];
 
 		$("petDataArea").empty();
@@ -567,9 +566,13 @@ $(document).ready(function ()
 
 
 
-		$('.amazon-stuff').show();
+		
 
-		$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
+		// AMAZON SECTION
+		
+		amazonCall('default');
+
+
 	});
 
 
@@ -650,9 +653,8 @@ $(document).ready(function ()
 		selectedPetSize = "";
 		
 		$('.amazon-stuff').hide();
-		$('body').find('script').attr('src', '//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082').remove();
+		$('body').find('#amazon-code').remove();
 		$("#mapid").hide();
-
 		mainContentArea.hide();
 		signInArea.show();
 	});
@@ -660,7 +662,6 @@ $(document).ready(function ()
 
 	$("#btn-googleSignIn").on("click", function()
 	{
-		$('body').css("background-image", "url(../images/yellowtexture.jpg)");
 		var provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().useDeviceLanguage();
 		provider.addScope("profile");
@@ -679,12 +680,10 @@ $(document).ready(function ()
 			signInArea.hide();
 
 			mainContentArea.show();
+			
+				amazonCall('default');
+				$("#mapid").show();
 
-			$('.amazon-stuff').show();
-
-			$('body').append('<script src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=cb16da6f-a242-41e1-b8b6-27ccbbf85082"></script>');
-
-			$("#mapid").show();
 
 		}).catch(function (error) 
 		{
@@ -762,7 +761,10 @@ $(document).ready(function ()
 				pet_size: size
 			};
 
-			amazonSearchCaller(size);
+			$('body').find('#amazon-code').remove();
+
+			amazonCall(size);
+
 		}
 		else if(buttonClasses.search("fa-minus") > -1)
 		{
@@ -784,7 +786,8 @@ $(document).ready(function ()
 				pet_size: ""
 			};
 
-			amazonSearchCaller("");
+			amazonCall("");
+
 		}
 		else
 		{
@@ -795,6 +798,7 @@ $(document).ready(function ()
 	$(document).on("click", "button.btn-editPetData", function()
 	{
 		if(selectedPet.pet_name != "")
+
 		{
 			$("#petNameInput").val(selectedPet.pet_name);
 			$("#petBreedInput").val(selectedPet.pet_breed);
@@ -833,14 +837,37 @@ $(document).ready(function ()
 	{
 		if(petSize === "")
 		{
-			// clear and/or hide amazon area
-		}
-		else
-		{
-			// do the amazon seach with pet size value
-		}
-	}
+			$("#petNameInput").val(selectedPet.pet_name);
+			$("#petBreedInput").val(selectedPet.pet_breed);
+			$("#petSexInput").val(selectedPet.pet_sex);
+			$("#petAgeInput").val(selectedPet.pet_age);
+			$("#petWeightInput").val(selectedPet.pet_weight);
 
+			var sizeButtons = $("#initialPetDataInputArea").find("button.sizeButton");
+
+			for (var i = 0; i<sizeButtons.length; i++)
+			{	
+				var currentSizeButton = $(sizeButtons[i]).text();
+
+				if(selectedPet.pet_size.toUpperCase() === currentSizeButton.toUpperCase())
+				{
+					$(sizeButtons[i]).attr("class", "btn");
+					$(sizeButtons[i]).addClass("btn-primary");
+					$(sizeButtons[i]).addClass("sizeButton_pressed");
+
+					selectedPetSize = selectedPet.pet_size.toLowerCase();
+				}
+				else
+				{
+					$(sizeButtons[i]).attr("class", "btn");
+					$(sizeButtons[i]).addClass("btn-primary");
+					$(sizeButtons[i]).addClass("sizeButton");
+				}
+			}
+
+			location.href='#dataInputArea';
+		}
+	};
 
 	$("#btn-update").on("click", function()
 	{	
@@ -961,6 +988,7 @@ $(document).ready(function ()
 		if(currentUser.email != "")
 		{
 			var petToRemoveName = $("#petNameInput").val();
+
 
 			if(selectedPet.pet_name != "" && selectedPet.pet_name.toUpperCase() === petToRemoveName.toUpperCase())
 			{
@@ -1095,6 +1123,37 @@ $(document).ready(function ()
 		}
 
 	});
+	
+	//Amazon Ad Creation
+	function amazonCall(value){
+	
+		if (value === 'default'){        
+			adNumber = "cb16da6f-a242-41e1-b8b6-27ccbbf85082"
+		}
+		else if (value === 'toy'){
+			adNumber = "bb002f23-2c42-410b-bb77-3bd9a43fcff5"
+		}
+		else if (value === 'small'){
+			adNumber = "6b183ca8-fca7-48ef-b527-b0ff3e77c060";
+		}
+		else if (value === 'medium'){
+			adNumber = "93405050-3b68-4b29-b656-39f17da1c256";
+		}
+		else if (value === 'large'){
+			adNumber = "0c90518e-e974-440f-8b1f-655456df68fe";
+		}
+		else{
+			adNumber = "3148660e-e283-4315-ab35-fea0d8bcc2ac";
+		}
+	
+		renderScript(adNumber)
+	}
+	
+	function renderScript(adNumber){
+		$('.amazon-stuff').show();
+		$('body').append('<script id="amazon-code" src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + adNumber + '"></script>');
+		$('.amazon-stuff').html('<div id="amzn-assoc-ad-' + adNumber + '"></div>');
+	}
 
 	// Map Marker icon
 
@@ -1204,5 +1263,5 @@ $(document).ready(function ()
 
 	}
 
-});
 
+});

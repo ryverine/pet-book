@@ -17,6 +17,10 @@ table{
 	width: 100%;
 }
 
+table{
+	width: 100%;
+}
+
 /*** CLASS STYLES ***/
 
 
@@ -67,6 +71,10 @@ form{
 	line-height: height 0.5em;
 }
 
+select{
+	border: 2px solid #343a40;
+	margin: 2px;
+}
 .textboxInput {
 	/* border: 2px solid #343a40; */
 	margin: 0;

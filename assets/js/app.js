@@ -226,7 +226,7 @@ $(document).ready(function ()
 		});
 		return icon;
 	}
-	
+
 	function mapCall(map, lattitiude, longitude, searchLocation, iconColor, getName, getAdd, getPhone) 
 	{
 
@@ -638,7 +638,6 @@ $(document).ready(function ()
 				name: "";
 				email: "";
 			}
-
 			updateUserInfoArea("", "", "";
 		*/
 		/*** USE EVERYTHING ABOVE FOR FINAL ***/
@@ -651,6 +650,7 @@ $(document).ready(function ()
 		// AMAZON SECTION
 		
 		amazonCall('default');
+
 
 	});
 
@@ -759,10 +759,10 @@ $(document).ready(function ()
 			signInArea.hide();
 
 			mainContentArea.show();
-
-				
+			
 				amazonCall('default');
 				$("#mapid").show();
+
 
 		}).catch(function (error) 
 		{
@@ -839,9 +839,11 @@ $(document).ready(function ()
 				pet_sex: sex,
 				pet_size: size
 			};
+
 			$('body').find('#amazon-code').remove();
 
 			amazonCall(size);
+
 		}
 		else if(buttonClasses.search("fa-minus") > -1)
 		{
@@ -864,6 +866,7 @@ $(document).ready(function ()
 			};
 
 			amazonCall("");
+
 		}
 		else
 		{
@@ -874,6 +877,7 @@ $(document).ready(function ()
 	$(document).on("click", "button.btn-editPetData", function()
 	{
 		if(selectedPet.pet_name != "")
+
 		{
 			$("#petNameInput").val(selectedPet.pet_name);
 			$("#petBreedInput").val(selectedPet.pet_breed);
@@ -906,6 +910,43 @@ $(document).ready(function ()
 			location.href='#dataInputArea';
 		}
 	});
+
+
+	function amazonSearchCaller(petSize)
+	{
+		if(petSize === "")
+		{
+			$("#petNameInput").val(selectedPet.pet_name);
+			$("#petBreedInput").val(selectedPet.pet_breed);
+			$("#petSexInput").val(selectedPet.pet_sex);
+			$("#petAgeInput").val(selectedPet.pet_age);
+			$("#petWeightInput").val(selectedPet.pet_weight);
+
+			var sizeButtons = $("#initialPetDataInputArea").find("button.sizeButton");
+
+			for (var i = 0; i<sizeButtons.length; i++)
+			{	
+				var currentSizeButton = $(sizeButtons[i]).text();
+
+				if(selectedPet.pet_size.toUpperCase() === currentSizeButton.toUpperCase())
+				{
+					$(sizeButtons[i]).attr("class", "btn");
+					$(sizeButtons[i]).addClass("btn-primary");
+					$(sizeButtons[i]).addClass("sizeButton_pressed");
+
+					selectedPetSize = selectedPet.pet_size.toLowerCase();
+				}
+				else
+				{
+					$(sizeButtons[i]).attr("class", "btn");
+					$(sizeButtons[i]).addClass("btn-primary");
+					$(sizeButtons[i]).addClass("sizeButton");
+				}
+			}
+
+			location.href='#dataInputArea';
+		}
+	};
 
 	$("#btn-update").on("click", function()
 	{	
@@ -1026,6 +1067,7 @@ $(document).ready(function ()
 		if(currentUser.email != "")
 		{
 			var petToRemoveName = $("#petNameInput").val();
+
 
 			if(selectedPet.pet_name != "" && selectedPet.pet_name.toUpperCase() === petToRemoveName.toUpperCase())
 			{
@@ -1187,10 +1229,11 @@ $(document).ready(function ()
 	}
 	
 	function renderScript(adNumber){
+		var associate=
 		$('.amazon-stuff').show();
 		$('body').append('<script id="amazon-code" src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + adNumber + '"></script>');
-		$('.amazon-stuff').html('<div id="amzn-assoc-ad-' + adNumber + '"></div>');
+		$('.amazon-stuff').attr('id', "amzn-assoc-ad-" + adNumber);
 	}
 
-});
 
+});

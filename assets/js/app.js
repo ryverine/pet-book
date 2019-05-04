@@ -417,7 +417,7 @@ function decideCategory(weights){
     else{
         category = 'giant';
     }
-    amazonCall(category);
+    //amazonCall(category);
 	selectedPetSize = category;
 	return selectedPetSize; 
 }
@@ -641,7 +641,7 @@ function decideCategory(weights){
 
 		// AMAZON SECTION
 		
-		amazonCall('default');
+		//amazonCall('default');
 
 
 	});
@@ -754,7 +754,7 @@ function decideCategory(weights){
 
 			mainContentArea.show();
 			
-				amazonCall('default');
+				//amazonCall('default');
 				
 
 
@@ -836,7 +836,7 @@ function decideCategory(weights){
 
 			$('body').find('#amazon-code').remove();
 
-			amazonCall(size);
+			//amazonCall(size);
 
 		}
 		else if(buttonClasses.search("fa-minus") > -1)
@@ -859,7 +859,7 @@ function decideCategory(weights){
 				pet_size: ""
 			};
 
-			amazonCall("");
+			//amazonCall("");
 
 		}
 		else
@@ -1309,7 +1309,7 @@ function decideCategory(weights){
 });
 
 
-//Amazon Ad Creation
+/*//Amazon Ad Creation
 	function amazonCall(value){
 	
 		if (value === 'default'){        
@@ -1339,4 +1339,5 @@ function decideCategory(weights){
 		$('body').append('<script id="amazon-code" async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + adNumber + '"></script>');
 		$('.amazon-stuff').attr('id', "amzn-assoc-ad-" + adNumber);
 	};
+	*/
 

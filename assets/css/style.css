@@ -1,20 +1,21 @@
 * {
 	font-size: 16px;
-	color: #343a40;
+	color: #232425;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 /*** ELEMENT STYLES ***/
 
-/* body { */
-	/* background: url(../images/dog.jpg);
-	height: 100%; 
+body { 
+	 background: url(../images/yellowbluepaw.svg);
+	/* height: 100%;  */
+	/* background-repeat: no-repeat; */
 
 	/* Center and scale the image nicely */
-	/* background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	opacity:50%; */ 
-  /* } */
+	 /* background-position: center; */
+	/* background-size: cover; */
+	/* opacity:50%; */
+  }
 
 /*** CLASS STYLES ***/
 
@@ -30,41 +31,56 @@
 .signInBtn {
 	text-align: center;
 	width: 100%;
-	padding: 50px;
+	padding: 25px;
 	font-size: 25px;
 	font-weight: bolder;
 	/* color: #6c757d; */
-	border: 5px solid #343a40;
+	border: 5px solid #28639e;
 	margin: 20px;
 	white-space: normal;
 }
 
 .signInBtn:hover {
-	background-color: #343a40;
+	background-color:#28639e;
 	color: white;
-	border-color: #6c757d;
+	/* border-color: #6c757d; */
 }
 
 .btn-submit {
 	margin: 10px 0px 10px 0px;
-	color: #6c757d;
+	/* color: #6c757d; */
+	color:white;
+	background-color:#28639e;
 	font-weight: bold;
-	border: 2px solid #6c757d;
+	/* border: 2px solid #6c757d; */
 }
 
-.btn-submit:hover {
-	color: white;
-	background-color: #6c757d;
-	border: 2px solid #343a40;
+.btn-submit:hover ,.sizeBtn:hover{
+	/* color: white;  */
+	color:#FFE623;
+	/* background-color: #6c757d; */
+	
+	/* border: 2px solid #343a40; */
+}
+form{
+	line-height: height 0.5em;
 }
 
 .textboxInput {
-	border: 2px solid #343a40;
-	margin: 2px;
+	/* border: 2px solid #343a40; */
+	margin: 0;
+	padding:0;
+	border-radius: 10%;
+
 }
 
 .cardContainer {
 	margin: auto;
+	padding:0;
+}
+.card-header{
+	color:#28639e;
+	font-weight:bolder;
 }
 
 .inputLabel {
@@ -80,7 +96,7 @@
 	margin: 2px;
 	padding: 2px;
 	background-color: #6c757d;
-	border: 2px solid #343a40;
+	/* border: 2px solid #343a40; */
 	color: white;
 	font-weight: bold;
 }
@@ -90,24 +106,59 @@
 #mainContentArea {
 	display: none;
 }
+#header img {
+	float: left;
+	width: 50px;
+	height: 50px;
+	/* background: #555; */
+  }
+  #signInheader img{
+	  width:70px;
+	  height:70px;
+  }
+  #signInheader{
+	color:#28639e;
+	  display:inline;
+	  text-align: center;
+  }
+  /* #titleDiv{
+	  float:left;
+  } */
+  #title{
+	/* float: left; */
+display:inline;
+	position: relative;
+	color:#28639e;
+	/* background-color: rgb(224, 224, 110); */
+		font-weight: bolder;
+		font-size: 40px;
+	}
+	
+
+  
 
 #header {
-	margin: 20px 0px 20px 0px;
-	background-color: #6c757d;
-	border: 2px solid #343a40;
+	margin:auto;
+	padding:auto;
+	width:100%;
+	margin: 0px 0px 20px 0px;
+	/* background-image: url(../images/images\ \(1\).jpeg); */
+	/* opacity: 0.6; */
+	/* background-color: rgb(224, 224, 110); */
+	/* background-color: #FFE623; */
+	/* border: 2px solid #343a40; */
 	text-align: center;
+	padding:20px;
 }
 
-#title {
-	color: white;
-	font-weight: bolder;
-	font-size: 40px;
-}
 
 #subtitle {
-	color: #343a40;
-	font-weight: bold;
-	font-size: 24px;
+	display:inline;
+	float:right;
+	margin-bottom:0;
+	color:#28639e;
+	font-weight: bolder;
+	font-size: 30px;
 }
 
 #signInArea {
@@ -116,7 +167,8 @@
 }
 
 #userProfileArea {
-	border: 2px solid #343a40;
+	/* border: 2px solid #343a40; */
+padding:0;
 }
 
 #profileImageArea {
@@ -140,7 +192,22 @@
 }
 
 #petDataInputArea {
-	border: 2px solid #343a40;
+	/* border: 0.5px solid; */
+}
+.mapBtn,.sizeBtn{
+	background-color:#28639e;
+	color:white;
+	font-weight:bold;
+}
+#vetButton:hover{
+	color:orange;
+}
+#parkButton:hover{
+	color:red;
+}
+
+#shopButton:hover{
+	color:green;
 }
 
 #mapid {
@@ -149,16 +216,27 @@
 }
 
 #mapArea {
-	border: 2px solid #343a40;
+	/* border: 2px solid #343a40; */
 	padding: 10px;
 }
 
+
 #petDataDisplayArea {
-	border: 2px solid #343a40;
+	/* border: 2px solid #343a40; */
 	padding: 10px;
 }
 
 #mapid {
-	width: 500px;
-	height: 500px;
+	width: 400px;
+	height: 400px;
+}
+#placeDiv{
+	width: 60%;
+	margin-left: 30px;
+	font-size: 0.9em;
+}
+
+#placeDiv td {
+	padding: 0.2rem !important;
+	border-top: 1px solid #28639e;
 }

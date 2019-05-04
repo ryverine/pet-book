@@ -559,7 +559,6 @@ $(document).ready(function ()
 				name: "";
 				email: "";
 			}
-
 			updateUserInfoArea("", "", "";
 		*/
 		/*** USE EVERYTHING ABOVE FOR FINAL ***/
@@ -1150,9 +1149,10 @@ $(document).ready(function ()
 	}
 	
 	function renderScript(adNumber){
+		var associate=
 		$('.amazon-stuff').show();
 		$('body').append('<script id="amazon-code" src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + adNumber + '"></script>');
-		$('.amazon-stuff').html('<div id="amzn-assoc-ad-' + adNumber + '"></div>');
+		$('.amazon-stuff').attr('id', "amzn-assoc-ad-" + adNumber);
 	}
 
 	// Map Marker icon

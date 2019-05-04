@@ -1127,22 +1127,22 @@ $(document).ready(function ()
 	function amazonCall(value){
 	
 		if (value === 'default'){        
-			adNumber = "cb16da6f-a242-41e1-b8b6-27ccbbf85082"
+			adNumber = "e424212e-9204-4bd4-a2fa-a8e7756224bb"
 		}
 		else if (value === 'toy'){
-			adNumber = "bb002f23-2c42-410b-bb77-3bd9a43fcff5"
+			adNumber = "1240f999-982e-475d-a716-68fd573e20fd"
 		}
 		else if (value === 'small'){
-			adNumber = "6b183ca8-fca7-48ef-b527-b0ff3e77c060";
+			adNumber = "9ad26b02-fb0a-4a65-ac0a-97f1c1ad622e";
 		}
 		else if (value === 'medium'){
-			adNumber = "93405050-3b68-4b29-b656-39f17da1c256";
+			adNumber = "f4fd1476-7679-4441-a186-3ac1f1cdd847";
 		}
 		else if (value === 'large'){
-			adNumber = "0c90518e-e974-440f-8b1f-655456df68fe";
+			adNumber = "79d5d92b-25ec-491c-9256-bf33765ab7e1";
 		}
 		else{
-			adNumber = "3148660e-e283-4315-ab35-fea0d8bcc2ac";
+			adNumber = "3a0f512b-d192-4ca5-b706-54636b0265e7";
 		}
 	
 		renderScript(adNumber)

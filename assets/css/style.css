@@ -3,21 +3,19 @@
 
 * {
 	font-size: 16px;
-	color: #343a40;
+	color: #232425;
+	font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 /*** ELEMENT STYLES ***/
 
-/* body { */
-	/* background: url(../images/dog.jpg);
-	height: 100%; 
+body { 
+	 background: url(../images/yellowbluepaw.svg);
+  }
 
-	/* Center and scale the image nicely */
-	/* background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	opacity:50%; */ 
-  /* } */
+table{
+	width: 100%;
+}
 
 table{
 	width: 100%;
@@ -38,44 +36,64 @@ table{
 .signInBtn {
 	text-align: center;
 	width: 100%;
-	padding: 50px;
+	padding: 25px;
 	font-size: 25px;
 	font-weight: bolder;
 	/* color: #6c757d; */
-	border: 5px solid #343a40;
+	border: 5px solid #28639e;
 	margin: 20px;
 	white-space: normal;
 }
 
 .signInBtn:hover {
-	background-color: #343a40;
+	background-color:#28639e;
 	color: white;
-	border-color: #6c757d;
+	/* border-color: #6c757d; */
 }
 
 .btn-submit {
 	margin: 10px 0px 10px 0px;
-	color: #6c757d;
+	/* color: #6c757d; */
+	color:white;
+	background-color:#28639e;
 	font-weight: bold;
-	border: 2px solid #6c757d;
+	/* border: 2px solid #6c757d; */
 }
 
-.btn-submit:hover {
-	color: white;
-	background-color: #6c757d;
-	border: 2px solid #343a40;
+.btn-submit:hover ,.sizeBtn:hover{
+	/* color: white;  */
+	color:#FFE623;
+	/* background-color: #6c757d; */
+	
+	/* border: 2px solid #343a40; */
+}
+form{
+	line-height: height 0.5em;
 }
 
-.textboxInput {
+select{
 	border: 2px solid #343a40;
 	margin: 2px;
+}
+.textboxInput {
+	border: 2px solid #28639e;
+	margin: 2px 0px 2px 0px;
+	padding:0;
+	border-radius: 10%;
+
 }
 
 .cardContainer {
 	margin: auto;
+	padding:0;
+}
+.card-header{
+	color:#28639e;
+	font-weight:bolder;
 }
 
 .inputLabel {
+	color: #28639e;
 	font-weight: bold;
 	vertical-align: bottom;
 }
@@ -112,6 +130,8 @@ table{
 	padding: 5px;
 	background-color: #6c757d;
 	border: 2px solid #343a40;
+	/* border: 2px solid #343a40; */
+	color: white;
 	font-weight: bold;
 }
 
@@ -172,23 +192,64 @@ table{
 	display: none;
 }
 
-#header {
-	margin: 20px 0px 20px 0px;
-	background-color: #6c757d;
-	border: 2px solid #343a40;
-	text-align: center;
+#header 
+{
+	border: 5px solid #28639e;
 }
 
-#title {
-	color: white;
-	font-weight: bolder;
-	font-size: 40px;
+img {
+	float: left;
+	width: 50px;
+	height: 50px;
+	/* background: #555; */
+  }
+  #signInheader img{
+	  width:70px;
+	  height:70px;
+  }
+  #signInheader{
+	color:#28639e;
+	  display:inline;
+	  text-align: center;
+  }
+  /* #titleDiv{
+	  float:left;
+  } */
+  #title{
+	/* float: left; */
+display:inline;
+	position: relative;
+	color:#28639e;
+	/* background-color: rgb(224, 224, 110); */
+		font-weight: bolder;
+		font-size: 40px;
+	}
+	
+
+  
+
+#header {
+	margin:auto;
+	padding:auto;
+	width:100%;
+	margin: 0px 0px 20px 0px;
+	/* background-image: url(../images/images\ \(1\).jpeg); */
+	/* opacity: 0.6; */
+	/* background-color: rgb(224, 224, 110); */
+	/* background-color: #FFE623; */
+	/* border: 2px solid #343a40; */
+	text-align: center;
+	padding:20px;
 }
+
 
 #subtitle {
-	color: #343a40;
-	font-weight: bold;
-	font-size: 24px;
+	display:inline;
+	float:right;
+	margin-bottom:0;
+	color:#28639e;
+	font-weight: bolder;
+	font-size: 30px;
 }
 
 #signInArea {
@@ -197,7 +258,8 @@ table{
 }
 
 #userProfileArea {
-	border: 2px solid #343a40;
+	/* border: 2px solid #343a40; */
+padding:0;
 }
 
 #profileImageArea {
@@ -221,7 +283,7 @@ table{
 }
 
 #initialPetDataInputArea{
-	border: 2px solid #343a40;
+	/*border: 2px solid #343a40;*/
 }
 
 #initialPetDataInputArea_error{
@@ -230,8 +292,26 @@ table{
 }
 
 #petDataDisplayArea {
-	border: 2px solid #343a40;
+	/*border: 2px solid #343a40;*/
 	padding: 10px;
+	margin: 2px;
+}
+.mapBtn,.sizeBtn{
+	background-color:#28639e;
+	color:white;
+	font-weight:bold;
+	border: 2px solid #28639e;
+	margin: 5px;
+}
+#vetButton:hover{
+	color:orange;
+}
+#parkButton:hover{
+	color:red;
+}
+
+#shopButton:hover{
+	color:green;
 }
 
 #mapid {
@@ -262,4 +342,70 @@ table{
 	background-color: #339966;
 	border-color: #66ff99;
 	color: #66ff99;
+	/* border: 2px solid #343a40; */
+	padding: 10px;
 }
+
+
+#petDataDisplayArea {
+	/* border: 2px solid #343a40; */
+	padding: 10px;
+}
+
+#mapid {
+	
+	width: 400px;
+	height: 400px;
+}
+#placeDiv{
+	margin-left: 30px;
+	font-size: 0.9em;
+}
+
+#placeDiv td {
+	padding: 0.2rem !important;
+	border-top: 1px solid #28639e;
+}
+
+#submitButtonArea{
+	width: 50%;
+	margin: auto;
+}
+
+.card{
+	border: none;
+	background: none;
+}
+
+.card-header{
+	margin: 10px 0px 10px 0px;
+	color: #28639e;
+	font-size: 24px;
+	font-weight: bolder;
+	background-color:#E9ECEF;
+	border: 5px solid #28639e;
+}
+
+.card-body{
+	margin: auto;
+	width: 80%;
+	padding: 0px;
+	border: none;
+	background: none;
+}
+
+#preHeaderSpacer{
+	height: 10px;
+	width: 10px;
+}
+
+#googleDisplayName{
+	color: #28639e;
+	font-weight: bold;
+}
+
+#googleEmail{
+	color: #28639e;
+	font-weight: bold;
+}
+

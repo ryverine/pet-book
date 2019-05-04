@@ -1284,6 +1284,7 @@ function decideCategory(weights){
 					}).addTo(mymap);
 				L.marker(latlng).addTo(mymap)
 					.bindPopup("Current location").openPopup();
+
 	
 				$("#shopButton").on("click", function () {
 					mapCall(mymap, lat, long, "Petsmart", "green", false, true, true, true);
@@ -1294,7 +1295,6 @@ function decideCategory(weights){
 				$("#vetButton").on("click", function () {
 					mapCall(mymap, lat, long, "Veterinarian", "orange", true, true, true, true);
 					$("#placeDiv").empty();
-	
 				});
 				$("#parkButton").on("click", function () {
 					mapCall(mymap, lat, long, "Park", "red", true, true, false, true);
@@ -1304,8 +1304,10 @@ function decideCategory(weights){
 			});
 	
 	
+
 		};
 });
+
 
 //Amazon Ad Creation
 	function amazonCall(value){
@@ -1337,3 +1339,4 @@ function decideCategory(weights){
 		$('body').append('<script id="amazon-code" async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + adNumber + '"></script>');
 		$('.amazon-stuff').attr('id', "amzn-assoc-ad-" + adNumber);
 	};
+

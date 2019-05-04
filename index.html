@@ -40,32 +40,11 @@
 	<script src="https://d3js.org/d3.v3.min.js"></script>
 	<script src="https://d3js.org/topojson.v0.min.js"></script>
 	<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
-	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
-
+	
 	
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
 		integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 
-	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
-
-	<meta charset="UTF-8">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-	<title>Pet Book</title>
-
-	<!-- RESET CSS -->
-	<link rel="stylesheet" href="assets/css/reset.css">
-	<!-- Bootstrap-->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-	<!-- FontAwesome-->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-	<!-- PLACE SEARCH CSS -->
-	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css" />
-	<!-- icons css -->
-	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
 
 	<!-- our css -->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
@@ -92,23 +71,6 @@
 		<div class="container">
 
 			<div id="signInArea" class="col-12">
-				<!-- REMEMBER TO DELETE DIV BELOW FOR FINAL-->
-				<div>
-					<span>Test User: </span>
-					<select id="testUserSelect" class="textboxInput">
-						<option data-email="" data-photo="">Unknown</option>
-						<option data-email="abhi.test@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Abhi Test</option>
-						<option data-email="eduardo.test@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Eduardo Test</option>
-						<option data-email="katie.test@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Katie Test</option>
-						<option data-email="ryan.test@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Ryan Test</option>
-						<option data-email="user.test1@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Test User 1</option>
-						<option data-email="user.test2@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Test User 2</option>
-						<option data-email="user.test3@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Test User 3</option>
-						<option data-email="user.test5@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Test User 5</option>
-						<option data-email="user.test6@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Test User 6</option>
-					</select> <span>*** FOR TESTING PURPOSES ONLY ***</span>
-				</div>
-				<!-- REMEMBER TO DELETE DIV ABOVE FOR FINAL-->
 				
 				<button id="btn-googleSignIn" class="btn btn-dark signInBtn">Sign In With Google</button>
 				<button id="btn-noSignIn" class="btn btn-dark signInBtn">Proceed Without Google</button>
@@ -117,19 +79,17 @@
 			<div id="mainContentArea">
 
 				<div class="row">
+					<div class="col-12">
+						<div id="preHeaderSpacer"></div>
+						<div id="header" class="col-12 jumbotron">
 
-					<div id="header" class="col-12 jumbotron">
-
-						<p id="title">Pet Book</p>
-						<p id="subtitle">Exploring the wonderful world of pet ownership!</p>
-
-
-					</div> <!-- /jumbotron -->
-
+							<p id="title">Pet Book</p>
+							<p id="subtitle">Exploring the wonderful world of pet ownership!</p>
+						</div> <!-- /jumbotron -->
+					</div>
 				</div> <!-- /row -->
-
+				
 				<div class="row">
-
 					<div class="col-5" id="userProfileArea">
 						<div class="row">
 							<div id="profileImageArea">
@@ -140,8 +100,8 @@
 								<span id="googleEmail"></span><br>
 								<button id="btn-googleSignOut" class="btn btn-dark btn-submit">Sign Out</button>
 							</div>
-						</div>
-					</div><!-- /userProfileArea -->
+						</div><!-- /userProfileArea -->
+					</div>
 
 					<div class="col-1"></div>
 
@@ -184,11 +144,16 @@
 								<button id="btn-size_lg" class="btn btn-primary sizeButton">Large</button>
 								<button id="btn-size_xl" class="btn btn-primary sizeButton">Giant</button>
 								<button id="btn-size_unk" class="btn btn-primary sizeButton">Unknown</button>
+
 							</div>
+
+
+							<div id="submitButtonArea">
 
 							<input id="btn-add" class="btn btn-dark btn-submit" type="submit" value="Add"> 
 							<button id="btn-update" class="btn btn-dark btn-submit">Update</button>
 							<button id="btn-remove" class="btn btn-dark btn-submit">Remove</button>
+							</div>
 
 							<br>
 							<span id="initialPetDataInputArea_error"></span>

@@ -2,6 +2,8 @@ $(document).ready(function ()
 {
 
 	/*** GLOBAL ***/
+	$('#size-buttons').hide();
+	var daBreed = '';
 
 
 	var signInArea = $("#signInArea");
@@ -144,6 +146,34 @@ $(document).ready(function ()
 			}
 		}
 	}
+		//Dog Api Stuff
+$(window).on('load', function(){
+	var daApiKey = '8caa0b90-fa26-4fb2-aa58-a8839c55fb4a'; 
+	$.ajax({
+		url: 'https://api.TheDogAPI.com/v1/breeds?&api_key='+daApiKey,
+		method: "GET"
+	  }).then(function(breeds) {
+	   $('#breeds').append(`<option value="-1">Choose a breed:</option>`);
+	   $('#breeds').append(`<option value="0">Other/Unlisted</option>`);
+		breeds.map(function(breed){
+		  $('#breeds').append(`<option value="${breed.id}" data-weight="${breed.weight.imperial}">${breed.name}</option>`);
+		  });
+	  });
+  });
+
+  $('#breeds').on('change', function(event){
+    var daWeight = $('#breeds option:selected').attr('data-weight');
+	daBreed = $('#breeds option:selected').text();
+	if (daBreed != "Other/Unlisted"){
+    	let daWeightArray= getWeights(daWeight);
+		let daAverageWeight = averageWeight(daWeightArray);
+		let category = decideCategory(daAverageWeight);
+	}
+	else {
+		$('#size-buttons').show();
+	}
+	return daBreed;
+});
 
 
 	function populatePetData()
@@ -357,6 +387,41 @@ $(document).ready(function ()
 	});
 
 
+function getWeights(daWeight){
+    var range = daWeight.split("-");
+    range[0] = parseInt(range[0].trim());
+    range[1] = parseInt(range[1].trim());
+    return range;
+}
+
+function averageWeight(daWeightArray){
+    var averageWeight = (daWeightArray[1] + daWeightArray[0])/2;
+    return averageWeight;
+}
+
+function decideCategory(weights){
+    var category = '';
+    
+    if (weights <= 12){
+        category='toy';
+    }
+    else if (weights < 25){
+        category = 'small';
+    }
+    else if (weights < 50){
+        category = 'medium';
+    }
+    else if (weights < 100){
+        category = 'large';
+    }
+    else{
+        category = 'giant';
+    }
+    amazonCall(category);
+	selectedPetSize = category;
+	return selectedPetSize; 
+}
+
 	$("#btn-add").on("click", function()
 	{
 		event.preventDefault();
@@ -364,7 +429,7 @@ $(document).ready(function ()
 		$("#initialPetDataInputArea_error").text("");
 
 		var name = $("#petNameInput").val();
-		var breed = $("#petBreedInput").val();
+		var breed = daBreed;
 		var sex = $("#petSexInput").val();
 		var age = $("#petAgeInput").val();
 		var weight = $("#petWeightInput").val();
@@ -543,18 +608,14 @@ $(document).ready(function ()
 
 		/*** DELETE EVERYTHING BELOW FOR FINAL
 		var selectedUser = $("#testUserSelect").children("option:selected");
-
 		updateUserInfoArea(selectedUser.val().trim(), selectedUser.attr("data-email").trim(), selectedUser.attr("data-photo").trim());
-
 		signInArea.hide();
 		
 		mainContentArea.show();
 		locator();
-
 		var userName = selectedUser.val().trim();
 		var userEmail = selectedUser.attr("data-email").trim();
 		var userKey = "";
-
 		loadUserData(userName, userEmail, userKey);
 		/*** DELETE EVERYTHING ABOVE FOR FINAL ***/
 		
@@ -1223,6 +1284,7 @@ $(document).ready(function ()
 					}).addTo(mymap);
 				L.marker(latlng).addTo(mymap)
 					.bindPopup("Current location").openPopup();
+
 	
 				$("#shopButton").on("click", function () {
 					mapCall(mymap, lat, long, "Petsmart", "green", false, true, true, true);
@@ -1233,7 +1295,6 @@ $(document).ready(function ()
 				$("#vetButton").on("click", function () {
 					mapCall(mymap, lat, long, "Veterinarian", "orange", true, true, true, true);
 					$("#placeDiv").empty();
-	
 				});
 				$("#parkButton").on("click", function () {
 					mapCall(mymap, lat, long, "Park", "red", true, true, false, true);
@@ -1243,9 +1304,11 @@ $(document).ready(function ()
 			});
 	
 	
-		}
 
+		};
 });
+
+
 //Amazon Ad Creation
 	function amazonCall(value){
 	
@@ -1268,12 +1331,12 @@ $(document).ready(function ()
 			adNumber = "3a0f512b-d192-4ca5-b706-54636b0265e7";
 		}
 	
-		renderScript(adNumber)
+		renderScript(adNumber);
 	}
 	
 	function renderScript(adNumber){
-		var associate=
 		$('.amazon-stuff').show();
 		$('body').append('<script id="amazon-code" async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=' + adNumber + '"></script>');
 		$('.amazon-stuff').attr('id', "amzn-assoc-ad-" + adNumber);
-	}
+	};
+

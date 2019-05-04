@@ -78,8 +78,6 @@ select{
 .textboxInput {
 	border: 2px solid #28639e;
 	margin: 2px 0px 2px 0px;
-	padding:0;
-	border-radius: 10%;
 
 }
 
@@ -191,6 +189,36 @@ select{
 #mainContentArea {
 	display: none;
 }
+#header img {
+	float: left;
+	width: 50px;
+	height: 50px;
+	/* background: #555; */
+  }
+  #signInheader img{
+	  width:70px;
+	  height:70px;
+  }
+  #signInheader{
+	color:#28639e;
+	  display:inline;
+	  text-align: center;
+  }
+  /* #titleDiv{
+	  float:left;
+  } */
+  #title{
+	/* float: left; */
+display:inline;
+	position: relative;
+	color:#28639e;
+	/* background-color: rgb(224, 224, 110); */
+		font-weight: bolder;
+		font-size: 40px;
+	}
+	
+
+  
 
 #header 
 {
@@ -302,6 +330,21 @@ padding:0;
 	font-weight:bold;
 	border: 2px solid #28639e;
 	margin: 5px;
+}
+#vetButton:hover{
+	color:orange;
+}
+#parkButton:hover{
+	color:red;
+}
+
+#shopButton:hover{
+	color:green;
+}
+.mapBtn,.sizeBtn{
+	background-color:#28639e;
+	color:white;
+	font-weight:bold;
 }
 #vetButton:hover{
 	color:orange;

@@ -524,6 +524,9 @@ $(document).ready(function ()
 
 	$("#btn-noSignIn").on("click", function()
 	{	
+
+		$('body').css('backgroundImage', 'url(assets/images/yellowtexture.jpg)');
+
 		userPetsArray = [];
 
 		$("petDataArea").empty();
@@ -662,6 +665,8 @@ $(document).ready(function ()
 
 	$("#btn-googleSignIn").on("click", function()
 	{
+		$('body').css('backgroundImage', 'url(assets/images/yellowtexture.jpg)');
+
 		var provider = new firebase.auth.GoogleAuthProvider();
 		firebase.auth().useDeviceLanguage();
 		provider.addScope("profile");
@@ -1245,6 +1250,7 @@ $(document).ready(function ()
 			$("#shopButton").on("click", function () {
 				mapCall(mymap, lat, long, "Petsmart", "green", false, true, true, true);
 				$("#placeDiv").empty();
+				map.empty();
 			});
 
 

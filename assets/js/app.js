@@ -1420,12 +1420,5 @@ $("#mapid").mouseleave(function(){
 	});
 });
 });
-$("#adopt").hover(function(){
-	anime({
-		targets: '#adopt',
-		easing: 'easeInOutCircle',
-		borderRadius: ['50%']
-	});
-});
 //////////// anime.js
 });

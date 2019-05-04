@@ -76,10 +76,8 @@ select{
 	margin: 2px;
 }
 .textboxInput {
-	/* border: 2px solid #343a40; */
-	margin: 0;
-	padding:0;
-	border-radius: 10%;
+	border: 2px solid #28639e;
+	margin: 2px 0px 2px 0px;
 
 }
 
@@ -93,6 +91,7 @@ select{
 }
 
 .inputLabel {
+	color: #28639e;
 	font-weight: bold;
 	vertical-align: bottom;
 }
@@ -221,6 +220,42 @@ display:inline;
 
   
 
+#header 
+{
+	border: 5px solid #28639e;
+}
+
+img {
+	float: left;
+	width: 50px;
+	height: 50px;
+	/* background: #555; */
+  }
+  #signInheader img{
+	  width:70px;
+	  height:70px;
+  }
+  #signInheader{
+	color:#28639e;
+	  display:inline;
+	  text-align: center;
+  }
+  /* #titleDiv{
+	  float:left;
+  } */
+  #title{
+	/* float: left; */
+display:inline;
+	position: relative;
+	color:#28639e;
+	/* background-color: rgb(224, 224, 110); */
+		font-weight: bolder;
+		font-size: 40px;
+	}
+	
+
+  
+
 #header {
 	margin:auto;
 	padding:auto;
@@ -276,7 +311,7 @@ padding:0;
 }
 
 #initialPetDataInputArea{
-	border: 2px solid #343a40;
+	/*border: 2px solid #343a40;*/
 }
 
 #initialPetDataInputArea_error{
@@ -285,8 +320,26 @@ padding:0;
 }
 
 #petDataDisplayArea {
-	border: 2px solid #343a40;
+	/*border: 2px solid #343a40;*/
 	padding: 10px;
+	margin: 2px;
+}
+.mapBtn,.sizeBtn{
+	background-color:#28639e;
+	color:white;
+	font-weight:bold;
+	border: 2px solid #28639e;
+	margin: 5px;
+}
+#vetButton:hover{
+	color:orange;
+}
+#parkButton:hover{
+	color:red;
+}
+
+#shopButton:hover{
+	color:green;
 }
 .mapBtn,.sizeBtn{
 	background-color:#28639e;
@@ -356,3 +409,46 @@ padding:0;
 	padding: 0.2rem !important;
 	border-top: 1px solid #28639e;
 }
+
+#submitButtonArea{
+	width: 50%;
+	margin: auto;
+}
+
+.card{
+	border: none;
+	background: none;
+}
+
+.card-header{
+	margin: 10px 0px 10px 0px;
+	color: #28639e;
+	font-size: 24px;
+	font-weight: bolder;
+	background-color:#E9ECEF;
+	border: 5px solid #28639e;
+}
+
+.card-body{
+	margin: auto;
+	width: 80%;
+	padding: 0px;
+	border: none;
+	background: none;
+}
+
+#preHeaderSpacer{
+	height: 10px;
+	width: 10px;
+}
+
+#googleDisplayName{
+	color: #28639e;
+	font-weight: bold;
+}
+
+#googleEmail{
+	color: #28639e;
+	font-weight: bold;
+}
+

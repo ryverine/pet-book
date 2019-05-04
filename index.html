@@ -92,7 +92,7 @@
 		<div class="container">
 
 			<div id="signInArea" class="col-12">
-				<!-- REMEMBER TO DELETE DIV BELOW FOR FINAL-->
+				<!-- REMEMBER TO DELETE DIV BELOW FOR FINAL
 				<div>
 					<span>Test User: </span>
 					<select id="testUserSelect" class="textboxInput">
@@ -108,7 +108,7 @@
 						<option data-email="user.test6@unknown.unknown" data-photo="assets/images/tmpProfileImg.png">Test User 6</option>
 					</select> <span>*** FOR TESTING PURPOSES ONLY ***</span>
 				</div>
-				<!-- REMEMBER TO DELETE DIV ABOVE FOR FINAL-->
+				REMEMBER TO DELETE DIV ABOVE FOR FINAL-->
 				
 				<button id="btn-googleSignIn" class="btn btn-dark signInBtn">Sign In With Google</button>
 				<button id="btn-noSignIn" class="btn btn-dark signInBtn">Proceed Without Google</button>
@@ -117,19 +117,17 @@
 			<div id="mainContentArea">
 
 				<div class="row">
+					<div class="col-12">
+						<div id="preHeaderSpacer"></div>
+						<div id="header" class="col-12 jumbotron">
 
-					<div id="header" class="col-12 jumbotron">
-
-						<p id="title">Pet Book</p>
-						<p id="subtitle">Exploring the wonderful world of pet ownership!</p>
-
-
-					</div> <!-- /jumbotron -->
-
+							<p id="title">Pet Book</p>
+							<p id="subtitle">Exploring the wonderful world of pet ownership!</p>
+						</div> <!-- /jumbotron -->
+					</div>
 				</div> <!-- /row -->
-
+				
 				<div class="row">
-
 					<div class="col-5" id="userProfileArea">
 						<div class="row">
 							<div id="profileImageArea">
@@ -140,8 +138,8 @@
 								<span id="googleEmail"></span><br>
 								<button id="btn-googleSignOut" class="btn btn-dark btn-submit">Sign Out</button>
 							</div>
-						</div>
-					</div><!-- /userProfileArea -->
+						</div><!-- /userProfileArea -->
+					</div>
 
 					<div class="col-1"></div>
 
@@ -182,10 +180,11 @@
 								<button id="btn-size_xl" class="btn btn-primary sizeButton">Giant</button>
 								<button id="btn-size_unk" class="btn btn-primary sizeButton">Unknown</button>
 							</p>
-
+							<div id="submitButtonArea">
 							<input id="btn-add" class="btn btn-dark btn-submit" type="submit" value="Add"> 
 							<button id="btn-update" class="btn btn-dark btn-submit">Update</button>
 							<button id="btn-remove" class="btn btn-dark btn-submit">Remove</button>
+							</div>
 
 							<br>
 							<span id="initialPetDataInputArea_error"></span>

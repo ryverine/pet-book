@@ -663,7 +663,7 @@ $(document).ready(function ()
 		
 		$('.amazon-stuff').hide();
 		$('body').find('#amazon-code').remove();
-		$("#mapid").hide();
+		
 		mainContentArea.hide();
 		signInArea.show();
 	});
@@ -693,7 +693,7 @@ $(document).ready(function ()
 			mainContentArea.show();
 			
 				amazonCall('default');
-				$("#mapid").show();
+				
 
 
 		}).catch(function (error) 
@@ -1134,171 +1134,9 @@ $(document).ready(function ()
 		}
 
 	});
-	
-
-	// Ajax call to locate vet, park, petsmart 
-
-	function mapCall(map, lattitiude, longitude, searchLocation, iconColor, getName, getAdd, getPhone, getDist) {
-		var queryURL = "https://api.tomtom.com/search/2/search/" + searchLocation + ".json?key=7UeVqnmHxlzBP6n8ZWtpdW82KS6nnBoM&lat=" + lattitiude + "&lon=" + longitude + "&radius=1500000&limit=10";
-		$.ajax({
-			url: queryURL,
-			method: "GET"
-		})
-
-			.then(function (response) {
-				for (i = 0; i < response.results.length; i++) {
-					var placeLat = response.results[i].position.lat;
-					var placelon = response.results[i].position.lon;
-					var latlng = new L.LatLng(placeLat, placelon);
-
-					var result = response.results[i];
-					var bound = `<b>${getName ? result.poi ? result.poi.name : searchLocation : searchLocation} </b><br>
-			 <span> ${getAdd ? result.address ? result.address.freeformAddress : "" : ""}</span><br>
-				<div class="cell-number">${getPhone ? result.poi ? result.poi.phone : "" : ""}</div>
-				${getDist ? result.address ? ((result.dist) * 0.00062137).toFixed(2) +
-							"miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles"}`
-					var row = $("<tr>");
-					var nameTd = $("<td>");
-					var phoneTd = $("<td>");
-					var addTd = $("<td>");
-					var distTd = $("<td>");
-					var name = result.poi ? result.poi.name : searchLocation;
-					var phone = result.poi ? result.poi.phone ? result.poi.phone : "" : "";
-					var addDist = result.address ? ((result.dist) * 0.00062137).toFixed(2) +
-						"miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles";
-
-					nameTd.append(name + " ").addClass("col-3");
-					phoneTd.append(phone + " ").addClass("col-3");
-					addTd.append(response.results[i].address.freeformAddress).addClass("col-3");
-					distTd.append(addDist).addClass("col-2");
-					row.append(nameTd, phoneTd, addTd, distTd).addClass("row");
-					$("#placeDiv").append(row);
-
-					L.marker(latlng, { icon: GetIcon(iconColor) }).addTo(map).bindPopup(bound).openPopup().on('click', function (e) {
-
-						$('#placeDiv tr td').each(function () {
-							var contentNodeVal = ($(e.target._popup._contentNode).find('div.cell-number').text() == '') ? $(e.target._popup._contentNode).find('b').text() : $(e.target._popup._contentNode).find('div.cell-number').text();
-							if ($.trim($(this).text()) === $.trim(contentNodeVal)) {
-
-								$(this).closest('tr').fadeOut(500).fadeIn(1000).fadeOut(500).fadeIn(1000).fadeOut(500).fadeIn(1000);
-
-							}
-						});
-					})
-				}
-
-			});
 
 
-	}
 
-	function locator() {
-
-		navigator.geolocation.getCurrentPosition(function (location) {
-			var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
-			var lat = location.coords.latitude;
-			var long = location.coords.longitude;
-			var mymap = L.map('mapid').setView(latlng, 13);
-			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ',
-				{
-					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
-					maxZoom: 18,
-					id: 'mapbox.streets',
-					accessToken: 'sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ'
-				}).addTo(mymap);
-			L.marker(latlng).addTo(mymap)
-				.bindPopup("Current location").openPopup();
-
-			$("#shopButton").on("click", function () {
-				mapCall(mymap, lat, long, "Petsmart", "green", false, true, true, true);
-				$("#placeDiv").empty();
-			});
-			.then(function (response) {
-				for (i = 0; i < response.results.length; i++) {
-					var placeLat = response.results[i].position.lat;
-					var placelon = response.results[i].position.lon;
-					var latlng = new L.LatLng(placeLat, placelon);
-
-					var result = response.results[i];
-					var bound = `<b>${getName ? result.poi ? result.poi.name : searchLocation : searchLocation} </b><br>
-			 <span> ${getAdd ? result.address ? result.address.freeformAddress : "" : ""}</span><br>
-				<div class="cell-number">${getPhone ? result.poi ? result.poi.phone : "" : ""}</div>
-				${getDist ? result.address ? ((result.dist) * 0.00062137).toFixed(2) +
-							"miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles"}`
-					var row = $("<tr>");
-					var nameTd = $("<td>");
-					var phoneTd = $("<td>");
-					var addTd = $("<td>");
-					var distTd = $("<td>");
-					var name = result.poi ? result.poi.name : searchLocation;
-					var phone = result.poi ? result.poi.phone ? result.poi.phone : "" : "";
-					var addDist = result.address ? ((result.dist) * 0.00062137).toFixed(2) +
-						"miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles";
-
-					nameTd.append(name + " ").addClass("col-3");
-					phoneTd.append(phone + " ").addClass("col-3");
-					addTd.append(response.results[i].address.freeformAddress).addClass("col-3");
-					distTd.append(addDist).addClass("col-2");
-					row.append(nameTd, phoneTd, addTd, distTd).addClass("row");
-					$("#placeDiv").append(row);
-
-					L.marker(latlng, { icon: GetIcon(iconColor) }).addTo(map).bindPopup(bound).openPopup().on('click', function (e) {
-
-						$('#placeDiv tr td').each(function () {
-							var contentNodeVal = ($(e.target._popup._contentNode).find('div.cell-number').text() == '') ? $(e.target._popup._contentNode).find('b').text() : $(e.target._popup._contentNode).find('div.cell-number').text();
-							if ($.trim($(this).text()) === $.trim(contentNodeVal)) {
-
-								$(this).closest('tr').fadeOut(500).fadeIn(1000).fadeOut(500).fadeIn(1000).fadeOut(500).fadeIn(1000);
-
-							}
-						});
-					})
-				}
-
-			});
-
-
-	}
-
-	function locator() {
-
-		navigator.geolocation.getCurrentPosition(function (location) {
-			var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
-			var lat = location.coords.latitude;
-			var long = location.coords.longitude;
-			var mymap = L.map('mapid').setView(latlng, 13);
-			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ',
-				{
-					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
-					maxZoom: 18,
-					id: 'mapbox.streets',
-					accessToken: 'sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ'
-				}).addTo(mymap);
-			L.marker(latlng).addTo(mymap)
-				.bindPopup("Current location").openPopup();
-
-			$("#shopButton").on("click", function () {
-				mapCall(mymap, lat, long, "Petsmart", "green", false, true, true, true);
-				$("#placeDiv").empty();
-			});
-
-			$("#vetButton").on("click", function () {
-				mapCall(mymap, lat, long, "Veterinarian", "orange", true, true, true, true);
-				$("#placeDiv").empty();
-
-			});
-			$("#parkButton").on("click", function () {
-				mapCall(mymap, lat, long, "Park", "red", true, true, false, true);
-				$("#placeDiv").empty();
-
-			});
-		});
-
-
-	}
-
-
-});
 //Amazon Ad Creation
 	function amazonCall(value){
 	
@@ -1331,16 +1169,112 @@ $(document).ready(function ()
 		$('.amazon-stuff').attr('id', "amzn-assoc-ad-" + adNumber);
 	}
 
-	// Map Marker icon
+		// Map Marker icon
 
-	function GetIcon(color) {
-		var icon = new L.Icon({
-			iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-' + color + '.png',
-			shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-			iconSize: [25, 41],
-			iconAnchor: [12, 41],
-			popupAnchor: [1, -34],
-			shadowSize: [41, 41]
-		});
-		return icon;
-	}
+		function GetIcon(color) {
+			var icon = new L.Icon({
+				iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-' + color + '.png',
+				shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+				iconSize: [25, 41],
+				iconAnchor: [12, 41],
+				popupAnchor: [1, -34],
+				shadowSize: [41, 41]
+			});
+			return icon;
+		}
+	
+		// Ajax call to locate vet, park, petsmart 
+	
+		function mapCall(map, lattitiude, longitude, searchLocation, iconColor, getName, getAdd, getPhone, getDist) {
+			var queryURL = "https://api.tomtom.com/search/2/search/" + searchLocation + ".json?key=7UeVqnmHxlzBP6n8ZWtpdW82KS6nnBoM&lat=" + lattitiude + "&lon=" + longitude + "&radius=1500000&limit=10";
+			$.ajax({
+				url: queryURL,
+				method: "GET"
+			})
+	
+				.then(function (response) {
+					for (i = 0; i < response.results.length; i++) {
+						var placeLat = response.results[i].position.lat;
+						var placelon = response.results[i].position.lon;
+						var latlng = new L.LatLng(placeLat, placelon);
+	
+						var result = response.results[i];
+						var bound = `<b>${getName ? result.poi ? result.poi.name : searchLocation : searchLocation} </b><br>
+				 <span> ${getAdd ? result.address ? result.address.freeformAddress : "" : ""}</span><br>
+					<div class="cell-number">${getPhone ? result.poi ? result.poi.phone : "" : ""}</div>
+					${getDist ? result.address ? ((result.dist) * 0.00062137).toFixed(2) +
+								"miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles"}`
+						var row = $("<tr>");
+						var nameTd = $("<td>");
+						var phoneTd = $("<td>");
+						var addTd = $("<td>");
+						var distTd = $("<td>");
+						var name = result.poi ? result.poi.name : searchLocation;
+						var phone = result.poi ? result.poi.phone ? result.poi.phone : "" : "";
+						var addDist = result.address ? ((result.dist) * 0.00062137).toFixed(2) +
+							"miles" : ((result.datasources.dist) * 0.00062137).toFixed(2) + "miles";
+	
+						nameTd.append(name + " ").addClass("col-3");
+						phoneTd.append(phone + " ").addClass("col-3");
+						addTd.append(response.results[i].address.freeformAddress).addClass("col-3");
+						distTd.append(addDist).addClass("col-2");
+						row.append(nameTd, phoneTd, addTd, distTd).addClass("row");
+						$("#placeDiv").append(row);
+	
+						L.marker(latlng, { icon: GetIcon(iconColor) }).addTo(map).bindPopup(bound).openPopup().on('click', function (e) {
+	
+							$('#placeDiv tr td').each(function () {
+								var contentNodeVal = ($(e.target._popup._contentNode).find('div.cell-number').text() == '') ? $(e.target._popup._contentNode).find('b').text() : $(e.target._popup._contentNode).find('div.cell-number').text();
+								if ($.trim($(this).text()) === $.trim(contentNodeVal)) {
+	
+									$(this).closest('tr').fadeOut(500).fadeIn(1000).fadeOut(500).fadeIn(1000).fadeOut(500).fadeIn(1000);
+	
+								}
+							});
+						})
+					}
+	
+				});
+	
+	
+		}
+	
+		function locator() {
+	
+			navigator.geolocation.getCurrentPosition(function (location) {
+				var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
+				var lat = location.coords.latitude;
+				var long = location.coords.longitude;
+				var mymap = L.map('mapid').setView(latlng, 13);
+				L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ',
+					{
+						attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
+						maxZoom: 18,
+						id: 'mapbox.streets',
+						accessToken: 'sk.eyJ1IjoiYWJoaW5heWFhMTc4NyIsImEiOiJjanV4aGlqNzUwbjduM3ltd2J1YTVjNXhuIn0.Bz3gZ4NIgZagdLg_ZoFuEQ'
+					}).addTo(mymap);
+				L.marker(latlng).addTo(mymap)
+					.bindPopup("Current location").openPopup();
+	
+				$("#shopButton").on("click", function () {
+					mapCall(mymap, lat, long, "Petsmart", "green", false, true, true, true);
+					$("#placeDiv").empty();
+				});
+	
+	
+				$("#vetButton").on("click", function () {
+					mapCall(mymap, lat, long, "Veterinarian", "orange", true, true, true, true);
+					$("#placeDiv").empty();
+	
+				});
+				$("#parkButton").on("click", function () {
+					mapCall(mymap, lat, long, "Park", "red", true, true, false, true);
+					$("#placeDiv").empty();
+	
+				});
+			});
+	
+	
+		}
+
+});

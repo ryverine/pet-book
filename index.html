@@ -21,7 +21,6 @@
 	<!-- place search css -->
 	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css" />
 	<!-- Leaflet css -->
-	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
 		integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
 		crossorigin="" />
@@ -43,7 +42,7 @@
 	<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
 	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
 
-	<script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>
+	
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
 		integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 
@@ -63,37 +62,28 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<!-- FontAwesome-->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-	<!-- Font Awesome 
-	<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet"> -->
 	<!-- PLACE SEARCH CSS -->
 	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/place-search-js/v1.0.0/place-search.css" />
-	<!-- Leaflet css -->
-	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css" />
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-		integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-		crossorigin="" />
-	<link rel="stylesheet" href="assets/css/leaflet.css">
-	<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
 	<!-- icons css -->
 	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
-	<!-- MAP QUEST CSS 
-	<link type="text/css" rel="stylesheet" href="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.css"/>-->
-	<!-- PLACE SEARCH CSS -->
+
 	<!-- our css -->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<!-- jQuery -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<!-- Moment.js -->
 	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 	<!-- Firebase -->
 	<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
 	<!-- leaflet js-->
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+	integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+	crossorigin="" />
+<link rel="stylesheet" href="assets/css/leaflet.css">
+<link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.css" />
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://d3js.org/d3.v3.min.js"></script>
 	<script src="https://d3js.org/topojson.v0.min.js"></script>
 	<script src="https://npmcdn.com/leaflet@1.0.0-rc.2/dist/leaflet.js"></script>
-	<!-- Map Quest JS 
-	<script src="https://api.mqcdn.com/sdk/mapquest-js/v1.3.2/mapquest.js"></script> -->
 
 	</head>
 
@@ -133,7 +123,6 @@
 						<p id="title">Pet Book</p>
 						<p id="subtitle">Exploring the wonderful world of pet ownership!</p>
 
-						<!-- <a href="map.html">Location</a> -->
 
 					</div> <!-- /jumbotron -->
 
@@ -222,22 +211,23 @@
 						</div> <!-- /card -->
 					</div>
 				</div><!-- /petDataDisplayArea -->
-
 				<div class="row">
-					<div class="col-6" id="mapArea">
-						<div id="buttonDiv">
-							<button id="vetButton">Vet</button>
-							<button id="parkButton">Parks</button>
-							<button id="shopButton">PetSmart</button>
-						</div>
-						<div id="mapid"></div>
-					</div> <!-- /mapArea -->
+					<div id="buttonDiv">
+						<button class="btn mapBtn" id="vetButton">Vet</button>
+						<button class="btn mapBtn" id="parkButton">Parks</button>
+						<button class="btn mapBtn" id="shopButton">PetSmart</button>
+	
+					</div>
+				</div>
+				<div class="row">
+				<div id="mapid" class="col-4"></div>
+				<div class="col-8">
+					<table class="table" id="placeDiv">
+					</table>
+				</div>
+			</div>
 
-					<div class="col-2"></div> 
-
-					<div id="meetupArea" lass="col-4">
-					</div><!-- /meetupArea -->
-				</div> <!-- /row -->
+				
 
 
 				<div class="row amazon-stuff"></div>

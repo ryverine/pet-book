@@ -947,7 +947,7 @@ $(document).ready(function ()
 
 			location.href='#dataInputArea';
 		}
-	});
+	};
 
 	$("#btn-update").on("click", function()
 	{	

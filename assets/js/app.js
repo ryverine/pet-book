@@ -959,7 +959,7 @@ function decideCategory(weights){
 			var weight_input = $("#petWeightInput").val();
 
 			if(	selectedPet.pet_name.toUpperCase() === name_input.toUpperCase() && 
-				selectedPet.pet_breed.toUpperCase() === breed_input.toUpperCase() && 
+				selectedPet.pet_breed === daBreed&&
 				selectedPet.pet_sex.toUpperCase() === sex_input.toUpperCase() && 
 				selectedPet.pet_age.toUpperCase() === age_input && 
 				selectedPet.pet_weight.toUpperCase() === weight_input && 

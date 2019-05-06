@@ -476,11 +476,9 @@ padding:0;
 	bottom: 0;
 	right: 21px;
 }
-.stayER {
-	z-index: -1;
+#mapid { 
+	z-index: 8;
 }
-#adopt{ 
-	height: 100px;
-	width: 200px;
-
+#adopt {
+	
 }
